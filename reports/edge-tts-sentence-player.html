@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>문장 TTS 플레이어</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --paper: #ffffff;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d9e1ed;
+      --blue: #2457c5;
+      --green: #0f766e;
+      --orange: #b65a12;
+      --red: #b42318;
+      --shadow: 0 10px 28px rgba(23, 32, 51, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+    .wrap { width: min(1120px, calc(100% - 24px)); margin: 0 auto; }
+    header { padding: 28px 0 16px; text-align: center; }
+    h1 { margin: 0 0 8px; font-size: clamp(26px, 4vw, 40px); line-height: 1.12; letter-spacing: 0; }
+    .lead { margin: 0; color: var(--muted); font-weight: 750; }
+    .panel {
+      background: var(--paper);
+      border: 1px solid rgba(217, 225, 237, .8);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+      margin: 0 auto 12px;
+    }
+    .input-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: stretch;
+    }
+    textarea, input, select, button {
+      border: 0;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 6px rgba(23, 32, 51, .08);
+      padding: 9px 10px;
+      font: inherit;
+      font-weight: 750;
+    }
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+      line-height: 1.45;
+      font-weight: 650;
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+    button { cursor: pointer; white-space: nowrap; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    .primary { background: var(--blue); color: #fff; }
+    .soft { background: #eef4ff; color: #183b91; }
+    .listen { background: #e8f8f4; color: #0b625b; }
+    .stop { background: #fff7ed; color: #9a3412; }
+    .danger { background: #fff1f0; color: var(--red); }
+    .bar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 0 0 10px;
+    }
+    .tools, .stats { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
+    .pill {
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: #fff;
+      box-shadow: 0 1px 6px rgba(23, 32, 51, .08);
+      font-weight: 900;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    label {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      color: var(--muted);
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    input[type="range"] { width: 112px; padding: 0; box-shadow: none; }
+    main { padding: 12px 0 44px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 9px; width: 100%; }
+    .card {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) 136px;
+      width: 100%;
+      min-width: 0;
+      overflow: hidden;
+      background: var(--paper);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(217, 225, 237, .75);
+    }
+    .num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fbfcff;
+      color: var(--muted);
+      font-weight: 950;
+    }
+    .sentence {
+      padding: 14px;
+      min-width: 0;
+      font-size: 18px;
+      font-weight: 850;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+    .sentence.playing { color: var(--blue); }
+    .actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 10px;
+      background: #fbfcff;
+    }
+    .actions button { min-width: 54px; }
+    .empty {
+      padding: 28px 14px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 800;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .7);
+    }
+    .hint {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .voice-note {
+      margin: 8px 0 0;
+      color: var(--orange);
+      font-size: 13px;
+      font-weight: 850;
+    }
+    @media (max-width: 720px) {
+      .input-grid { grid-template-columns: 1fr; }
+      .card { grid-template-columns: 44px minmax(0, 1fr); }
+      .actions { grid-column: 1 / -1; justify-content: flex-end; border-top: 1px solid var(--line); }
+      .sentence { font-size: 17px; }
+      select { max-width: min(100%, 320px); }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <h1>문장 TTS 플레이어</h1>
+    <p class="lead">문장을 넣으면 저장된 리스트에서 바로 재생할 수 있습니다.</p>
+  </header>
+
+  <section class="wrap panel">
+    <div class="bar">
+      <div class="tools">
+        <button id="playAllBtn" class="listen">전체 재생</button>
+        <button id="stopBtn" class="stop">정지</button>
+        <span class="pill">Andrew Neural 성우</span>
+        <label>속도 <input id="rateRange" type="range" min="0.85" max="2" value="1" step="0.05"><span id="rateText">1.00</span></label>
+      </div>
+      <div class="stats">
+        <span class="pill" id="countText">0문장</span>
+        <button id="clearBtn" class="danger">전체 삭제</button>
+      </div>
+    </div>
+    <div class="input-grid">
+      <textarea id="sentenceInput" placeholder="읽고 싶은 문장을 입력하세요. 여러 줄로 넣으면 줄마다 따로 추가됩니다."></textarea>
+      <button id="addBtn" class="primary">추가</button>
+    </div>
+    <p class="hint">`wiven-pitch-memorizer.html`과 같은 `en-US-AndrewNeural` MP3 성우 음성으로 읽습니다.</p>
+    <p class="voice-note" id="voiceNote">처음 듣는 문장은 MP3를 생성하느라 잠깐 걸릴 수 있고, 이후에는 바로 재생됩니다.</p>
+  </section>
+
+  <main class="wrap">
+    <div id="list" class="grid"></div>
+  </main>
+  <audio id="ttsAudio" preload="metadata"></audio>
+
+  <script>
+    const storageKey = "edge-tts-sentence-player:v1";
+    const input = document.getElementById("sentenceInput");
+    const addBtn = document.getElementById("addBtn");
+    const playAllBtn = document.getElementById("playAllBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const list = document.getElementById("list");
+    const countText = document.getElementById("countText");
+    const voiceNote = document.getElementById("voiceNote");
+    const rateRange = document.getElementById("rateRange");
+    const rateText = document.getElementById("rateText");
+    const ttsAudio = document.getElementById("ttsAudio");
+
+    let sentences = loadSentences();
+    let playingId = null;
+
+    function loadSentences() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+        return Array.isArray(saved) ? normalizeSentences(saved) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function timestampFromId(id) {
+      const timestamp = Number(String(id || "").split("-")[0]);
+      return Number.isFinite(timestamp) && timestamp > 0 ? timestamp : 0;
+    }
+
+    function normalizeSentences(saved) {
+      return saved
+        .map((item, index) => {
+          const text = typeof item === "string" ? item : String(item?.text || "").trim();
+          if (!text) return null;
+          const id = String(item?.id || `${Date.now()}-${index}`);
+          const createdAt = Number(item?.createdAt || timestampFromId(id) || Date.now() - index);
+          return { id, text, createdAt };
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.createdAt - a.createdAt);
+    }
+
+    function saveSentences() {
+      localStorage.setItem(storageKey, JSON.stringify(sentences));
+    }
+
+    function splitInput(value) {
+      return value
+        .split(/\n+/)
+        .map((line) => line.trim())
+        .filter(Boolean);
+    }
+
+    function addSentences() {
+      const now = Date.now();
+      const added = splitInput(input.value).map((text, index) => ({
+        id: `${now - index}-${Math.random().toString(16).slice(2)}`,
+        text,
+        createdAt: now - index
+      }));
+      if (!added.length) return;
+      sentences = [...added, ...sentences];
+      input.value = "";
+      saveSentences();
+      render();
+    }
+
+    function removeSentence(id) {
+      if (playingId === id) {
+        ttsAudio.pause();
+        ttsAudio.currentTime = 0;
+      }
+      sentences = sentences.filter((item) => item.id !== id);
+      saveSentences();
+      render();
+    }
+
+    async function audioSrc(text) {
+      const response = await fetch("/api/andrew-tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+      if (!response.ok) {
+        const message = await response.text().catch(() => "");
+        throw new Error(message || "TTS 음성 생성에 실패했습니다.");
+      }
+      const result = await response.json();
+      return result.src;
+    }
+
+    function browserVoice() {
+      if (!("speechSynthesis" in window)) return null;
+      const voices = speechSynthesis.getVoices();
+      return voices.find((voice) => voice.name.includes("Andrew"))
+        || voices.find((voice) => voice.lang === "en-US")
+        || voices.find((voice) => voice.lang.startsWith("en"))
+        || voices[0]
+        || null;
+    }
+
+    function speakWithBrowserVoice(text, onEnd) {
+      return new Promise((resolve, reject) => {
+        if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
+          reject(new Error("이 브라우저는 내장 음성 재생을 지원하지 않습니다."));
+          return;
+        }
+        speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en-US";
+        utterance.rate = Number(rateRange.value);
+        const voice = browserVoice();
+        if (voice) utterance.voice = voice;
+        utterance.onend = () => {
+          playingId = null;
+          voiceNote.textContent = "브라우저 내장 영어 음성으로 재생합니다.";
+          render();
+          if (onEnd) onEnd();
+          resolve();
+        };
+        utterance.onerror = () => {
+          playingId = null;
+          voiceNote.textContent = "브라우저 내장 음성을 재생하지 못했습니다.";
+          render();
+          resolve();
+        };
+        speechSynthesis.speak(utterance);
+      });
+    }
+
+    async function speakText(item, onEnd) {
+      ttsAudio.pause();
+      ttsAudio.currentTime = 0;
+      playingId = item.id;
+      voiceNote.textContent = "Andrew Neural MP3를 준비하는 중입니다.";
+      render();
+      try {
+        ttsAudio.src = await audioSrc(item.text);
+        ttsAudio.playbackRate = Number(rateRange.value);
+        ttsAudio.onended = () => {
+          playingId = null;
+          voiceNote.textContent = "Andrew Neural 성우 음성으로 재생합니다.";
+          render();
+          if (onEnd) onEnd();
+        };
+        ttsAudio.onerror = () => {
+          playingId = null;
+          voiceNote.textContent = "TTS 음성 파일을 재생하지 못했습니다.";
+          render();
+        };
+        await ttsAudio.play();
+        voiceNote.textContent = "Andrew Neural 성우 음성 재생 중입니다.";
+      } catch (error) {
+        voiceNote.textContent = "온라인에서는 서버 TTS가 없어 브라우저 내장 영어 음성으로 재생합니다.";
+        render();
+        await speakWithBrowserVoice(item.text, onEnd).catch((fallbackError) => {
+          playingId = null;
+          voiceNote.textContent = fallbackError.message || error.message || "TTS 음성 생성에 실패했습니다.";
+          render();
+        });
+      }
+    }
+
+    function playAllFrom(index = 0) {
+      if (index >= sentences.length) return;
+      speakText(sentences[index], () => playAllFrom(index + 1));
+    }
+
+    function render() {
+      countText.textContent = `${sentences.length}문장`;
+      playAllBtn.disabled = sentences.length === 0;
+      clearBtn.disabled = sentences.length === 0;
+
+      if (!sentences.length) {
+        list.innerHTML = '<div class="empty">아직 저장된 문장이 없습니다.</div>';
+        return;
+      }
+
+      list.innerHTML = "";
+      sentences.forEach((item, index) => {
+        const card = document.createElement("article");
+        card.className = "card";
+        const sentenceClass = item.id === playingId ? "sentence playing" : "sentence";
+        card.innerHTML = `
+          <div class="num">${index + 1}</div>
+          <div class="${sentenceClass}"></div>
+          <div class="actions">
+            <button class="listen" data-action="play">재생</button>
+            <button class="danger" data-action="remove">삭제</button>
+          </div>
+        `;
+        card.querySelector(".sentence").textContent = item.text;
+        card.querySelector('[data-action="play"]').addEventListener("click", () => speakText(item));
+        card.querySelector('[data-action="remove"]').addEventListener("click", () => removeSentence(item.id));
+        list.appendChild(card);
+      });
+    }
+
+    addBtn.addEventListener("click", addSentences);
+    input.addEventListener("keydown", (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === "Enter") addSentences();
+    });
+    playAllBtn.addEventListener("click", () => playAllFrom(0));
+    stopBtn.addEventListener("click", () => {
+      ttsAudio.pause();
+      if ("speechSynthesis" in window) speechSynthesis.cancel();
+      ttsAudio.currentTime = 0;
+      playingId = null;
+      voiceNote.textContent = "정지했습니다.";
+      render();
+    });
+    clearBtn.addEventListener("click", () => {
+      if (!confirm("저장된 문장을 모두 삭제할까요?")) return;
+      ttsAudio.pause();
+      if ("speechSynthesis" in window) speechSynthesis.cancel();
+      sentences = [];
+      saveSentences();
+      render();
+    });
+    rateRange.addEventListener("input", () => {
+      rateText.textContent = Number(rateRange.value).toFixed(2);
+      ttsAudio.playbackRate = Number(rateRange.value);
+    });
+
+    render();
+  </script>
+</body>
+</html>
