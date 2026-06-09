@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>구동사 예문 강세 암기장</title>
+  <style>
+    :root {
+      --bg: #f4f6fa;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d9e1ed;
+      --blue: #2457c5;
+      --green: #0f766e;
+      --orange: #f97316;
+      --orange-soft: #fff1e7;
+      --shadow: 0 8px 24px rgba(23,32,51,.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .wrap { width: min(1180px, calc(100% - 18px)); margin: 0 auto; }
+    header { padding: 24px 0 14px; }
+    h1 { margin: 0 0 7px; font-size: clamp(24px, 4vw, 38px); line-height: 1.14; letter-spacing: 0; }
+    .lead { margin: 0; color: var(--muted); font-weight: 750; }
+    .sticky {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,.96);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 2px 12px rgba(23,32,51,.06);
+      backdrop-filter: blur(10px);
+    }
+    .bar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 8px 0;
+    }
+    .stats, .tools { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
+    .pill {
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: #fff;
+      box-shadow: 0 1px 6px rgba(23,32,51,.08);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .gap-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 6px rgba(23,32,51,.08);
+      padding: 6px 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .gap-control input {
+      width: 58px;
+      min-width: 58px;
+      padding: 3px 5px;
+      box-shadow: none;
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+    input, select, button {
+      border: 0;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 1px 6px rgba(23,32,51,.08);
+      padding: 8px 10px;
+      font: inherit;
+      font-weight: 800;
+    }
+    input { min-width: 230px; font-weight: 650; }
+    #search {
+      width: 130px;
+      min-width: 90px;
+      max-width: 130px;
+      flex: 0 0 130px;
+    }
+    button { cursor: pointer; }
+    .primary { background: var(--blue); color: #fff; }
+    .stop { background: #fff7ed; color: #9a3412; }
+    main { padding: 12px 0 42px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .group {
+      margin: 14px 0 2px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #eaf0fb;
+      color: #263248;
+      font-weight: 950;
+    }
+    .card {
+      display: grid;
+      grid-template-columns: minmax(150px, 22%) 1fr auto;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid rgba(217,225,237,.7);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .meta {
+      padding: 11px 12px;
+      background: #fbfcff;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      justify-content: center;
+    }
+    .num { color: var(--muted); font-size: 12px; font-weight: 900; }
+    .number-line {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
+    .seq { color: var(--blue); font-size: 24px; font-weight: 950; line-height: 1; }
+    .old-id { color: var(--muted); font-size: 11px; font-weight: 850; }
+    .verb { font-size: 18px; font-weight: 950; line-height: 1.15; }
+    .meaning { color: var(--green); font-weight: 850; }
+    .grammar-tag {
+      display: inline-flex;
+      width: fit-content;
+      max-width: 100%;
+      border-radius: 999px;
+      padding: 3px 7px;
+      background: #fff1e7;
+      color: #9a3412;
+      font-size: 11px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+    .example {
+      padding: 13px 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      justify-content: center;
+      min-width: 0;
+    }
+    .english {
+      font-size: clamp(19px, 2.6vw, 30px);
+      line-height: 1.28;
+      font-weight: 900;
+      letter-spacing: 0;
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
+    .english.editable {
+      padding: 8px;
+      margin: -8px;
+      border-radius: 8px;
+      background: #fff7ed;
+      user-select: none;
+    }
+    .english-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-width: 0;
+    }
+    .english-row .english {
+      flex: 1;
+      min-width: 0;
+    }
+    .stress {
+      color: var(--orange);
+      font-weight: 950;
+      text-shadow: 0 0 0 currentColor;
+    }
+    .char {
+      display: inline-block;
+      min-width: .18em;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .char:hover { background: #fed7aa; }
+    .manual-tag {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 3px 7px;
+      background: #fff7ed;
+      color: #9a3412;
+      font-size: 11px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+    .korean { color: #475467; font-size: 15px; font-weight: 750; }
+    .narration {
+      margin-top: 2px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .narration-title {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 950;
+    }
+    .narration-chunks {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .narration-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 31px;
+      padding: 5px 9px;
+      border: 1px solid #f2d2a8;
+      border-radius: 8px;
+      background: #fffaf1;
+      color: #9a6a28;
+      font-size: 17px;
+      line-height: 1.25;
+      font-weight: 950;
+      box-shadow: 0 1px 5px rgba(154,106,40,.12);
+    }
+    .narration-sep {
+      color: #9a6a28;
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 950;
+    }
+    .test-answer {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid var(--line);
+      box-shadow: none;
+      background: #fff;
+      font-size: 18px;
+      font-weight: 850;
+    }
+    .test-result {
+      min-height: 20px;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--muted);
+    }
+    .test-result.ok { color: var(--green); }
+    .test-result.miss { color: #b42318; }
+    body.test-mode .english { display: none; }
+    body.test-mode .english.revealed { display: block; }
+    .actions {
+      padding: 10px;
+      background: #fbfcff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tiny { padding: 7px 9px; font-size: 12px; }
+    .card.done .meta, .card.done .actions { background: #e8f8f4; }
+    .card.reading { outline: 3px solid #fdba74; background: #fffbf5; }
+    audio { width: min(100%, 420px); height: 32px; }
+    body.en-only .korean { display: none; }
+    body.ko-only .english { display: none; }
+    body.ko-only .narration { display: none; }
+    body.test-mode .narration { display: none; }
+    body.test-mode .english.revealed { display: block; }
+    body.no-stress .stress { color: inherit; text-shadow: none; }
+    body.no-stress .char.stress { color: inherit; }
+    .empty {
+      padding: 22px;
+      background: #fff;
+      border-radius: 8px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 850;
+    }
+    @media (max-width: 760px) {
+      .bar { align-items: stretch; }
+      .tools { width: 100%; }
+      input { flex: 1; min-width: 160px; }
+      #search {
+        width: 92px;
+        min-width: 78px;
+        max-width: 92px;
+        flex: 0 0 92px;
+      }
+      .card { grid-template-columns: 1fr; }
+      .meta { border-right: 0; border-bottom: 1px solid var(--line); }
+      .actions { justify-content: flex-end; }
+      .english { font-size: 21px; }
+      .english-row { flex-direction: column; gap: 6px; }
+      .manual-tag { align-self: flex-end; }
+      .narration-chip { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <h1>구동사 예문 강세 암기장</h1>
+    <p class="lead">262개 표현의 예문 452개에 실제 문장 리듬에서 힘이 들어가는 핵심 초점만 주황색으로 표시했습니다. 여러 음절 단어는 단어 전체가 아니라 강세 음절만 칠했습니다.</p>
+  </header>
+
+  <div class="sticky">
+    <div class="wrap bar">
+      <div class="stats">
+        <span class="pill" id="visibleCount">표시 0개</span>
+        <span class="pill" id="doneCount">완료 0 / 524개</span>
+      </div>
+      <div class="tools">
+        <input id="search" type="search" placeholder="검색: break, 고장, problem">
+        <select id="category"></select>
+        <select id="mode">
+          <option value="both">영어+한글</option>
+          <option value="en-only">영어만</option>
+          <option value="ko-only">한글만</option>
+        </select>
+        <select id="filter">
+          <option value="all">전체</option>
+          <option value="todo">미완료</option>
+          <option value="done">완료</option>
+        </select>
+        <audio id="ttsAudio" src="../output/phrasal_stress_tts/stress-examples-ava.mp3" preload="metadata"></audio>
+        <button class="primary" id="readVisible">읽기</button>
+        <label class="gap-control">간격 <input id="gapSeconds" type="number" min="0" max="5" step="0.1" value="1">초</label>
+        <button id="toggleEdit">편집</button>
+        <button id="toggleStress">강세</button>
+        <button id="toggleTest">시험모드</button>
+        <button class="stop" id="stopSpeech">멈춤</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section id="cards" class="grid"></section>
+  </main>
+
+  <script>
+    const DATA = [{"verb":"break down","meaning":"고장나다, 무너지다, 분석하다","image":"down=기능이 내려앉거나 쪼개짐","categoryKo":"이동/도착","examples":[{"en":"My car broke down.","ko":"내 차가 고장 났다."},{"en":"Can you break down the problem?","ko":"그 문제를 나누어서 설명해 줄 수 있어?"},{"en":"The nurse broke down the instructions into simple steps.","ko":"간호사는 지시사항을 쉬운 단계로 나누어 설명했다."}]},{"verb":"break in","meaning":"침입하다, 길들이다","image":"in=안으로 들어감","categoryKo":"이동/도착","examples":[{"en":"A thief broke in through the back door.","ko":"도둑이 뒷문으로 침입했다."},{"en":"I need to break in these new shoes.","ko":"이 새 신발을 길들여야 한다."},{"en":"Someone tried to break in while we were away.","ko":"우리가 없는 동안 누군가 침입하려고 했다."}]},{"verb":"break out","meaning":"발생하다, 탈출하다","image":"out=안에서 밖으로 터짐","categoryKo":"이동/도착","examples":[{"en":"A fire broke out in the kitchen.","ko":"부엌에서 불이 났다."},{"en":"The prisoners tried to break out at night.","ko":"죄수들은 밤에 탈출하려고 했다."},{"en":"A rash broke out after he took the medicine.","ko":"그가 약을 먹은 뒤 발진이 생겼다."}]},{"verb":"break up","meaning":"헤어지다, 해산하다","image":"up=하나가 여러 조각으로 흩어짐","categoryKo":"이동/도착","examples":[{"en":"They broke up last year.","ko":"그들은 작년에 헤어졌다."},{"en":"The police broke up the crowd.","ko":"경찰이 군중을 해산시켰다."},{"en":"The call kept breaking up during the meeting.","ko":"회의 중에 통화가 계속 끊겼다."}]},{"verb":"bring along","meaning":"데리고 오다, 가져오다","image":"along=함께 이동","categoryKo":"이동/도착","examples":[{"en":"Bring your laptop along to the meeting.","ko":"회의에 노트북을 가져오세요."},{"en":"Can I bring my brother along?","ko":"제 동생도 데리고 와도 될까요?"},{"en":"Bring along a copy of your ID.","ko":"신분증 사본을 가져오세요."}]},{"verb":"call back","meaning":"다시 전화하다","image":"back=응답으로 돌아감","categoryKo":"이동/도착","examples":[{"en":"I'll call you back later.","ko":"나중에 다시 전화할게."},{"en":"Please call me back tonight.","ko":"오늘 밤에 다시 전화해 주세요."},{"en":"The clinic called back with the test results.","ko":"병원에서 검사 결과를 알려 주려고 다시 전화했다."}]},{"verb":"call on","meaning":"방문하다, 지명하다","image":"on=상대에게 초점을 붙임","categoryKo":"이동/도착","examples":[{"en":"We called on our old teacher.","ko":"우리는 옛 선생님을 방문했다."},{"en":"The teacher called on me to answer.","ko":"선생님이 대답하라고 나를 지명했다."},{"en":"The manager called on everyone to speak honestly.","ko":"관리자는 모두에게 솔직히 말하라고 요청했다."}]},{"verb":"catch up","meaning":"따라잡다","image":"up=뒤처진 상태를 끌어올림","categoryKo":"이동/도착","examples":[{"en":"I need to catch up.","ko":"따라잡아야 해요."},{"en":"We need to catch up.","ko":"우리는 따라잡아야 합니다.","hidden":true},{"en":"I caught up on emails after lunch.","ko":"나는 점심 후에 밀린 이메일을 처리했다."}]},{"verb":"check in","meaning":"체크인하다, 안부 확인하다","image":"in=등록/확인 안으로 들어감","categoryKo":"이동/도착","examples":[{"en":"We checked in at noon.","ko":"우리는 정오에 체크인했다."},{"en":"I will check in with you tomorrow.","ko":"내일 네 안부를 확인하러 연락할게."},{"en":"She checked in with her team before leaving.","ko":"그녀는 떠나기 전에 팀과 상황을 확인했다."}]},{"verb":"check out","meaning":"확인하다, 계산하고 나가다","image":"out=밖으로 확인하거나 나감","categoryKo":"이동/도착","examples":[{"en":"Check out this app.","ko":"이 앱을 한번 확인해 봐."},{"en":"We checked out of the hotel at eleven.","ko":"우리는 11시에 호텔에서 체크아웃했다."},{"en":"You should check out the new report.","ko":"새 보고서를 한번 확인해 봐야 한다."}]},{"verb":"clear out","meaning":"비우다, 떠나다","image":"out=안의 것을 밖으로 뺌","categoryKo":"이동/도착","examples":[{"en":"We cleared out the garage.","ko":"우리는 차고를 비웠다."},{"en":"The guests cleared out after midnight.","ko":"손님들은 자정이 지나 떠났다."},{"en":"They cleared out the storage room in the morning.","ko":"그들은 오전에 창고를 비웠다."}]},{"verb":"come along","meaning":"따라오다, 진전되다","image":"along=함께 앞으로 감","categoryKo":"이동/도착","examples":[{"en":"How is the project coming along?","ko":"그 프로젝트는 어떻게 진행되고 있어?"},{"en":"You can come along with us.","ko":"우리와 같이 와도 돼."},{"en":"Your pronunciation is coming along nicely.","ko":"당신의 발음이 잘 늘고 있다."}]},{"verb":"come back","meaning":"돌아오다","image":"back=원래 쪽으로 돌아감","categoryKo":"이동/도착","examples":[{"en":"Come back soon.","ko":"곧 돌아오세요."},{"en":"Please come back soon.","ko":"곧 다시 오세요.","hidden":true},{"en":"The pain came back in the evening.","ko":"저녁에 통증이 다시 돌아왔다."}]},{"verb":"come down","meaning":"내려오다, 가격이 떨어지다","image":"down=아래로 이동","categoryKo":"이동/도착","examples":[{"en":"The kids came down the stairs.","ko":"아이들이 계단을 내려왔다."},{"en":"Prices came down after the holiday.","ko":"연휴가 지나 가격이 떨어졌다."},{"en":"The fever came down after midnight.","ko":"자정 이후 열이 내려갔다."}]},{"verb":"come down with","meaning":"병에 걸리다","image":"down=몸 상태가 내려감","categoryKo":"이동/도착","examples":[{"en":"I came down with a cold.","ko":"나는 감기에 걸렸다."},{"en":"I came down with a cold.","ko":"감기에 걸렸어요.","hidden":true},{"en":"She came down with a sore throat.","ko":"그녀는 목감기에 걸렸다."}]},{"verb":"come in","meaning":"들어오다","image":"in=안으로 진입","categoryKo":"이동/도착","examples":[{"en":"Come in.","ko":"들어오세요."},{"en":"Please come in.","ko":"들어오세요.","hidden":true},{"en":"The first results came in this afternoon.","ko":"첫 결과가 오늘 오후에 들어왔다."}]},{"verb":"come over","meaning":"들르다","image":"over=상대 쪽으로 넘어옴","categoryKo":"이동/도착","examples":[{"en":"Come over tonight.","ko":"오늘 밤에 오세요."},{"en":"Please come over tonight.","ko":"오늘 밤에 꼭 와주세요.","hidden":true},{"en":"Why don't you come over after work?","ko":"퇴근 후에 들르는 게 어때?"}]},{"verb":"come up","meaning":"나타나다, 언급되다","image":"up=표면 위로 올라옴","categoryKo":"이동/도착","examples":[{"en":"Something came up.","ko":"갑자기 일이 생겼다."},{"en":"A new issue came up.","ko":"새로운 문제가 나왔다."},{"en":"Your name came up during the interview.","ko":"면접 중에 네 이름이 언급됐다."}]},{"verb":"drop by","meaning":"잠깐 들르다","image":"by=지나가는 길에","categoryKo":"이동/도착","examples":[{"en":"Drop by anytime.","ko":"언제든지 들러주세요."},{"en":"Please drop by anytime.","ko":"언제든지 들러주세요.","hidden":true},{"en":"I'll drop by your office later.","ko":"나중에 네 사무실에 잠깐 들를게."}]},{"verb":"drop off","meaning":"떨어뜨려 주다, 감소하다","image":"off=목적지에 내려놓음","categoryKo":"이동/도착","examples":[{"en":"I'll drop you off at the station.","ko":"역까지 데려다줄게."},{"en":"Sales dropped off after summer.","ko":"여름이 지나자 매출이 줄었다."},{"en":"Can you drop off the documents at reception?","ko":"서류를 접수처에 맡겨 줄 수 있나요?"}]},{"verb":"fall down","meaning":"넘어지다","image":"down=아래로 떨어짐","categoryKo":"이동/도착","examples":[{"en":"She fell down.","ko":"그녀는 넘어졌다."},{"en":"He fell down.","ko":"그는 넘어졌다.","hidden":true},{"en":"The old fence fell down in the storm.","ko":"낡은 울타리가 폭풍에 쓰러졌다."}]},{"verb":"get around","meaning":"돌아다니다, 문제를 피하다","image":"around=주변으로 돌아감","categoryKo":"이동/도착","examples":[{"en":"She gets around the city by bus.","ko":"그녀는 버스로 도시를 돌아다닌다."},{"en":"We found a way to get around the rule.","ko":"우리는 그 규칙을 피할 방법을 찾았다."},{"en":"News gets around quickly in a small town.","ko":"작은 마을에서는 소문이 빨리 퍼진다."}]},{"verb":"get away","meaning":"떠나다, 빠져나가다","image":"away=멀리 벗어남","categoryKo":"이동/도착","examples":[{"en":"Let's get away this weekend.","ko":"이번 주말에 떠나자."},{"en":"The thief tried to get away through the alley.","ko":"도둑은 골목으로 빠져나가려 했다."},{"en":"We need to get away from the noise for a while.","ko":"우리는 잠시 소음에서 벗어나야 한다."}]},{"verb":"get away with","meaning":"벌 안 받고 넘어가다","image":"away=책임에서 벗어남","categoryKo":"이동/도착","examples":[{"en":"He got away with lying to the teacher.","ko":"그는 선생님에게 거짓말하고도 벌을 받지 않았다."},{"en":"You cannot get away with this mistake.","ko":"이 실수를 그냥 넘길 수는 없다."},{"en":"He got away with being late again.","ko":"그는 또 늦고도 그냥 넘어갔다."}]},{"verb":"get back","meaning":"돌아오다, 되찾다","image":"back=원래 쪽으로 회복","categoryKo":"이동/도착","examples":[{"en":"I'll get back home before dinner.","ko":"저녁 전에 집에 돌아올게."},{"en":"She got back her lost wallet.","ko":"그녀는 잃어버린 지갑을 되찾았다."},{"en":"I'll get back to you after I check the schedule.","ko":"일정을 확인한 뒤 다시 연락드리겠습니다."}]},{"verb":"get by","meaning":"그럭저럭 해내다","image":"by=간신히 지나감","categoryKo":"이동/도착","examples":[{"en":"I can get by in English.","ko":"영어로 지낼 수 있어요."},{"en":"We can get by in English.","ko":"우리는 영어로 할 수 있습니다.","hidden":true},{"en":"She gets by with a little help from her neighbors.","ko":"그녀는 이웃들의 작은 도움으로 그럭저럭 지낸다."}]},{"verb":"get down","meaning":"내려오다, 우울하게 만들다","image":"down=아래로 낮아짐","categoryKo":"이동/도착","examples":[{"en":"Get down from the ladder slowly.","ko":"사다리에서 천천히 내려와."},{"en":"Rainy days get me down.","ko":"비 오는 날은 나를 우울하게 한다."},{"en":"The bad news got everyone down.","ko":"그 나쁜 소식이 모두를 우울하게 했다."}]},{"verb":"get in","meaning":"들어가다, 도착하다","image":"in=안으로 들어감","categoryKo":"이동/도착","examples":[{"en":"What time did you get in?","ko":"몇 시에 도착했어?"},{"en":"I got in late last night.","ko":"나는 어젯밤 늦게 도착했다."},{"en":"The train got in ten minutes early.","ko":"기차가 10분 일찍 도착했다."}]},{"verb":"get into","meaning":"관심 갖다, 들어가다","image":"into=새 영역 안으로 진입","categoryKo":"이동/도착","examples":[{"en":"I'm getting into jazz these days.","ko":"요즘 재즈에 관심이 생기고 있다."},{"en":"The cat got into the box.","ko":"고양이가 상자 안으로 들어갔다."},{"en":"He got into photography last winter.","ko":"그는 지난겨울 사진에 관심을 갖게 됐다."}]},{"verb":"get off","meaning":"내리다, 퇴근하다","image":"off=붙어 있던 곳에서 떨어짐","categoryKo":"이동/도착","examples":[{"en":"I get off work at six.","ko":"나는 6시에 퇴근한다."},{"en":"We got off the bus downtown.","ko":"우리는 시내에서 버스에서 내렸다."},{"en":"I got off the phone just now.","ko":"방금 전화를 끊었다."}]},{"verb":"get on","meaning":"타다, 계속하다","image":"on=위에 올라타거나 진행에 붙음","categoryKo":"이동/도착","examples":[{"en":"Get on the bus.","ko":"버스에 타."},{"en":"How are you getting on?","ko":"요즘 어떻게 지내고 있어?"},{"en":"She got on well with the new supervisor.","ko":"그녀는 새 상사와 잘 지냈다."}]},{"verb":"get out","meaning":"나가다, 빠져나오다","image":"out=밖으로 이동","categoryKo":"이동/도착","examples":[{"en":"Get out of the room now.","ko":"지금 방에서 나가."},{"en":"He got out of trouble with help.","ko":"그는 도움을 받아 곤란에서 빠져나왔다."},{"en":"The truth got out faster than expected.","ko":"진실이 예상보다 빨리 새어 나갔다."}]},{"verb":"get over","meaning":"극복하다","image":"over=장애물을 넘어감","categoryKo":"이동/도착","examples":[{"en":"She got over the flu.","ko":"그녀는 독감을 이겨냈습니다."},{"en":"He got over the flu.","ko":"그는 독감을 이겨냈습니다.","hidden":true},{"en":"He still hasn't got over the shock.","ko":"그는 아직 그 충격을 극복하지 못했다."}]},{"verb":"give back","meaning":"돌려주다","image":"back=원래 주인에게 돌아감","categoryKo":"이동/도착","examples":[{"en":"Give it back.","ko":"돌려주세요."},{"en":"Please give it back.","ko":"돌려주세요.","hidden":true},{"en":"The program gives back time to busy staff.","ko":"그 프로그램은 바쁜 직원들에게 시간을 돌려준다."}]},{"verb":"give in","meaning":"굴복하다","image":"in=압력 안으로 들어감","categoryKo":"이동/도착","examples":[{"en":"He finally gave in.","ko":"그는 결국 굴복했다."},{"en":"Do not give in to pressure.","ko":"압박에 굴복하지 마라."},{"en":"The company gave in to public pressure.","ko":"회사는 여론의 압박에 굴복했다."}]},{"verb":"give up","meaning":"포기하다","image":"up=손을 들어 내려놓음","categoryKo":"이동/도착","examples":[{"en":"Don't give up.","ko":"포기하지 마세요."},{"en":"Please don't give up.","ko":"포기하지 마세요.","hidden":true},{"en":"He gave up his seat to an elderly woman.","ko":"그는 노인 여성에게 자리를 양보했다."}]},{"verb":"go after","meaning":"뒤쫓다, 추구하다","image":"after=뒤를 따라감","categoryKo":"이동/도착","examples":[{"en":"The dog went after the ball.","ko":"개가 공을 뒤쫓았다."},{"en":"She decided to go after her dream.","ko":"그녀는 꿈을 추구하기로 했다."},{"en":"She went after the promotion with confidence.","ko":"그녀는 자신 있게 승진 기회를 추구했다."}]},{"verb":"go along with","meaning":"동의하다, 따라가다","image":"along=같은 방향으로 감","categoryKo":"이동/도착","examples":[{"en":"I went along with the plan.","ko":"나는 그 계획에 동의하고 따랐다."},{"en":"She went along with their decision.","ko":"그녀는 그들의 결정에 따랐다."},{"en":"I went along with the change for now.","ko":"나는 일단 그 변화에 따랐다."}]},{"verb":"go away","meaning":"떠나다, 사라지다","image":"away=멀리 감","categoryKo":"이동/도착","examples":[{"en":"Please go away for a minute.","ko":"잠깐만 가 주세요."},{"en":"The pain went away after lunch.","ko":"점심 후에 통증이 사라졌다."},{"en":"The smell finally went away.","ko":"그 냄새가 마침내 사라졌다."}]},{"verb":"go back","meaning":"돌아가다","image":"back=원래 쪽으로 감","categoryKo":"이동/도착","examples":[{"en":"Let's go back.","ko":"돌아가자."},{"en":"Let's go back.","ko":"이제 돌아가자.","hidden":true},{"en":"This tradition goes back hundreds of years.","ko":"이 전통은 수백 년 전으로 거슬러 올라간다."}]},{"verb":"go by","meaning":"시간이 지나다","image":"by=옆을 지나감","categoryKo":"이동/도착","examples":[{"en":"Time goes by fast.","ko":"시간은 빠르게 흘러갑니다."},{"en":"Time goes by fast.","ko":"시간은 또 빠르게 흘러갑니다.","hidden":true},{"en":"A full year went by before we met again.","ko":"우리가 다시 만나기 전 1년이 흘렀다."}]},{"verb":"go down","meaning":"내려가다, 기록되다","image":"down=아래로 이동","categoryKo":"이동/도착","examples":[{"en":"The elevator went down to the lobby.","ko":"엘리베이터가 로비로 내려갔다."},{"en":"This day will go down in history.","ko":"이 날은 역사에 기록될 것이다."},{"en":"The system went down during peak hours.","ko":"사용량이 많은 시간에 시스템이 다운됐다."}]},{"verb":"grow up","meaning":"자라다","image":"up=성숙한 상태로 올라감","categoryKo":"이동/도착","examples":[{"en":"I grew up in Seoul.","ko":"나는 서울에서 자랐다."},{"en":"He wants to be a doctor when he grows up.","ko":"그는 커서 의사가 되고 싶어 한다."},{"en":"She grew up speaking two languages.","ko":"그녀는 두 언어를 쓰며 자랐다."}]},{"verb":"head back","meaning":"돌아가다","image":"back=원래 방향으로 향함","categoryKo":"이동/도착","examples":[{"en":"Let's head back.","ko":"돌아가자."},{"en":"Let's head back.","ko":"이제 돌아가자.","hidden":true},{"en":"We should head back before it gets dark.","ko":"어두워지기 전에 돌아가야 한다."}]},{"verb":"head for","meaning":"~로 향하다","image":"for=목표 방향","categoryKo":"이동/도착","examples":[{"en":"We headed for the exit.","ko":"우리는 출구로 향했다."},{"en":"The company is headed for trouble.","ko":"그 회사는 문제 쪽으로 가고 있다."},{"en":"The patient headed for the exit after checkout.","ko":"환자는 수납 후 출구로 향했다."}]},{"verb":"keep out","meaning":"못 들어오게 하다","image":"out=밖에 머물게 함","categoryKo":"이동/도착","examples":[{"en":"Keep out.","ko":"접근하지 마세요."},{"en":"Please keep out.","ko":"접근하지 마세요.","hidden":true},{"en":"A locked gate keeps visitors out after hours.","ko":"잠긴 문은 운영 시간 후 방문객을 들어오지 못하게 한다."}]},{"verb":"keep up","meaning":"따라가다, 유지하다","image":"up=수준을 맞춰 올림","categoryKo":"이동/도착","examples":[{"en":"I can't keep up with the class.","ko":"나는 수업 진도를 따라갈 수 없다."},{"en":"Keep up the good work.","ko":"좋은 일을 계속 유지하세요."},{"en":"It's hard to keep up with all the updates.","ko":"모든 업데이트를 따라가기는 어렵다."}]},{"verb":"knock down","meaning":"쓰러뜨리다","image":"down=아래로 넘어뜨림","categoryKo":"이동/도착","examples":[{"en":"The wind knocked down a tree.","ko":"바람이 나무를 쓰러뜨렸습니다."},{"en":"That wind knocked down a tree.","ko":"그 바람이 나무를 쓰러뜨렸습니다.","hidden":true},{"en":"They knocked down the price after negotiation.","ko":"그들은 협상 후 가격을 낮췄다."}]},{"verb":"live up to","meaning":"기대에 부응하다","image":"up=기준까지 올라감","categoryKo":"이동/도착","examples":[{"en":"It lived up to my expectations.","ko":"그것은 내 기대에 부응했습니다."},{"en":"It lived up to my expectations.","ko":"내 기대에 부응했습니다.","hidden":true},{"en":"The service lived up to its reputation.","ko":"그 서비스는 명성에 걸맞았다."}]},{"verb":"log in","meaning":"로그인하다","image":"in=시스템 안으로 들어감","categoryKo":"이동/도착","examples":[{"en":"Log in first.","ko":"먼저 로그인하세요."},{"en":"Please log in first.","ko":"먼저 로그인해주세요.","hidden":true},{"en":"You need to log in before you can edit the file.","ko":"파일을 편집하려면 먼저 로그인해야 한다."}]},{"verb":"look after","meaning":"돌보다","image":"after=뒤따라 챙김","categoryKo":"이동/도착","examples":[{"en":"Can you look after my dog?","ko":"내 개를 돌봐줄 수 있나요?"},{"en":"Can you look after my dog?","ko":"내 개를 돌봐줄 수 있나요?","hidden":true},{"en":"The team looks after elderly patients every day.","ko":"그 팀은 매일 노인 환자들을 돌본다."}]},{"verb":"look back","meaning":"돌아보다","image":"back=과거 쪽을 봄","categoryKo":"이동/도착","examples":[{"en":"Don't look back.","ko":"뒤돌아보지 마세요."},{"en":"Please don't look back.","ko":"뒤돌아보지 마세요.","hidden":true},{"en":"When I look back, that choice was right.","ko":"돌아보면 그 선택은 옳았다."}]},{"verb":"look down on","meaning":"깔보다","image":"down=아래로 내려다봄","categoryKo":"이동/도착","examples":[{"en":"Don't look down on others.","ko":"다른 사람을 무시하지 마십시오."},{"en":"Please don't look down on others.","ko":"다른 사람을 업신여기지 마시기 바랍니다.","hidden":true},{"en":"Never look down on small improvements.","ko":"작은 개선을 절대 얕보지 마라."}]},{"verb":"make for","meaning":"~로 향하다, 도움이 되다","image":"for=방향/결과를 향함","categoryKo":"이동/도착","examples":[{"en":"This makes for a good story.","ko":"이건 좋은 이야깃거리가 된다."},{"en":"Exercise makes for better sleep.","ko":"운동은 더 좋은 수면에 도움이 된다."},{"en":"Clear signs make for a smoother visit.","ko":"명확한 안내 표지는 더 편한 방문을 만든다."}]},{"verb":"move in","meaning":"이사 들어오다","image":"in=공간 안으로 이동","categoryKo":"이동/도착","examples":[{"en":"They moved in yesterday.","ko":"그들은 어제 이사했어요."},{"en":"We moved in yesterday.","ko":"우리는 어제 이사했어요.","hidden":true},{"en":"The new tenants moved in on Monday.","ko":"새 세입자들이 월요일에 이사 들어왔다."}]},{"verb":"move on","meaning":"넘어가다","image":"on=다음 단계로 진행","categoryKo":"이동/도착","examples":[{"en":"Let's move on.","ko":"계속 진행합시다."},{"en":"Let's move on.","ko":"이제 계속 진행하겠습니다.","hidden":true},{"en":"Let's move on to the next question.","ko":"다음 질문으로 넘어갑시다."}]},{"verb":"move out","meaning":"이사 나가다","image":"out=공간 밖으로 이동","categoryKo":"이동/도착","examples":[{"en":"He moved out last month.","ko":"그는 지난 달에 이사를 갔습니다."},{"en":"She moved out last month.","ko":"그녀는 지난 달에 이사를 갔습니다.","hidden":true},{"en":"The clinic moved out of the old building.","ko":"그 병원은 오래된 건물에서 이전했다."}]},{"verb":"pass by","meaning":"지나가다","image":"by=옆을 지나감","categoryKo":"이동/도착","examples":[{"en":"A car passed by.","ko":"자동차 한 대가 지나갔다."},{"en":"Another car passed by.","ko":"다른 차가 지나갔습니다.","hidden":true},{"en":"I passed by the pharmacy on my way home.","ko":"집에 가는 길에 약국 앞을 지나갔다."}]},{"verb":"pick up","meaning":"집어 들다, 데리러 가다, 배우다","image":"up=아래/밖에서 들어 올림","categoryKo":"이동/도착","examples":[{"en":"I'll pick you up at seven.","ko":"내가 7시에 너를 데리러 갈게."},{"en":"She picked up Spanish quickly.","ko":"그녀는 스페인어를 빨리 익혔다."},{"en":"He picked up a few useful phrases abroad.","ko":"그는 해외에서 유용한 표현 몇 개를 익혔다."}]},{"verb":"put down","meaning":"내려놓다, 깎아내리다","image":"down=아래로 놓거나 낮춤","categoryKo":"이동/도착","examples":[{"en":"Put the box down here.","ko":"상자를 여기에 내려놓아."},{"en":"Don't put yourself down.","ko":"자신을 깎아내리지 마세요."},{"en":"Please put down your phone during the exam.","ko":"시험 중에는 휴대폰을 내려놓으세요."}]},{"verb":"run across","meaning":"우연히 마주치다","image":"across=지나가다 만남","categoryKo":"이동/도착","examples":[{"en":"I ran across your post.","ko":"나는 당신의 게시물을 우연히 발견했습니다."},{"en":"I ran across your post.","ko":"나는 당신의 게시물을 다시 보았습니다.","hidden":true},{"en":"I ran across a useful article this morning.","ko":"오늘 아침 유용한 글을 우연히 발견했다."}]},{"verb":"run after","meaning":"뒤쫓다","image":"after=뒤를 따라감","categoryKo":"이동/도착","examples":[{"en":"The dog ran after me.","ko":"개가 나를 따라 달렸다."},{"en":"That dog ran after me.","ko":"그 개가 나를 쫓아왔어요.","hidden":true},{"en":"The assistant ran after the patient with a receipt.","ko":"직원이 영수증을 들고 환자를 뒤쫓아갔다."}]},{"verb":"run over","meaning":"차로 치다, 훑어보다","image":"over=위로 지나감","categoryKo":"이동/도착","examples":[{"en":"The car ran over a nail.","ko":"그 차가 못을 밟고 지나갔다."},{"en":"Let's run over the details once more.","ko":"세부 사항을 한 번 더 훑어보자."},{"en":"We ran over the plan before the call.","ko":"우리는 통화 전에 계획을 훑어봤다."}]},{"verb":"shut down","meaning":"닫다, 정지시키다","image":"down=기능을 내려 멈춤","categoryKo":"이동/도착","examples":[{"en":"The site shut down.","ko":"사이트가 폐쇄되었습니다."},{"en":"That site shut down.","ko":"해당 사이트는 폐쇄되었습니다.","hidden":true},{"en":"The computer shut down without warning.","ko":"컴퓨터가 경고 없이 꺼졌다."}]},{"verb":"take down","meaning":"내리다, 적다","image":"down=아래로 내리거나 기록","categoryKo":"이동/도착","examples":[{"en":"Take down this number.","ko":"이 번호를 적어 둬."},{"en":"They took down the old sign.","ko":"그들은 오래된 간판을 내렸다."},{"en":"The receptionist took down my phone number.","ko":"접수 직원이 내 전화번호를 적었다."}]},{"verb":"take off","meaning":"벗다, 떠나다, 이륙하다","image":"off=붙은 곳에서 떼어냄","categoryKo":"이동/도착","examples":[{"en":"The plane took off.","ko":"비행기가 이륙했다."},{"en":"Take off your shoes inside.","ko":"실내에서는 신발을 벗어라."},{"en":"The new app took off after a viral post.","ko":"그 새 앱은 입소문 게시물 후 갑자기 성공했다."}]},{"verb":"take out","meaning":"꺼내다, 데리고 나가다","image":"out=밖으로 빼냄","categoryKo":"이동/도착","examples":[{"en":"Take out the trash before dinner.","ko":"저녁 전에 쓰레기를 내놔."},{"en":"He took his parents out to dinner.","ko":"그는 부모님을 모시고 저녁을 먹으러 나갔다."},{"en":"She took out a loan to open the shop.","ko":"그녀는 가게를 열기 위해 대출을 받았다."}]},{"verb":"take over","meaning":"인수하다","image":"over=권한 위로 넘어감","categoryKo":"이동/도착","examples":[{"en":"She took over the team.","ko":"그녀는 팀을 인수했습니다."},{"en":"He took over the team.","ko":"그는 팀을 인수했습니다.","hidden":true},{"en":"The night shift took over at nine.","ko":"야간 근무조가 9시에 교대했다."}]},{"verb":"turn around","meaning":"방향을 바꾸다, 회복시키다","image":"around=빙 돌아 반대 방향","categoryKo":"이동/도착","examples":[{"en":"The company turned around.","ko":"그 회사는 상황을 회복했다."},{"en":"Turn around and look at me.","ko":"돌아서 나를 봐."},{"en":"The new policy turned around the department.","ko":"새 정책이 그 부서를 호전시켰다."}]},{"verb":"turn back","meaning":"되돌아가다","image":"back=뒤로 방향 전환","categoryKo":"이동/도착","examples":[{"en":"We had to turn back.","ko":"우리는 되돌아가야 했습니다."},{"en":"They had to turn back.","ko":"그들은 되돌아가야만 했습니다.","hidden":true},{"en":"We had to turn back because of the snow.","ko":"눈 때문에 우리는 되돌아가야 했다."}]},{"verb":"turn into","meaning":"~로 변하다","image":"into=새 상태 안으로 들어감","categoryKo":"이동/도착","examples":[{"en":"Water turns into ice.","ko":"물은 얼음으로 변한다."},{"en":"The meeting turned into an argument.","ko":"회의가 말다툼으로 변했다."},{"en":"A small question turned into a long discussion.","ko":"작은 질문이 긴 토론으로 변했다."}]},{"verb":"wake up","meaning":"깨다","image":"up=의식이 올라옴","categoryKo":"이동/도착","examples":[{"en":"Wake up.","ko":"깨우다."},{"en":"Please wake up.","ko":"일어나주세요.","hidden":true},{"en":"The alarm woke up the whole house.","ko":"알람이 온 집안을 깨웠다."}]},{"verb":"walk away","meaning":"떠나다","image":"away=멀리 걸어감","categoryKo":"이동/도착","examples":[{"en":"She walked away.","ko":"그녀는 떠났다."},{"en":"He walked away.","ko":"그는 떠났다.","hidden":true},{"en":"She walked away from the deal.","ko":"그녀는 그 거래에서 손을 뗐다."}]},{"verb":"walk out","meaning":"나가버리다","image":"out=밖으로 퇴장","categoryKo":"이동/도착","examples":[{"en":"He walked out of the meeting.","ko":"그는 회의장에서 나갔다."},{"en":"She walked out of the meeting.","ko":"그녀는 회의장에서 나갔다.","hidden":true},{"en":"He walked out of the room without a word.","ko":"그는 아무 말 없이 방을 나갔다."}]},{"verb":"write down","meaning":"적어두다","image":"down=종이에 내려놓음","categoryKo":"이동/도착","examples":[{"en":"Write it down.","ko":"적어보세요."},{"en":"Please write it down.","ko":"적어주세요.","hidden":true},{"en":"Write down anything you don't understand.","ko":"이해되지 않는 것은 무엇이든 적어 두세요."}]},{"verb":"break into","meaning":"침입하다, 갑자기 시작하다","image":"into=안쪽 상태로 진입","categoryKo":"시작/계속/완료/중단","examples":[{"en":"She broke into tears.","ko":"그녀는 눈물을 흘렸습니다."},{"en":"He broke into tears.","ko":"그는 눈물을 흘렸다.","hidden":true},{"en":"The singer broke into a smile on stage.","ko":"가수는 무대에서 갑자기 미소를 지었다."}]},{"verb":"break off","meaning":"중단하다, 관계를 끊다","image":"off=붙은 것을 끊음","categoryKo":"시작/계속/완료/중단","examples":[{"en":"They broke off the talks.","ko":"그들은 회담을 중단했습니다."},{"en":"We broke off the talks.","ko":"우리는 회담을 중단했습니다.","hidden":true},{"en":"They broke off talks after midnight.","ko":"그들은 자정 이후 협상을 중단했다."}]},{"verb":"burn out","meaning":"완전히 지치다","image":"out=에너지가 끝까지 소진","categoryKo":"시작/계속/완료/중단","examples":[{"en":"I burned out after the project.","ko":"프로젝트가 끝난 후 나는 지쳤습니다."},{"en":"I burned out after the project.","ko":"프로젝트 후에 또 지쳤어요.","hidden":true},{"en":"She burned out after months of overtime.","ko":"그녀는 몇 달간의 초과근무 후 완전히 지쳤다."}]},{"verb":"call off","meaning":"취소하다","image":"off=계획에서 떼어냄","categoryKo":"시작/계속/완료/중단","examples":[{"en":"They called off the meeting.","ko":"그들은 회의를 취소했습니다."},{"en":"We called off the meeting.","ko":"우리는 회의를 취소했습니다.","hidden":true},{"en":"They called off the event because of heavy rain.","ko":"폭우 때문에 그들은 행사를 취소했다."}]},{"verb":"carry on","meaning":"계속하다","image":"on=이어 붙여 진행","categoryKo":"시작/계속/완료/중단","examples":[{"en":"Carry on with your work.","ko":"작업을 계속하세요."},{"en":"Please carry on with your work.","ko":"계속해서 작업을 진행하시기 바랍니다.","hidden":true},{"en":"Please carry on while I take notes.","ko":"제가 메모하는 동안 계속하세요."}]},{"verb":"clean up","meaning":"말끔히 치우다","image":"up=완료 상태로 정리","categoryKo":"시작/계속/완료/중단","examples":[{"en":"Clean up your room.","ko":"방을 청소하세요."},{"en":"Please clean up your room.","ko":"방을 청소해주세요.","hidden":true},{"en":"The team cleaned up the data before analysis.","ko":"팀은 분석 전에 데이터를 정리했다."}]},{"verb":"come on","meaning":"시작되다, 제발","image":"on=작동/압박이 붙음","categoryKo":"시작/계속/완료/중단","examples":[{"en":"Come on, let's go.","ko":"자, 가자."},{"en":"The lights came on.","ko":"불이 켜졌다."},{"en":"The heater came on automatically.","ko":"난방기가 자동으로 켜졌다."}]},{"verb":"cut off","meaning":"끊다, 차단하다","image":"off=연결을 분리","categoryKo":"시작/계속/완료/중단","examples":[{"en":"The call got cut off.","ko":"통화가 끊어졌습니다."},{"en":"That call got cut off.","ko":"그 전화가 끊겼어요.","hidden":true},{"en":"The operator cut off the call by mistake.","ko":"교환원이 실수로 전화를 끊었다."}]},{"verb":"end up","meaning":"결국 ~하게 되다","image":"up=과정 끝의 최종 상태","categoryKo":"시작/계속/완료/중단","examples":[{"en":"We ended up late.","ko":"우리는 늦게 끝났습니다."},{"en":"They ended up late.","ko":"그들은 늦게 끝났습니다.","hidden":true},{"en":"We ended up choosing the cheaper option.","ko":"우리는 결국 더 저렴한 선택지를 골랐다."}]},{"verb":"fill out","meaning":"양식을 작성하다","image":"out=빈 곳을 끝까지 채움","categoryKo":"시작/계속/완료/중단","examples":[{"en":"Please fill out the form.","ko":"양식을 작성해주세요."},{"en":"Please fill out the form before you leave.","ko":"떠나기 전에 양식을 작성해주세요."},{"en":"Please fill out this consent form.","ko":"이 동의서를 작성해 주세요."}]},{"verb":"fill up","meaning":"가득 채우다","image":"up=끝까지 차오름","categoryKo":"시작/계속/완료/중단","examples":[{"en":"The room filled up.","ko":"방이 가득 찼습니다."},{"en":"That room filled up.","ko":"그 방이 가득 찼어요.","hidden":true},{"en":"The waiting room filled up before nine.","ko":"대기실은 9시 전에 가득 찼다."}]},{"verb":"get through","meaning":"끝내다, 통과하다, 연결되다","image":"through=어려움을 관통","categoryKo":"시작/계속/완료/중단","examples":[{"en":"I got through the exam.","ko":"나는 시험을 통과했습니다."},{"en":"I got through the exam.","ko":"나는 다시 시험을 통과했다.","hidden":true},{"en":"I finally got through to customer service.","ko":"마침내 고객센터에 연결됐다."}]},{"verb":"give out","meaning":"나눠주다, 다 떨어지다","image":"out=밖으로 배포/소진","categoryKo":"시작/계속/완료/중단","examples":[{"en":"They gave out flyers downtown.","ko":"그들은 시내에서 전단지를 나눠주었다."},{"en":"My patience gave out after an hour.","ko":"한 시간이 지나자 내 인내심이 바닥났다."},{"en":"The volunteers gave out water to everyone.","ko":"자원봉사자들이 모두에게 물을 나눠주었다."}]},{"verb":"go on","meaning":"계속되다, 일어나다","image":"on=진행이 붙어 있음","categoryKo":"시작/계속/완료/중단","examples":[{"en":"The show must go on.","ko":"공연은 계속되어야 한다."},{"en":"What's going on outside?","ko":"밖에서 무슨 일이 일어나고 있니?"},{"en":"The meeting went on longer than expected.","ko":"회의가 예상보다 오래 계속됐다."}]},{"verb":"hang up","meaning":"전화를 끊다, 걸다","image":"up=끝 상태로 걸어둠","categoryKo":"시작/계속/완료/중단","examples":[{"en":"Don't hang up.","ko":"끊지 마세요."},{"en":"Please don't hang up.","ko":"전화를 끊지 마세요.","hidden":true},{"en":"Don't hang up until I confirm the number.","ko":"번호를 확인할 때까지 끊지 마세요."}]},{"verb":"hold on","meaning":"기다리다, 붙잡다","image":"on=계속 붙들고 있음","categoryKo":"시작/계속/완료/중단","examples":[{"en":"Hold on.","ko":"기다리다."},{"en":"Please hold on.","ko":"잠시만 기다려주세요.","hidden":true},{"en":"Hold on to your receipt.","ko":"영수증을 보관하세요."}]},{"verb":"keep on","meaning":"계속하다","image":"on=행동을 이어 붙임","categoryKo":"시작/계속/완료/중단","examples":[{"en":"Keep on trying.","ko":"계속 노력하세요."},{"en":"Please keep on trying.","ko":"계속 노력해주세요.","hidden":true},{"en":"She kept on practicing after everyone left.","ko":"모두가 떠난 뒤에도 그녀는 계속 연습했다."}]},{"verb":"kick off","meaning":"시작하다","image":"off=출발점에서 떼어냄","categoryKo":"시작/계속/완료/중단","examples":[{"en":"The event kicks off at noon.","ko":"행사는 정오에 시작됩니다."},{"en":"That event kicks off at noon.","ko":"해당 이벤트는 정오에 시작됩니다.","hidden":true},{"en":"The training kicked off with a short quiz.","ko":"교육은 짧은 퀴즈로 시작됐다."}]},{"verb":"knock off","meaning":"그만하다, 떨어뜨리다","image":"off=쳐서 떼어냄","categoryKo":"시작/계속/완료/중단","examples":[{"en":"Please knock it off.","ko":"그만하세요."},{"en":"They knocked off work at five.","ko":"그들은 5시에 일을 마쳤다."},{"en":"Let's knock off early today.","ko":"오늘은 일찍 일을 마칩시다."}]},{"verb":"lay off","meaning":"해고하다, 그만 괴롭히다","image":"off=일/압박에서 떼어냄","categoryKo":"시작/계속/완료/중단","examples":[{"en":"The company laid off several workers.","ko":"회사가 직원 여러 명을 해고했다."},{"en":"Lay off the jokes for.","ko":"지금은 농담을 그만해."},{"en":"The company laid off ten workers.","ko":"회사는 직원 10명을 해고했다."}]},{"verb":"run out","meaning":"다 떨어지다","image":"out=안에 있던 것이 소진","categoryKo":"시작/계속/완료/중단","examples":[{"en":"We ran out of time.","ko":"시간이 부족했습니다."},{"en":"They ran out of time.","ko":"시간이 부족했습니다.","hidden":true},{"en":"We ran out of printer ink.","ko":"프린터 잉크가 다 떨어졌다."}]},{"verb":"run through","meaning":"빠르게 검토하다","image":"through=처음부터 끝까지 통과","categoryKo":"시작/계속/완료/중단","examples":[{"en":"Let's run through the plan.","ko":"계획을 실행해 보겠습니다."},{"en":"Let's run through the plan.","ko":"이제 계획을 실행해 보겠습니다.","hidden":true},{"en":"Let's run through the schedule once more.","ko":"일정을 한 번 더 훑어봅시다."}]},{"verb":"take back","meaning":"되돌리다, 취소하다","image":"back=원래 쪽으로 회수","categoryKo":"시작/계속/완료/중단","examples":[{"en":"I take back what I said.","ko":"내가 한 말을 취소할게."},{"en":"Please take back this broken chair.","ko":"이 고장 난 의자를 되가져가 주세요."},{"en":"The store took back the damaged item.","ko":"가게가 손상된 물건을 반품받았다."}]},{"verb":"take up","meaning":"시작하다, 차지하다","image":"up=공간/시간을 차지하거나 올림","categoryKo":"시작/계속/완료/중단","examples":[{"en":"She took up tennis last spring.","ko":"그녀는 지난봄 테니스를 시작했다."},{"en":"This sofa takes up too much space.","ko":"이 소파는 공간을 너무 많이 차지한다."},{"en":"This issue took up most of the meeting.","ko":"이 문제가 회의 대부분을 차지했다."}]},{"verb":"use up","meaning":"다 써버리다","image":"up=남김없이 완료","categoryKo":"시작/계속/완료/중단","examples":[{"en":"We used up the milk.","ko":"우리는 우유를 다 써버렸어요."},{"en":"They used up the milk.","ko":"그들은 우유를 다 써버렸어요.","hidden":true},{"en":"We used up all the sample bottles.","ko":"우리는 샘플 병을 모두 써버렸다."}]},{"verb":"wear out","meaning":"닳게 하다, 지치게 하다","image":"out=끝까지 써서 소진","categoryKo":"시작/계속/완료/중단","examples":[{"en":"These shoes wore out.","ko":"이 신발은 다 닳았다."},{"en":"The long trip wore me out.","ko":"긴 여행 때문에 나는 완전히 지쳤다."}]},{"verb":"work on","meaning":"작업하다","image":"on=대상에 붙어 계속함","categoryKo":"시작/계속/완료/중단","examples":[{"en":"I'm working on it.","ko":"나는 그것을 위해 노력하고 있습니다."},{"en":"She's working on it.","ko":"그녀는 그것에 노력하고 있습니다.","hidden":true}]},{"verb":"wrap up","meaning":"마무리하다","image":"up=끝까지 감싸 닫음","categoryKo":"시작/계속/완료/중단","examples":[{"en":"Let's wrap up.","ko":"마무리합시다."},{"en":"Let's wrap up.","ko":"이제 마무리하겠습니다.","hidden":true}]},{"verb":"blow away","meaning":"감동시키다, 날려버리다","image":"away=멀리 사라질 정도로 강함","categoryKo":"분리/제거/정리","examples":[{"en":"The performance blew me away.","ko":"그 공연은 나를 깜짝 놀라게 했습니다."},{"en":"That performance blew me away.","ko":"그 공연은 나를 감동시켰습니다.","hidden":true}]},{"verb":"blow out","meaning":"불어서 끄다, 터지다","image":"out=불이 밖으로 사라짐","categoryKo":"분리/제거/정리","examples":[{"en":"She blew out the candles.","ko":"그녀는 촛불을 불었다."},{"en":"He blew out the candles.","ko":"그는 촛불을 불었다.","hidden":true}]},{"verb":"bring down","meaning":"떨어뜨리다, 무너뜨리다","image":"down=아래로 낮춤","categoryKo":"분리/제거/정리","examples":[{"en":"The scandal brought him down.","ko":"그 스캔들이 그를 몰락시켰다."},{"en":"Can you bring down the price?","ko":"가격을 낮춰 줄 수 있나요?"}]},{"verb":"bring up","meaning":"꺼내다, 키우다","image":"up=위로 올려 주제로 만듦","categoryKo":"분리/제거/정리","examples":[{"en":"Don't bring that up.","ko":"그 얘기는 꺼내지 마세요."},{"en":"Please don't bring that up.","ko":"그 얘기는 꺼내지 마세요.","hidden":true}]},{"verb":"come apart","meaning":"분리되다, 무너지다","image":"apart=조각으로 떨어짐","categoryKo":"분리/제거/정리","examples":[{"en":"The toy came apart.","ko":"장난감이 떨어져 나갔습니다."},{"en":"That toy came apart.","ko":"그 장난감이 분해됐어요.","hidden":true}]},{"verb":"come off","meaning":"떨어지다, 잘 되다","image":"off=붙은 것이 떨어짐","categoryKo":"분리/제거/정리","examples":[{"en":"The button came off.","ko":"단추가 떨어졌다."},{"en":"The event came off well.","ko":"행사가 잘 진행됐다."}]},{"verb":"fall off","meaning":"떨어지다","image":"off=붙은 곳에서 분리","categoryKo":"분리/제거/정리","examples":[{"en":"The handle fell off.","ko":"손잡이가 떨어졌다."},{"en":"Sales fell off in winter.","ko":"겨울에 매출이 줄었다."}]},{"verb":"grow apart","meaning":"멀어지다","image":"apart=관계가 떨어짐","categoryKo":"분리/제거/정리","examples":[{"en":"We grew apart.","ko":"우리는 멀어졌습니다."},{"en":"They grew apart.","ko":"그들은 멀어졌습니다.","hidden":true}]},{"verb":"let down","meaning":"실망시키다","image":"down=기대를 떨어뜨림","categoryKo":"분리/제거/정리","examples":[{"en":"Don't let me down.","ko":"나를 실망시키지 마십시오."},{"en":"Please don't let me down.","ko":"나를 실망시키지 마십시오.","hidden":true}]},{"verb":"let out","meaning":"내보내다, 소리를 내다","image":"out=안의 것을 밖으로","categoryKo":"분리/제거/정리","examples":[{"en":"She let out a sigh.","ko":"그녀는 한숨을 쉬었다."},{"en":"He let out a sigh.","ko":"그는 한숨을 쉬었다.","hidden":true}]},{"verb":"pull apart","meaning":"분해하다, 갈라놓다","image":"apart=떨어뜨림","categoryKo":"분리/제거/정리","examples":[{"en":"They pulled the toy apart.","ko":"그들은 장난감을 떼어냈습니다."},{"en":"We pulled the toy apart.","ko":"우리는 장난감을 분해했습니다.","hidden":true}]},{"verb":"put away","meaning":"치우다, 저축하다","image":"away=보이지 않는 곳에 둠","categoryKo":"분리/제거/정리","examples":[{"en":"Put your toys away.","ko":"장난감을 치워두세요."},{"en":"Please put your toys away.","ko":"장난감을 치워주세요.","hidden":true}]},{"verb":"put off","meaning":"미루다, 정떨어지게 하다","image":"off=정해진 자리에서 밀어냄","categoryKo":"분리/제거/정리","examples":[{"en":"Don't put it off.","ko":"미루지 마세요."},{"en":"Please don't put it off.","ko":"미루지 마세요.","hidden":true}]},{"verb":"put out","meaning":"끄다, 내놓다","image":"out=불/결과를 밖으로","categoryKo":"분리/제거/정리","examples":[{"en":"Put out the fire.","ko":"불을 끄세요."},{"en":"Please put out the fire.","ko":"불을 꺼주세요.","hidden":true}]},{"verb":"set off","meaning":"출발하다, 터뜨리다","image":"off=출발점에서 떨어져 나감","categoryKo":"분리/제거/정리","examples":[{"en":"We set off early.","ko":"우리는 일찍 출발했습니다."},{"en":"They set off early.","ko":"그들은 일찍 출발했습니다.","hidden":true}]},{"verb":"take apart","meaning":"분해하다","image":"apart=조각으로 떼어냄","categoryKo":"분리/제거/정리","examples":[{"en":"He took the engine apart.","ko":"그는 엔진을 분해했습니다."},{"en":"She took the engine apart.","ko":"그녀는 엔진을 분해했습니다.","hidden":true}]},{"verb":"take away","meaning":"가져가다, 빼다","image":"away=멀리 가져감","categoryKo":"분리/제거/정리","examples":[{"en":"Take it away.","ko":"가져가세요."},{"en":"Please take it away.","ko":"가져가주세요.","hidden":true}]},{"verb":"talk out of","meaning":"설득해서 못 하게 하다","image":"out of=행동 밖으로 빼냄","categoryKo":"분리/제거/정리","examples":[{"en":"I talked him out of quitting.","ko":"나는 그가 그만두지 않도록 설득했다."},{"en":"She talked me out of buying it.","ko":"그녀는 내가 그것을 사지 않도록 설득했다."}]},{"verb":"tear down","meaning":"허물다","image":"down=아래로 무너뜨림","categoryKo":"분리/제거/정리","examples":[{"en":"They tore down the building.","ko":"그들은 건물을 헐었습니다."},{"en":"We tore down the building.","ko":"우리는 건물을 헐었습니다.","hidden":true}]},{"verb":"throw away","meaning":"버리다","image":"away=멀리 던져 보냄","categoryKo":"분리/제거/정리","examples":[{"en":"Throw it away.","ko":"그것을 버리십시오."},{"en":"Please throw it away.","ko":"버려주세요.","hidden":true}]},{"verb":"throw out","meaning":"내다 버리다, 퇴출하다","image":"out=밖으로 던짐","categoryKo":"분리/제거/정리","examples":[{"en":"They threw him out.","ko":"그들은 그를 쫓아냈습니다."},{"en":"We threw him out.","ko":"우리는 그를 쫓아냈습니다.","hidden":true}]},{"verb":"turn off","meaning":"끄다, 흥미를 잃게 하다","image":"off=작동/관심에서 분리","categoryKo":"분리/제거/정리","examples":[{"en":"Turn off the lights.","ko":"조명을 끄십시오."},{"en":"Please turn off the lights.","ko":"불을 꺼주세요.","hidden":true}]},{"verb":"back out","meaning":"빠지다, 약속을 철회하다","image":"out=계획 밖으로 나감","categoryKo":"처리/업무/문제해결","examples":[{"en":"They backed out of the deal.","ko":"그들은 거래에서 물러났습니다."},{"en":"We backed out of the deal.","ko":"우리는 거래에서 물러났습니다.","hidden":true}]},{"verb":"carry out","meaning":"수행하다","image":"out=계획을 밖으로 실행","categoryKo":"처리/업무/문제해결","examples":[{"en":"They carried out the plan.","ko":"그들은 그 계획을 실행했습니다."},{"en":"We carried out the plan.","ko":"우리는 그 계획을 실행했습니다.","hidden":true}]},{"verb":"count on","meaning":"믿다, 의지하다","image":"on=계획에 붙여 계산","categoryKo":"처리/업무/문제해결","examples":[{"en":"You can count on me.","ko":"당신은 나를 믿을 수 있습니다."},{"en":"You can count on me.","ko":"당신은 다시 나를 믿을 수 있습니다.","hidden":true}]},{"verb":"deal with","meaning":"처리하다, 상대하다","image":"with=문제와 맞붙음","categoryKo":"처리/업무/문제해결","examples":[{"en":"I'll deal with it.","ko":"내가 처리할게."},{"en":"Can you deal with it?","ko":"당신은 그것을 처리할 수 있습니까?"}]},{"verb":"go over","meaning":"검토하다","image":"over=위에서 훑어봄","categoryKo":"처리/업무/문제해결","examples":[{"en":"Let's go over the plan.","ko":"계획을 살펴보겠습니다."},{"en":"Let's go over the plan.","ko":"이제 계획을 살펴보겠습니다.","hidden":true}]},{"verb":"go through","meaning":"겪다, 검토하다","image":"through=과정을 통과","categoryKo":"처리/업무/문제해결","examples":[{"en":"She went through a lot.","ko":"그녀는 많은 일을 겪었습니다."},{"en":"He went through a lot.","ko":"그는 많은 일을 겪었습니다.","hidden":true}]},{"verb":"hand in","meaning":"제출하다","image":"in=안으로 건네 넣음","categoryKo":"처리/업무/문제해결","examples":[{"en":"Hand in your homework.","ko":"숙제를 제출하세요."},{"en":"Please hand in your homework.","ko":"숙제를 제출해주세요.","hidden":true}]},{"verb":"look at","meaning":"보다, 검토하다","image":"at=대상에 시선 고정","categoryKo":"처리/업무/문제해결","examples":[{"en":"Look at this.","ko":"이것 좀 보세요."},{"en":"Please look at this.","ko":"이것 좀 보세요.","hidden":true}]},{"verb":"look into","meaning":"조사하다","image":"into=안쪽을 들여다봄","categoryKo":"처리/업무/문제해결","examples":[{"en":"We'll look into it.","ko":"우리는 그것을 조사할 것입니다."},{"en":"We'll look into it.","ko":"다시 한번 살펴보겠습니다.","hidden":true}]},{"verb":"set up","meaning":"설치하다, 준비하다","image":"up=기능하게 세움","categoryKo":"처리/업무/문제해결","examples":[{"en":"Set up the account.","ko":"계정을 설정하세요."},{"en":"Please set up the account.","ko":"계정을 설정해주세요.","hidden":true}]},{"verb":"sort out","meaning":"정리하다, 해결하다","image":"out=뒤섞인 것을 밖으로 분류","categoryKo":"처리/업무/문제해결","examples":[{"en":"Let's sort this out.","ko":"이것을 정리해보자."},{"en":"Let's sort this out.","ko":"이제 이것을 정리해보자.","hidden":true}]},{"verb":"take on","meaning":"맡다, 고용하다","image":"on=책임을 몸에 붙임","categoryKo":"처리/업무/문제해결","examples":[{"en":"I'll take on the project.","ko":"나는 그 프로젝트를 맡을 것이다."},{"en":"Can you take on the project?","ko":"프로젝트를 맡을 수 있나요?"}]},{"verb":"think over","meaning":"숙고하다","image":"over=위에서 여러 번 검토","categoryKo":"처리/업무/문제해결","examples":[{"en":"Think it over.","ko":"생각해 보세요."},{"en":"Please think it over.","ko":"다시 생각해보세요.","hidden":true}]},{"verb":"turn in","meaning":"제출하다, 잠자리에 들다","image":"in=안으로 넘김","categoryKo":"처리/업무/문제해결","examples":[{"en":"Turn in your report.","ko":"보고서를 제출하세요."},{"en":"Please turn in your report.","ko":"보고서를 제출해 주세요.","hidden":true}]},{"verb":"ask out","meaning":"데이트 신청하다","image":"out=밖으로 데리고 나감","categoryKo":"대화/관계/감정","examples":[{"en":"He asked her out.","ko":"그는 그녀에게 데이트 신청을 했습니다."},{"en":"She asked her out.","ko":"그녀는 그녀에게 데이트 신청을 했습니다.","hidden":true}]},{"verb":"beat up","meaning":"두들겨 패다, 심하게 비난하다","image":"up=완전히 손상될 때까지","categoryKo":"대화/관계/감정","examples":[{"en":"He got beaten up.","ko":"그는 구타당했습니다."},{"en":"She got beaten up.","ko":"그녀는 구타당했습니다.","hidden":true}]},{"verb":"brush off","meaning":"무시하다, 털어내다","image":"off=붙은 것을 가볍게 떼어냄","categoryKo":"대화/관계/감정","examples":[{"en":"She brushed off the criticism.","ko":"그녀는 비판을 일축했다."},{"en":"He brushed off the criticism.","ko":"그는 비판을 일축했다.","hidden":true}]},{"verb":"bump into","meaning":"우연히 만나다","image":"into=뜻밖에 부딪혀 만남","categoryKo":"대화/관계/감정","examples":[{"en":"I bumped into an old friend.","ko":"나는 오랜 친구를 만났습니다."},{"en":"I bumped into an old friend.","ko":"나는 옛 친구를 다시 만났다.","hidden":true}]},{"verb":"call out","meaning":"큰소리로 부르다, 지적하다","image":"out=밖으로 소리/문제를 꺼냄","categoryKo":"대화/관계/감정","examples":[{"en":"She called him out.","ko":"그녀는 그를 불렀다."},{"en":"He called him out.","ko":"그는 그를 불렀다.","hidden":true}]},{"verb":"calm down","meaning":"진정하다","image":"down=감정의 높이를 낮춤","categoryKo":"대화/관계/감정","examples":[{"en":"Please calm down.","ko":"진정하세요."},{"en":"Please calm down before you leave.","ko":"떠나기 전에 진정하시기 바랍니다."}]},{"verb":"fall out","meaning":"사이가 틀어지다, 빠지다","image":"out=관계 밖으로 밀림","categoryKo":"대화/관계/감정","examples":[{"en":"They fell out over money.","ko":"그들은 돈 때문에 사이가 나빠졌습니다."},{"en":"We fell out over money.","ko":"우리는 돈 때문에 사이가 나빠졌습니다.","hidden":true}]},{"verb":"look up to","meaning":"존경하다","image":"up=위로 올려봄","categoryKo":"대화/관계/감정","examples":[{"en":"I look up to her.","ko":"나는 그녀를 존경합니다."},{"en":"I look up to her.","ko":"나는 다시 그녀를 우러러본다.","hidden":true}]},{"verb":"run into","meaning":"우연히 만나다, 문제를 겪다","image":"into=갑자기 부딪힘","categoryKo":"대화/관계/감정","examples":[{"en":"We ran into a problem.","ko":"문제가 발생했습니다."},{"en":"They ran into a problem.","ko":"그들은 문제에 봉착했습니다.","hidden":true}]},{"verb":"stand by","meaning":"대기하다, 지지하다","image":"by=곁에 머무름","categoryKo":"대화/관계/감정","examples":[{"en":"I will stand by you.","ko":"내가 네 편에 있을게."},{"en":"Please stand by for updates.","ko":"추가 안내를 기다려 주세요."}]},{"verb":"stand for","meaning":"의미하다, 지지하다","image":"for=대표/가치를 향함","categoryKo":"대화/관계/감정","examples":[{"en":"What does AI stand for?","ko":"AI는 무엇을 의미하나요?"},{"en":"What does AI stand for.","ko":"AI는 무엇을 의미합니까?","hidden":true}]},{"verb":"talk into","meaning":"설득해서 하게 하다","image":"into=행동 안으로 밀어 넣음","categoryKo":"대화/관계/감정","examples":[{"en":"She talked me into it.","ko":"그녀는 나에게 그것에 대해 이야기했습니다."},{"en":"He talked me into it.","ko":"그는 나에게 그것에 대해 이야기했습니다.","hidden":true}]},{"verb":"ask around","meaning":"여러 사람에게 물어보다","image":"around=주변을 돌며 확인","categoryKo":"찾기/생각/이해","examples":[{"en":"I asked around but nobody knew.","ko":"주변에 물어봤지만 아는 사람이 없었어요."},{"en":"I asked around but nobody knew.","ko":"주변에 물어봤지만 또 아는 사람이 없었어요.","hidden":true}]},{"verb":"bring back","meaning":"돌려주다, 기억나게 하다","image":"back=다시 원래 쪽으로","categoryKo":"찾기/생각/이해","examples":[{"en":"Please bring back my book tomorrow.","ko":"내일 내 책을 돌려줘."},{"en":"This song brings back old memories.","ko":"이 노래는 옛 기억을 떠올리게 한다."}]},{"verb":"catch on","meaning":"유행하다, 이해하다","image":"on=사람들에게 붙음","categoryKo":"찾기/생각/이해","examples":[{"en":"The new style caught on quickly.","ko":"새 스타일이 빠르게 유행했다."},{"en":"He caught on after the second example.","ko":"그는 두 번째 예문 후에 이해했다."}]},{"verb":"come across","meaning":"우연히 발견하다, 인상을 주다","image":"across=길을 건너 마주침","categoryKo":"찾기/생각/이해","examples":[{"en":"I came across this article.","ko":"이 글을 접하게 되었습니다."},{"en":"I came across this article.","ko":"이 글을 다시 접하게 되었습니다.","hidden":true}]},{"verb":"come up with","meaning":"생각해내다","image":"up=아이디어를 떠올림","categoryKo":"찾기/생각/이해","examples":[{"en":"She came up with a plan.","ko":"그녀는 계획을 세웠습니다."},{"en":"He came up with a plan.","ko":"그는 계획을 세웠습니다.","hidden":true}]},{"verb":"figure out","meaning":"이해하다, 알아내다","image":"out=문제를 밖으로 풀어냄","categoryKo":"찾기/생각/이해","examples":[{"en":"I figured it out.","ko":"나는 그것을 알아 냈습니다."},{"en":"I figured it out.","ko":"나는 그것을 다시 알아냈다.","hidden":true}]},{"verb":"find out","meaning":"알아내다","image":"out=숨은 정보를 밖으로 꺼냄","categoryKo":"찾기/생각/이해","examples":[{"en":"I found out the truth.","ko":"나는 진실을 알아냈습니다."},{"en":"I found out the truth.","ko":"진실을 다시 알아냈습니다.","hidden":true}]},{"verb":"get across","meaning":"전달되다, 이해시키다","image":"across=상대편까지 건너감","categoryKo":"찾기/생각/이해","examples":[{"en":"I couldn't get my point across.","ko":"내 요점을 제대로 전달하지 못했다."},{"en":"Pictures help get the idea across.","ko":"그림은 그 생각을 전달하는 데 도움이 된다."}]},{"verb":"look ahead","meaning":"앞을 내다보다","image":"ahead=앞쪽을 봄","categoryKo":"찾기/생각/이해","examples":[{"en":"We need to look ahead.","ko":"우리는 앞을 내다봐야 합니다."},{"en":"They need to look ahead.","ko":"그들은 앞을 내다볼 필요가 있습니다.","hidden":true}]},{"verb":"look around","meaning":"둘러보다","image":"around=주변을 봄","categoryKo":"찾기/생각/이해","examples":[{"en":"Look around the store.","ko":"매장을 둘러보세요."},{"en":"Please look around the store.","ko":"매장을 둘러보시기 바랍니다.","hidden":true}]},{"verb":"look for","meaning":"찾다","image":"for=목표를 향해 탐색","categoryKo":"찾기/생각/이해","examples":[{"en":"She is looking for my phone.","ko":"그녀는 내 휴대폰을 찾고 있다."},{"en":"I am looking for a new job.","ko":"나는 새 직장을 찾고 있다."}]},{"verb":"look forward to","meaning":"기대하다","image":"forward=앞일을 향해 봄","categoryKo":"찾기/생각/이해","examples":[{"en":"I look forward to seeing you.","ko":"나는 당신을 만나기를 기대합니다."},{"en":"I look forward to seeing you.","ko":"다시 만나기를 기대합니다.","hidden":true}]},{"verb":"look over","meaning":"훑어보다","image":"over=위에서 전체를 봄","categoryKo":"찾기/생각/이해","examples":[{"en":"Can you look over this?","ko":"이것 좀 봐주실 수 있나요?"},{"en":"Can you look over this?","ko":"이것 좀 봐주실 수 있나요?","hidden":true}]},{"verb":"look up","meaning":"찾아보다, 좋아지다","image":"up=정보/상태를 위로 올림","categoryKo":"찾기/생각/이해","examples":[{"en":"Look up the word in a dictionary.","ko":"그 단어를 사전에서 찾아봐."},{"en":"Business is starting to look up.","ko":"사업 상황이 좋아지기 시작했다."}]},{"verb":"make of","meaning":"이해하다, 판단하다","image":"of=재료에서 의미를 뽑음","categoryKo":"찾기/생각/이해","examples":[{"en":"What do you make of this?","ko":"이것을 어떻게 생각하시나요?"},{"en":"What do you make of this.","ko":"당신은 이것을 어떻게 생각합니까?","hidden":true}]},{"verb":"make out","meaning":"알아보다, 이해하다","image":"out=흐릿한 것을 밖으로 구분","categoryKo":"찾기/생각/이해","examples":[{"en":"I can't make out the sign.","ko":"나는 그 표지판을 알아볼 수 없다."},{"en":"Can you make out what she means?","ko":"그녀가 무슨 뜻인지 이해할 수 있니?"}]},{"verb":"take in","meaning":"받아들이다, 이해하다","image":"in=안으로 들임","categoryKo":"찾기/생각/이해","examples":[{"en":"It was hard to take in.","ko":"그것은 받아들이기 힘들었다."},{"en":"The tour takes in three museums.","ko":"그 투어는 박물관 세 곳을 둘러본다."}]},{"verb":"try on","meaning":"입어보다","image":"on=몸에 붙여 시험","categoryKo":"찾기/생각/이해","examples":[{"en":"Try this on.","ko":"이것을 입어보세요."},{"en":"Please try this on.","ko":"이것을 입어보십시오.","hidden":true}]},{"verb":"try out","meaning":"시험해보다","image":"out=밖으로 실제 테스트","categoryKo":"찾기/생각/이해","examples":[{"en":"Try it out.","ko":"사용해 보세요."},{"en":"Please try it out.","ko":"꼭 사용해 보세요.","hidden":true}]},{"verb":"back off","meaning":"물러나다, 간섭을 줄이다","image":"off=붙은 압박을 떼어냄","categoryKo":"상태변화/증가감소","examples":[{"en":"Back off and give me space.","ko":"물러서서 나에게 공간을 줘."},{"en":"Please back off and give me space.","ko":"물러서서 저에게 공간을 주세요.","hidden":true}]},{"verb":"cheer up","meaning":"기운 내다","image":"up=기분을 위로 올림","categoryKo":"상태변화/증가감소","examples":[{"en":"Cheer up.","ko":"기운을 내다."},{"en":"Please cheer up.","ko":"힘내주세요.","hidden":true}]},{"verb":"cut back","meaning":"줄이다","image":"back=뒤로 줄임","categoryKo":"상태변화/증가감소","examples":[{"en":"We need to cut back on costs.","ko":"비용을 줄여야 합니다."},{"en":"They need to cut back on costs.","ko":"비용을 줄여야 합니다.","hidden":true}]},{"verb":"cut down","meaning":"줄이다, 베어내다","image":"down=양/크기를 낮춤","categoryKo":"상태변화/증가감소","examples":[{"en":"I'm cutting down on coffee.","ko":"나는 커피를 줄이고 있다."},{"en":"They cut down the dead tree.","ko":"그들은 죽은 나무를 베어냈다."}]},{"verb":"do without","meaning":"없이 지내다","image":"without=없는 상태로 버팀","categoryKo":"상태변화/증가감소","examples":[{"en":"We can do without it.","ko":"우리는 그것 없이도 할 수 있습니다."},{"en":"They can do without it.","ko":"그들은 그것 없이도 할 수 있습니다.","hidden":true}]},{"verb":"dress up","meaning":"차려입다","image":"up=더 갖춘 상태로 올림","categoryKo":"상태변화/증가감소","examples":[{"en":"She dressed up for dinner.","ko":"그녀는 저녁 식사를 위해 옷을 차려 입었습니다."},{"en":"He dressed up for dinner.","ko":"그는 저녁 식사를 위해 옷을 차려 입었습니다.","hidden":true}]},{"verb":"go off","meaning":"울리다, 폭발하다, 상하다","image":"off=정상 상태에서 벗어남","categoryKo":"상태변화/증가감소","examples":[{"en":"The alarm went off.","ko":"알람이 울렸습니다."},{"en":"That alarm went off.","ko":"그 알람이 울렸어요.","hidden":true}]},{"verb":"go up","meaning":"오르다","image":"up=위로 상승","categoryKo":"상태변화/증가감소","examples":[{"en":"Rent went up.","ko":"임대료가 올랐습니다."},{"en":"Rent went up.","ko":"임대료가 다시 올랐습니다.","hidden":true}]},{"verb":"pull through","meaning":"회복하다, 견뎌내다","image":"through=어려움을 통과","categoryKo":"상태변화/증가감소","examples":[{"en":"He pulled through.","ko":"그는 끝까지 나아갔다."},{"en":"She pulled through.","ko":"그녀는 해냈다.","hidden":true}]},{"verb":"stick around","meaning":"근처에 남다","image":"around=주변에 붙어 있음","categoryKo":"상태변화/증가감소","examples":[{"en":"Stick around after class.","ko":"수업 후에도 계속 붙어 있으세요."},{"en":"Please stick around after class.","ko":"수업 후에는 옆에 있어주세요.","hidden":true}]},{"verb":"turn out","meaning":"결과가 되다, 밝혀지다","image":"out=결과가 밖으로 드러남","categoryKo":"상태변화/증가감소","examples":[{"en":"It turned out fine.","ko":"괜찮았습니다."},{"en":"It turned out fine.","ko":"다시 괜찮아졌습니다.","hidden":true}]},{"verb":"chip in","meaning":"각자 보태다","image":"in=공동 안으로 넣음","categoryKo":"돈/거래/제공","examples":[{"en":"Let's all chip in.","ko":"우리 모두 돈을 조금씩 보태자."},{"en":"Everyone chipped in to clean the room.","ko":"모두가 방 청소를 거들었다."}]},{"verb":"give away","meaning":"나눠주다, 비밀을 누설하다","image":"away=내 쪽에서 멀리 줌","categoryKo":"돈/거래/제공","examples":[{"en":"Don't give away the ending.","ko":"결말을 말하지 마세요."},{"en":"They gave away free samples.","ko":"그들은 무료 샘플을 나눠줬다."}]},{"verb":"hand out","meaning":"나눠주다","image":"out=밖으로 배포","categoryKo":"돈/거래/제공","examples":[{"en":"They handed out samples.","ko":"그들은 샘플을 나눠주었습니다."},{"en":"We handed out samples.","ko":"우리는 샘플을 나눠주었습니다.","hidden":true}]},{"verb":"pass out","meaning":"기절하다, 나눠주다","image":"out=의식/물건이 밖으로 나감","categoryKo":"돈/거래/제공","examples":[{"en":"He passed out.","ko":"그는 기절했습니다."},{"en":"She passed out.","ko":"그녀는 기절했습니다.","hidden":true}]},{"verb":"pay back","meaning":"갚다, 복수하다","image":"back=받은 것을 돌려줌","categoryKo":"돈/거래/제공","examples":[{"en":"Can you pay me back tomorrow?","ko":"내일 돈 갚아줄 수 있어?"},{"en":"I paid back the loan.","ko":"나는 대출금을 갚았다."}]},{"verb":"pay for","meaning":"값을 치르다","image":"for=대가를 향함","categoryKo":"돈/거래/제공","examples":[{"en":"I'll pay for dinner.","ko":"저녁값은 제가 지불하겠습니다."},{"en":"Can you pay for dinner?","ko":"저녁 식사 비용을 지불할 수 있나요?"}]},{"verb":"put through","meaning":"연결해 주다, 겪게 하다","image":"through=통로를 통과시킴","categoryKo":"돈/거래/제공","examples":[{"en":"Can you put me through to Mr. Lee?","ko":"이 선생님께 연결해 주실 수 있나요?"},{"en":"The program put her through a lot of stress.","ko":"그 프로그램은 그녀에게 큰 스트레스를 겪게 했다."}]},{"verb":"bring in","meaning":"도입하다, 들여오다","image":"in=안으로 가져옴","categoryKo":"일상행동/생활","examples":[{"en":"They brought in a new rule.","ko":"그들은 새로운 규칙을 가져왔습니다."},{"en":"We brought in a new rule.","ko":"우리는 새로운 규칙을 도입했습니다.","hidden":true}]},{"verb":"eat out","meaning":"외식하다","image":"out=밖에서 먹음","categoryKo":"일상행동/생활","examples":[{"en":"Let's eat out.","ko":"외식하자."},{"en":"Let's eat out.","ko":"이제 외식하자.","hidden":true}]},{"verb":"lie down","meaning":"눕다","image":"down=몸을 아래로 놓음","categoryKo":"일상행동/생활","examples":[{"en":"Lie down for a minute.","ko":"잠시 누워보세요."},{"en":"Please lie down for a minute.","ko":"잠시 누워주세요.","hidden":true}]},{"verb":"log out","meaning":"로그아웃하다","image":"out=시스템 밖으로 나감","categoryKo":"일상행동/생활","examples":[{"en":"Don't forget to log out.","ko":"로그아웃하는 것을 잊지 마세요."},{"en":"Please don't forget to log out.","ko":"로그아웃하는 것을 잊지 마세요.","hidden":true}]},{"verb":"put in","meaning":"넣다, 투입하다","image":"in=안에 넣음","categoryKo":"일상행동/생활","examples":[{"en":"Put in your password.","ko":"비밀번호를 입력하세요."},{"en":"Please put in your password.","ko":"비밀번호를 입력해주세요.","hidden":true}]},{"verb":"put on","meaning":"입다, 켜다, 공연하다","image":"on=몸/표면에 붙임","categoryKo":"일상행동/생활","examples":[{"en":"Put on your jacket.","ko":"재킷을 입으세요."},{"en":"Please put on your jacket.","ko":"재킷을 입어주세요.","hidden":true}]},{"verb":"sign in","meaning":"로그인하다, 출석하다","image":"in=안으로 등록","categoryKo":"일상행동/생활","examples":[{"en":"Please sign in.","ko":"로그인하세요."},{"en":"Please sign in before you leave.","ko":"떠나기 전에 로그인하세요."}]},{"verb":"sign out","meaning":"로그아웃하다, 퇴실 기록하다","image":"out=밖으로 기록","categoryKo":"일상행동/생활","examples":[{"en":"Sign out before you leave.","ko":"떠나기 전에 로그아웃하세요."},{"en":"Please sign out before you leave.","ko":"떠나기 전에 로그아웃하시기 바랍니다.","hidden":true}]},{"verb":"sit down","meaning":"앉다","image":"down=몸을 아래로 놓음","categoryKo":"일상행동/생활","examples":[{"en":"Sit down.","ko":"앉으세요."},{"en":"Please sit down.","ko":"앉으세요.","hidden":true}]},{"verb":"work out","meaning":"운동하다, 잘 풀리다","image":"out=밖으로 풀어 결과가 남","categoryKo":"일상행동/생활","examples":[{"en":"It worked out well.","ko":"일이 잘 풀렸다."},{"en":"I work out every morning.","ko":"나는 매일 아침 운동한다."}]},{"verb":"ask for","meaning":"요청하다","image":"for=필요한 것을 향해 요구","categoryKo":"기타","examples":[{"en":"She asked for help.","ko":"그녀는 도움을 요청했습니다."},{"en":"He asked for help.","ko":"그는 도움을 요청했습니다.","hidden":true}]},{"verb":"back down","meaning":"물러서다","image":"down=기세를 낮춤","categoryKo":"기타","examples":[{"en":"He refused to back down.","ko":"그는 물러서기를 거부했습니다."},{"en":"She refused to back down.","ko":"그녀는 물러서기를 거부했습니다.","hidden":true}]},{"verb":"back up","meaning":"지원하다, 백업하다","image":"up=뒤에서 받쳐 올림","categoryKo":"기타","examples":[{"en":"Can you back me up?","ko":"저를 도와주실 수 있나요?"},{"en":"Can you back me up?","ko":"저를 백업해 주실 수 있나요?","hidden":true}]},{"verb":"bear with","meaning":"참고 기다리다","image":"with=상대와 함께 버팀","categoryKo":"기타","examples":[{"en":"Please bear with me.","ko":"잠시만 양해해 주세요."},{"en":"Thank you for bearing with me.","ko":"기다려 주셔서 감사합니다."}]},{"verb":"blow up","meaning":"폭발하다, 크게 화내다","image":"up=에너지가 확 커짐","categoryKo":"기타","examples":[{"en":"The balloon blew up suddenly.","ko":"풍선이 갑자기 터졌다."},{"en":"He blew up at me over a small mistake.","ko":"그는 작은 실수로 나에게 크게 화냈다."}]},{"verb":"break through","meaning":"돌파하다","image":"through=장벽을 통과","categoryKo":"기타","examples":[{"en":"They broke through the wall.","ko":"그들은 벽을 뚫었습니다."},{"en":"We broke through the wall.","ko":"우리는 벽을 뚫었습니다.","hidden":true}]},{"verb":"bring about","meaning":"초래하다","image":"about=상황을 일으킴","categoryKo":"기타","examples":[{"en":"The policy brought about change.","ko":"정책은 변화를 가져왔다."},{"en":"That policy brought about change.","ko":"그 정책은 변화를 가져왔다.","hidden":true}]},{"verb":"bring out","meaning":"드러내다, 출시하다","image":"out=밖으로 보이게 함","categoryKo":"기타","examples":[{"en":"Stress brings out the worst in him.","ko":"스트레스는 그의 최악의 면을 드러나게 한다."},{"en":"The new light brings out the color.","ko":"새 조명이 그 색을 더 잘 드러나게 한다."}]},{"verb":"build up","meaning":"쌓아 올리다","image":"up=점점 축적","categoryKo":"기타","examples":[{"en":"Trust takes time to build up.","ko":"신뢰는 쌓이는 데 시간이 걸린다."},{"en":"The pressure built up quickly.","ko":"압박감이 빠르게 쌓였다."}]},{"verb":"burn down","meaning":"불타서 무너지다","image":"down=타서 아래로 무너짐","categoryKo":"기타","examples":[{"en":"The house burned down.","ko":"집이 불에 탔습니다."},{"en":"That house burned down.","ko":"그 집은 불타버렸어요.","hidden":true}]},{"verb":"call for","meaning":"요구하다, 필요로 하다","image":"for=필요한 것을 향함","categoryKo":"기타","examples":[{"en":"This job calls for patience.","ko":"이 작업에는 인내심이 필요합니다."},{"en":"This job calls for patience.","ko":"이 작업에는 다시 인내심이 필요합니다.","hidden":true}]},{"verb":"come about","meaning":"일어나다, 생기다","image":"about=상황으로 나타남","categoryKo":"기타","examples":[{"en":"How did this come about?","ko":"어떻게 이런 일이 일어났나요?"},{"en":"How did this come about.","ko":"어떻게 이런 일이 일어났습니까?","hidden":true}]},{"verb":"come out","meaning":"나오다, 출간되다","image":"out=밖으로 드러남","categoryKo":"기타","examples":[{"en":"Her book came out.","ko":"그녀의 책이 나왔습니다."},{"en":"Her book came out.","ko":"그녀의 책이 다시 나왔다.","hidden":true}]},{"verb":"come through","meaning":"해내다, 통과하다","image":"through=어려움을 통과","categoryKo":"기타","examples":[{"en":"He came through for us.","ko":"그는 어려울 때 우리를 도와줬다."},{"en":"The message came through clearly.","ko":"메시지가 선명하게 전달됐다."}]},{"verb":"do over","meaning":"다시 하다","image":"over=처음부터 다시","categoryKo":"기타","examples":[{"en":"Can I do it over?","ko":"다시 할 수 있나요?"},{"en":"Can I do it over.","ko":"다시 할 수 있을까요?","hidden":true}]},{"verb":"drop out","meaning":"중퇴하다, 빠지다","image":"out=시스템 밖으로 나감","categoryKo":"기타","examples":[{"en":"He dropped out of college.","ko":"그는 대학을 중퇴했다."},{"en":"Two players dropped out of the race.","ko":"두 선수가 경주에서 빠졌다."}]},{"verb":"fall apart","meaning":"무너지다","image":"apart=조각으로 흩어짐","categoryKo":"기타","examples":[{"en":"The plan fell apart.","ko":"계획은 무너졌습니다."},{"en":"That plan fell apart.","ko":"그 계획은 무너졌습니다.","hidden":true}]},{"verb":"fall behind","meaning":"뒤처지다","image":"behind=뒤에 남음","categoryKo":"기타","examples":[{"en":"I'm falling behind.","ko":"나는 뒤쳐지고있다."},{"en":"She's falling behind.","ko":"그녀는 뒤쳐지고 있습니다.","hidden":true}]},{"verb":"fall for","meaning":"속다, 반하다","image":"for=상대 쪽으로 마음이 감","categoryKo":"기타","examples":[{"en":"I fell for that trick.","ko":"나는 그 속임수에 빠졌습니다."},{"en":"I fell for that trick.","ko":"나는 또 그 속임수에 빠졌다.","hidden":true}]},{"verb":"fill in","meaning":"채우다, 대신하다","image":"in=빈칸 안을 채움","categoryKo":"기타","examples":[{"en":"Fill in this form.","ko":"이 양식을 작성하세요."},{"en":"Please fill in this form.","ko":"이 양식을 작성해 주세요.","hidden":true}]},{"verb":"get ahead","meaning":"앞서가다","image":"ahead=앞으로 나감","categoryKo":"기타","examples":[{"en":"She wants to get ahead.","ko":"그녀는 앞서 나가고 싶어합니다."},{"en":"He wants to get ahead.","ko":"그는 앞서 나가고 싶어합니다.","hidden":true}]},{"verb":"get along","meaning":"잘 지내다","image":"along=같은 방향으로 함께 감","categoryKo":"기타","examples":[{"en":"We get along well.","ko":"우리는 잘 지내요."},{"en":"They get along well.","ko":"그들은 잘 지내요.","hidden":true}]},{"verb":"get together","meaning":"모이다","image":"together=함께 붙음","categoryKo":"기타","examples":[{"en":"Let's get together soon.","ko":"곧 함께 모이자."},{"en":"Let's get together soon.","ko":"이제 곧 모이자.","hidden":true}]},{"verb":"get up","meaning":"일어나다","image":"up=몸을 위로 세움","categoryKo":"기타","examples":[{"en":"I get up early.","ko":"나는 일찍 일어난다."},{"en":"I get up early.","ko":"나는 또 일찍 일어난다.","hidden":true}]},{"verb":"give off","meaning":"냄새/빛을 내다","image":"off=밖으로 방출","categoryKo":"기타","examples":[{"en":"The flowers give off a smell.","ko":"꽃은 냄새를 풍긴다."},{"en":"That flowers give off a smell.","ko":"그 꽃은 냄새를 풍긴다.","hidden":true}]},{"verb":"go ahead","meaning":"진행하다","image":"ahead=앞으로 나아감","categoryKo":"기타","examples":[{"en":"Go ahead.","ko":"계속하세요."},{"en":"Please go ahead.","ko":"계속하세요.","hidden":true}]},{"verb":"go for","meaning":"선택하다, 시도하다","image":"for=목표를 향함","categoryKo":"기타","examples":[{"en":"I'll go for the blue one.","ko":"나는 파란색을 선택할게."},{"en":"She decided to go for the job.","ko":"그녀는 그 일에 도전하기로 했다."}]},{"verb":"go out","meaning":"외출하다, 꺼지다","image":"out=밖으로 나감","categoryKo":"기타","examples":[{"en":"The lights went out.","ko":"불이 꺼졌다."},{"en":"We went out for dinner.","ko":"우리는 저녁을 먹으러 외출했다."}]},{"verb":"hang on","meaning":"기다리다, 붙잡다","image":"on=붙어 버팀","categoryKo":"기타","examples":[{"en":"Hang on a second.","ko":"잠깐만요."},{"en":"Please hang on a second.","ko":"잠시만 기다려주세요.","hidden":true}]},{"verb":"hang out","meaning":"시간을 보내다","image":"out=밖에서 느슨하게 있음","categoryKo":"기타","examples":[{"en":"We hung out all day.","ko":"우리는 하루 종일 어울렸습니다."},{"en":"They hung out all day.","ko":"그들은 하루 종일 어울렸습니다.","hidden":true}]},{"verb":"hold back","meaning":"억제하다, 막다","image":"back=뒤로 붙잡음","categoryKo":"기타","examples":[{"en":"Don't hold back.","ko":"주저하지 마십시오."},{"en":"Please don't hold back.","ko":"주저하지 마십시오.","hidden":true}]},{"verb":"hold up","meaning":"지연시키다, 떠받치다","image":"up=위에서 버티게 함","categoryKo":"기타","examples":[{"en":"Traffic held us up.","ko":"교통 체증 때문에 우리가 지체됐다."},{"en":"This shelf can hold up heavy books.","ko":"이 선반은 무거운 책들을 받칠 수 있다."}]},{"verb":"keep away","meaning":"가까이 오지 못하게 하다","image":"away=멀리 유지","categoryKo":"기타","examples":[{"en":"Keep away from the edge.","ko":"가장자리에서 멀리 떨어지십시오."},{"en":"Please keep away from the edge.","ko":"가장자리에서 멀리 유지하십시오.","hidden":true}]},{"verb":"leave behind","meaning":"두고 가다","image":"behind=뒤에 남김","categoryKo":"기타","examples":[{"en":"I left my keys behind.","ko":"나는 열쇠를 뒤에 두고 왔다."},{"en":"I left my keys behind.","ko":"열쇠를 두고 왔어요.","hidden":true}]},{"verb":"leave out","meaning":"빠뜨리다","image":"out=포함 밖에 둠","categoryKo":"기타","examples":[{"en":"You left out my name.","ko":"당신은 내 이름을 생략했습니다."},{"en":"You left out my name.","ko":"내 이름을 빼셨네요.","hidden":true}]},{"verb":"let in","meaning":"들여보내다","image":"in=안으로 허용","categoryKo":"기타","examples":[{"en":"Let me in.","ko":"들여 보내주세요."},{"en":"Please let me in.","ko":"저를 들여보내 주세요.","hidden":true}]},{"verb":"look out","meaning":"조심하다","image":"out=바깥 위험을 봄","categoryKo":"기타","examples":[{"en":"Look out!","ko":"조심해!"},{"en":"Please look out!","ko":"조심해주세요!","hidden":true}]},{"verb":"make up","meaning":"구성하다, 지어내다, 화해하다","image":"up=빠진 것을 채워 완성","categoryKo":"기타","examples":[{"en":"They made up a story.","ko":"그들은 이야기를 지어냈다."},{"en":"We made up after the argument.","ko":"우리는 말다툼 후에 화해했다."}]},{"verb":"mix up","meaning":"혼동하다","image":"up=뒤섞여 정리 안 됨","categoryKo":"기타","examples":[{"en":"I mixed up the dates.","ko":"날짜를 혼동했어요."},{"en":"I mixed up the dates.","ko":"날짜를 또 뒤섞었어요.","hidden":true}]},{"verb":"pass away","meaning":"사망하다","image":"away=삶에서 멀어짐","categoryKo":"기타","examples":[{"en":"Her grandfather passed away.","ko":"그녀의 할아버지가 돌아가셨다."},{"en":"He passed away peacefully.","ko":"그는 평온하게 세상을 떠났다."}]},{"verb":"pick out","meaning":"고르다","image":"out=여럿 중 밖으로 뽑음","categoryKo":"기타","examples":[{"en":"Pick out a shirt.","ko":"셔츠를 골라보세요."},{"en":"Please pick out a shirt.","ko":"셔츠를 골라주세요.","hidden":true}]},{"verb":"point out","meaning":"지적하다","image":"out=밖으로 드러내 보임","categoryKo":"기타","examples":[{"en":"She pointed out a mistake.","ko":"그녀는 실수를 지적했습니다."},{"en":"He pointed out a mistake.","ko":"그는 실수를 지적했습니다.","hidden":true}]},{"verb":"pull off","meaning":"해내다","image":"off=어려운 일을 떼어 성사","categoryKo":"기타","examples":[{"en":"She pulled it off.","ko":"그녀는 그 어려운 일을 해냈다."},{"en":"They pulled off a surprise victory.","ko":"그들은 뜻밖의 승리를 해냈다."}]},{"verb":"pull over","meaning":"차를 세우다","image":"over=길가 쪽으로 옮김","categoryKo":"기타","examples":[{"en":"Pull over here.","ko":"여기로 차를 세우세요."},{"en":"Please pull over here.","ko":"여기로 차를 세워주세요.","hidden":true}]},{"verb":"put aside","meaning":"제쳐두다, 저축하다","image":"aside=옆에 따로 둠","categoryKo":"기타","examples":[{"en":"Put aside some money.","ko":"돈을 좀 남겨두세요."},{"en":"Please put aside some money.","ko":"돈을 좀 모아두세요.","hidden":true}]},{"verb":"put back","meaning":"제자리에 돌려놓다","image":"back=원래 자리로","categoryKo":"기타","examples":[{"en":"Put it back.","ko":"다시 넣어."},{"en":"Please put it back.","ko":"다시 넣어주세요.","hidden":true}]},{"verb":"put up","meaning":"올리다, 세우다, 묵게 하다","image":"up=위로 세움","categoryKo":"기타","examples":[{"en":"They put up a tent.","ko":"그들은 텐트를 세웠습니다."},{"en":"We put up a tent.","ko":"우리는 텐트를 쳤습니다.","hidden":true}]},{"verb":"put up with","meaning":"참다","image":"up with=불편함을 들고 버팀","categoryKo":"기타","examples":[{"en":"I can't put up with it.","ko":"나는 그것을 참을 수 없다."},{"en":"She puts up with a lot at work.","ko":"그녀는 직장에서 많은 것을 참고 지낸다."}]},{"verb":"run away","meaning":"도망가다","image":"away=멀리 달아남","categoryKo":"기타","examples":[{"en":"He ran away.","ko":"그는 도망쳤다."},{"en":"She ran away.","ko":"그녀는 도망갔습니다.","hidden":true}]},{"verb":"set aside","meaning":"따로 떼어두다","image":"aside=옆에 보관","categoryKo":"기타","examples":[{"en":"Set aside some time.","ko":"시간을 좀 따로 두십시오."},{"en":"Please set aside some time.","ko":"시간을 좀 따로 두시기 바랍니다.","hidden":true}]},{"verb":"set back","meaning":"지연시키다","image":"back=뒤로 밀림","categoryKo":"기타","examples":[{"en":"The rain set us back.","ko":"비 때문에 일정이 지연됐다."},{"en":"The mistake set the project back.","ko":"그 실수 때문에 프로젝트가 늦어졌다."}]},{"verb":"show off","meaning":"자랑하다","image":"off=밖으로 떼어내 보여줌","categoryKo":"기타","examples":[{"en":"Stop showing off.","ko":"그만 과시하세요."},{"en":"Please stop showing off.","ko":"과시를 중단해주세요.","hidden":true}]},{"verb":"show up","meaning":"나타나다","image":"up=시야 위로 등장","categoryKo":"기타","examples":[{"en":"He didn't show up.","ko":"그는 나타나지 않았습니다."},{"en":"She didn't show up.","ko":"그녀는 나타나지 않았습니다.","hidden":true}]},{"verb":"sign up","meaning":"등록하다","image":"up=명단에 올림","categoryKo":"기타","examples":[{"en":"I signed up for the class.","ko":"나는 수업에 등록했습니다."},{"en":"I signed up for the class.","ko":"수업을 다시 신청했어요.","hidden":true}]},{"verb":"stand out","meaning":"눈에 띄다","image":"out=밖으로 두드러짐","categoryKo":"기타","examples":[{"en":"Her work stands out.","ko":"그녀의 작품이 눈에 띕니다."},{"en":"Her work stands out.","ko":"그녀의 작품이 다시 눈에 띈다.","hidden":true}]},{"verb":"stand up","meaning":"일어서다, 바람맞히다","image":"up=몸/약속을 세움","categoryKo":"기타","examples":[{"en":"He stood me up.","ko":"그는 나와의 약속에 나타나지 않았다."},{"en":"Please stand up.","ko":"일어나 주세요."}]},{"verb":"stick to","meaning":"고수하다","image":"to=대상에 붙어 있음","categoryKo":"기타","examples":[{"en":"Stick to the plan.","ko":"계획을 고수하십시오."},{"en":"Please stick to the plan.","ko":"계획을 지켜주세요.","hidden":true}]},{"verb":"take after","meaning":"닮다","image":"after=뒤를 이어 닮음","categoryKo":"기타","examples":[{"en":"She takes after her mother.","ko":"그녀는 어머니를 닮는다."},{"en":"He takes after her mother.","ko":"그는 그녀의 어머니를 닮는다.","hidden":true}]},{"verb":"turn down","meaning":"거절하다, 낮추다","image":"down=강도/제안을 낮춤","categoryKo":"기타","examples":[{"en":"She turned down the offer.","ko":"그녀는 그 제안을 거절했다."},{"en":"Please turn down the volume.","ko":"볼륨을 낮춰 주세요."}]},{"verb":"turn on","meaning":"켜다, 흥미를 끌다","image":"on=작동을 붙임","categoryKo":"기타","examples":[{"en":"Turn on the TV.","ko":"TV를 켜세요."},{"en":"Please turn on the TV.","ko":"TV를 켜주세요.","hidden":true}]},{"verb":"turn over","meaning":"뒤집다, 넘기다","image":"over=반대 면으로 돌림","categoryKo":"기타","examples":[{"en":"Turn over the page.","ko":"페이지를 넘기세요."},{"en":"Please turn over the page.","ko":"페이지를 넘겨주세요.","hidden":true}]},{"verb":"turn up","meaning":"나타나다, 볼륨을 올리다","image":"up=위로 드러남/상승","categoryKo":"기타","examples":[{"en":"He turned up late.","ko":"그는 늦게 나타났다."},{"en":"Turn up the music a little.","ko":"음악 소리를 조금 올려 줘."}]},{"verb":"watch out","meaning":"조심하다","image":"out=바깥 위험을 봄","categoryKo":"기타","examples":[{"en":"Watch out!","ko":"조심하세요!"},{"en":"Please watch out!","ko":"조심하세요!","hidden":true}]},{"verb":"zone out","meaning":"멍해지다","image":"out=주의가 밖으로 빠짐","categoryKo":"기타","examples":[{"en":"I zoned out in class.","ko":"나는 수업시간에 멍하니 있었다."},{"en":"I zoned out in class.","ko":"나는 또 수업시간에 멍하니 있었다.","hidden":true}]}];
+    const STRESS_MAP = {"a":{"index":0,"total":1},"about":{"index":1,"total":2},"account":{"index":1,"total":2},"across":{"index":1,"total":2},"after":{"index":0,"total":2},"ahead":{"index":1,"total":2},"ai":{"index":0,"total":1},"alarm":{"index":1,"total":2},"all":{"index":0,"total":1},"alley":{"index":0,"total":2},"along":{"index":1,"total":2},"am":{"index":0,"total":1},"an":{"index":0,"total":1},"and":{"index":0,"total":1},"another":{"index":1,"total":3},"answer":{"index":0,"total":2},"anytime":{"index":0,"total":3},"apart":{"index":1,"total":2},"app":{"index":0,"total":1},"are":{"index":0,"total":1},"argument":{"index":0,"total":3},"around":{"index":1,"total":2},"article":{"index":0,"total":3},"aside":{"index":1,"total":2},"ask":{"index":0,"total":1},"asked":{"index":0,"total":1},"at":{"index":0,"total":1},"away":{"index":1,"total":2},"back":{"index":0,"total":1},"backed":{"index":0,"total":1},"ball":{"index":0,"total":1},"balloon":{"index":1,"total":2},"be":{"index":0,"total":1},"bear":{"index":0,"total":1},"bearing":{"index":0,"total":2},"beat":{"index":0,"total":1},"beaten":{"index":0,"total":2},"before":{"index":1,"total":2},"behind":{"index":1,"total":2},"better":{"index":0,"total":2},"blew":{"index":0,"total":1},"blow":{"index":0,"total":1},"blue":{"index":0,"total":1},"book":{"index":0,"total":1},"books":{"index":0,"total":1},"box":{"index":0,"total":1},"break":{"index":0,"total":1},"bring":{"index":0,"total":1},"brings":{"index":0,"total":1},"broke":{"index":0,"total":1},"broken":{"index":0,"total":2},"brother":{"index":0,"total":2},"brought":{"index":0,"total":1},"brush":{"index":0,"total":1},"brushed":{"index":0,"total":1},"build":{"index":0,"total":1},"building":{"index":0,"total":2},"built":{"index":0,"total":1},"bump":{"index":0,"total":1},"bumped":{"index":0,"total":1},"burn":{"index":0,"total":1},"burned":{"index":0,"total":1},"bus":{"index":0,"total":1},"business":{"index":0,"total":2},"but":{"index":0,"total":1},"button":{"index":0,"total":2},"buying":{"index":0,"total":2},"by":{"index":0,"total":1},"call":{"index":0,"total":1},"called":{"index":0,"total":1},"calls":{"index":0,"total":1},"calm":{"index":0,"total":1},"came":{"index":0,"total":1},"can":{"index":0,"total":1},"can't":{"index":0,"total":1},"candles":{"index":0,"total":2},"cannot":{"index":0,"total":2},"car":{"index":0,"total":1},"carried":{"index":0,"total":2},"carry":{"index":0,"total":2},"cat":{"index":0,"total":1},"catch":{"index":0,"total":1},"caught":{"index":0,"total":1},"chair":{"index":0,"total":1},"change":{"index":0,"total":1},"check":{"index":0,"total":1},"checked":{"index":0,"total":1},"cheer":{"index":0,"total":1},"chip":{"index":0,"total":1},"chipped":{"index":0,"total":1},"city":{"index":0,"total":2},"class":{"index":0,"total":1},"clean":{"index":0,"total":1},"clear":{"index":0,"total":1},"cleared":{"index":0,"total":1},"clearly":{"index":0,"total":2},"coffee":{"index":0,"total":2},"cold":{"index":0,"total":1},"college":{"index":0,"total":2},"color":{"index":0,"total":2},"come":{"index":0,"total":1},"coming":{"index":0,"total":2},"company":{"index":0,"total":3},"costs":{"index":0,"total":1},"couldn't":{"index":0,"total":2},"count":{"index":0,"total":1},"criticism":{"index":0,"total":4},"crowd":{"index":0,"total":1},"cut":{"index":0,"total":1},"cutting":{"index":0,"total":2},"dates":{"index":0,"total":1},"day":{"index":0,"total":1},"days":{"index":0,"total":1},"dead":{"index":0,"total":1},"deal":{"index":0,"total":1},"decided":{"index":1,"total":3},"decision":{"index":1,"total":3},"details":{"index":1,"total":2},"dictionary":{"index":0,"total":4},"did":{"index":0,"total":1},"didn't":{"index":0,"total":2},"dinner":{"index":0,"total":2},"do":{"index":0,"total":1},"doctor":{"index":0,"total":2},"does":{"index":0,"total":1},"dog":{"index":0,"total":1},"don't":{"index":0,"total":1},"door":{"index":0,"total":1},"down":{"index":0,"total":1},"downtown":{"index":0,"total":2},"dream":{"index":0,"total":1},"dress":{"index":0,"total":1},"dressed":{"index":0,"total":1},"drop":{"index":0,"total":1},"dropped":{"index":0,"total":1},"early":{"index":0,"total":2},"eat":{"index":0,"total":1},"edge":{"index":0,"total":1},"elevator":{"index":0,"total":4},"eleven":{"index":1,"total":3},"end":{"index":0,"total":1},"ended":{"index":0,"total":2},"ending":{"index":0,"total":2},"engine":{"index":0,"total":2},"english":{"index":0,"total":2},"event":{"index":1,"total":2},"every":{"index":0,"total":3},"everyone":{"index":0,"total":3},"exam":{"index":1,"total":2},"example":{"index":1,"total":3},"exercise":{"index":0,"total":3},"exit":{"index":0,"total":2},"expectations":{"index":2,"total":4},"fall":{"index":0,"total":1},"falling":{"index":0,"total":2},"fast":{"index":0,"total":1},"fell":{"index":0,"total":1},"figure":{"index":0,"total":2},"figured":{"index":0,"total":2},"fill":{"index":0,"total":1},"filled":{"index":0,"total":1},"finally":{"index":0,"total":3},"find":{"index":0,"total":1},"fine":{"index":0,"total":1},"fire":{"index":0,"total":2},"first":{"index":0,"total":1},"five":{"index":0,"total":1},"flowers":{"index":0,"total":2},"flu":{"index":0,"total":1},"flyers":{"index":0,"total":2},"for":{"index":0,"total":1},"forget":{"index":1,"total":2},"form":{"index":0,"total":1},"forward":{"index":0,"total":2},"found":{"index":0,"total":1},"free":{"index":0,"total":1},"friend":{"index":0,"total":1},"from":{"index":0,"total":1},"garage":{"index":1,"total":2},"gave":{"index":0,"total":1},"get":{"index":0,"total":1},"gets":{"index":0,"total":1},"getting":{"index":0,"total":2},"give":{"index":0,"total":1},"go":{"index":0,"total":1},"goes":{"index":0,"total":1},"going":{"index":0,"total":2},"good":{"index":0,"total":1},"got":{"index":0,"total":1},"grandfather":{"index":0,"total":3},"grew":{"index":0,"total":1},"grow":{"index":0,"total":1},"grows":{"index":0,"total":1},"guests":{"index":0,"total":1},"had":{"index":0,"total":1},"hand":{"index":0,"total":1},"handed":{"index":0,"total":2},"handle":{"index":0,"total":2},"hang":{"index":0,"total":1},"hard":{"index":0,"total":1},"he":{"index":0,"total":1},"head":{"index":0,"total":1},"headed":{"index":0,"total":2},"heavy":{"index":0,"total":2},"held":{"index":0,"total":1},"help":{"index":0,"total":1},"her":{"index":0,"total":1},"here":{"index":0,"total":1},"him":{"index":0,"total":1},"his":{"index":0,"total":1},"history":{"index":0,"total":3},"hold":{"index":0,"total":1},"holiday":{"index":0,"total":3},"home":{"index":0,"total":1},"homework":{"index":0,"total":2},"hotel":{"index":1,"total":2},"hour":{"index":0,"total":2},"house":{"index":0,"total":1},"how":{"index":0,"total":1},"hung":{"index":0,"total":1},"i":{"index":0,"total":1},"i'll":{"index":0,"total":1},"i'm":{"index":0,"total":1},"ice":{"index":0,"total":1},"idea":{"index":1,"total":3},"in":{"index":0,"total":1},"inside":{"index":1,"total":2},"into":{"index":0,"total":2},"is":{"index":0,"total":1},"issue":{"index":0,"total":2},"it":{"index":0,"total":1},"jacket":{"index":0,"total":2},"jazz":{"index":0,"total":1},"job":{"index":0,"total":1},"jokes":{"index":0,"total":1},"keep":{"index":0,"total":1},"keys":{"index":0,"total":1},"kick":{"index":0,"total":1},"kicks":{"index":0,"total":1},"kids":{"index":0,"total":1},"kitchen":{"index":0,"total":2},"knew":{"index":0,"total":1},"knock":{"index":0,"total":1},"knocked":{"index":0,"total":1},"ladder":{"index":0,"total":2},"laid":{"index":0,"total":1},"laptop":{"index":0,"total":2},"last":{"index":0,"total":1},"late":{"index":0,"total":1},"later":{"index":0,"total":2},"lay":{"index":0,"total":1},"leave":{"index":0,"total":1},"lee":{"index":0,"total":1},"left":{"index":0,"total":1},"let":{"index":0,"total":1},"let's":{"index":0,"total":1},"lie":{"index":0,"total":1},"light":{"index":0,"total":1},"lights":{"index":0,"total":1},"little":{"index":0,"total":2},"live":{"index":0,"total":1},"lived":{"index":0,"total":1},"loan":{"index":0,"total":1},"lobby":{"index":0,"total":2},"log":{"index":0,"total":1},"long":{"index":0,"total":1},"look":{"index":0,"total":1},"looking":{"index":0,"total":2},"lost":{"index":0,"total":1},"lot":{"index":0,"total":1},"lunch":{"index":0,"total":1},"lying":{"index":0,"total":2},"made":{"index":0,"total":1},"make":{"index":0,"total":1},"makes":{"index":0,"total":1},"me":{"index":0,"total":1},"means":{"index":0,"total":1},"meeting":{"index":0,"total":2},"memories":{"index":0,"total":3},"message":{"index":0,"total":2},"midnight":{"index":0,"total":2},"milk":{"index":0,"total":1},"minute":{"index":0,"total":2},"mistake":{"index":1,"total":2},"mix":{"index":0,"total":1},"mixed":{"index":0,"total":1},"money":{"index":0,"total":2},"month":{"index":0,"total":1},"more":{"index":0,"total":1},"morning":{"index":0,"total":2},"mother":{"index":0,"total":2},"move":{"index":0,"total":1},"moved":{"index":0,"total":1},"mr":{"index":0,"total":2},"much":{"index":0,"total":1},"museums":{"index":1,"total":3},"music":{"index":0,"total":2},"must":{"index":0,"total":1},"my":{"index":0,"total":1},"nail":{"index":0,"total":1},"name":{"index":0,"total":1},"need":{"index":0,"total":1},"new":{"index":0,"total":1},"night":{"index":0,"total":1},"nobody":{"index":0,"total":3},"noon":{"index":0,"total":1},"not":{"index":0,"total":1},"now":{"index":0,"total":1},"number":{"index":0,"total":2},"of":{"index":0,"total":1},"off":{"index":0,"total":1},"offer":{"index":0,"total":2},"old":{"index":0,"total":1},"on":{"index":0,"total":1},"once":{"index":0,"total":1},"one":{"index":0,"total":1},"others":{"index":0,"total":2},"our":{"index":0,"total":2},"out":{"index":0,"total":1},"outside":{"index":0,"total":2},"over":{"index":0,"total":2},"page":{"index":0,"total":1},"paid":{"index":0,"total":1},"pain":{"index":0,"total":1},"parents":{"index":0,"total":2},"pass":{"index":0,"total":1},"passed":{"index":0,"total":1},"password":{"index":0,"total":2},"patience":{"index":0,"total":2},"pay":{"index":0,"total":1},"peacefully":{"index":0,"total":3},"performance":{"index":1,"total":3},"phone":{"index":0,"total":1},"pick":{"index":0,"total":1},"picked":{"index":0,"total":1},"pictures":{"index":0,"total":2},"plan":{"index":0,"total":1},"plane":{"index":0,"total":1},"players":{"index":0,"total":2},"please":{"index":0,"total":1},"point":{"index":0,"total":1},"pointed":{"index":0,"total":2},"police":{"index":1,"total":2},"policy":{"index":0,"total":3},"post":{"index":0,"total":1},"pressure":{"index":0,"total":2},"price":{"index":0,"total":1},"prices":{"index":0,"total":2},"prisoners":{"index":0,"total":3},"problem":{"index":0,"total":2},"program":{"index":0,"total":2},"project":{"index":0,"total":2},"pull":{"index":0,"total":1},"pulled":{"index":0,"total":1},"put":{"index":0,"total":1},"puts":{"index":0,"total":1},"quickly":{"index":0,"total":2},"quitting":{"index":0,"total":2},"race":{"index":0,"total":1},"rain":{"index":0,"total":1},"rainy":{"index":0,"total":2},"ran":{"index":0,"total":1},"refused":{"index":1,"total":2},"rent":{"index":0,"total":1},"report":{"index":1,"total":2},"room":{"index":0,"total":1},"rule":{"index":0,"total":1},"run":{"index":0,"total":1},"said":{"index":0,"total":1},"sales":{"index":0,"total":1},"samples":{"index":0,"total":2},"scandal":{"index":0,"total":2},"second":{"index":0,"total":2},"seeing":{"index":0,"total":2},"seoul":{"index":0,"total":1},"set":{"index":0,"total":1},"seven":{"index":0,"total":2},"several":{"index":0,"total":2},"she":{"index":0,"total":1},"she's":{"index":0,"total":1},"shelf":{"index":0,"total":1},"shirt":{"index":0,"total":1},"shoes":{"index":0,"total":1},"show":{"index":0,"total":1},"showing":{"index":0,"total":2},"shut":{"index":0,"total":1},"sigh":{"index":0,"total":1},"sign":{"index":0,"total":1},"signed":{"index":0,"total":1},"sit":{"index":0,"total":1},"site":{"index":0,"total":1},"six":{"index":0,"total":1},"sleep":{"index":0,"total":1},"slowly":{"index":0,"total":2},"small":{"index":0,"total":1},"smell":{"index":0,"total":1},"sofa":{"index":0,"total":2},"some":{"index":0,"total":1},"something":{"index":0,"total":2},"song":{"index":0,"total":1},"soon":{"index":0,"total":1},"sort":{"index":0,"total":1},"space":{"index":0,"total":1},"spanish":{"index":0,"total":2},"spring":{"index":0,"total":1},"stairs":{"index":0,"total":1},"stand":{"index":0,"total":1},"stands":{"index":0,"total":1},"starting":{"index":0,"total":2},"station":{"index":0,"total":2},"stick":{"index":0,"total":1},"stood":{"index":0,"total":1},"stop":{"index":0,"total":1},"store":{"index":0,"total":1},"story":{"index":0,"total":2},"stress":{"index":0,"total":1},"style":{"index":0,"total":1},"suddenly":{"index":0,"total":3},"summer":{"index":0,"total":2},"surprise":{"index":1,"total":2},"take":{"index":0,"total":1},"takes":{"index":0,"total":1},"talk":{"index":0,"total":1},"talked":{"index":0,"total":1},"talks":{"index":0,"total":1},"teacher":{"index":0,"total":2},"team":{"index":0,"total":1},"tear":{"index":0,"total":1},"tears":{"index":0,"total":1},"tennis":{"index":0,"total":2},"tent":{"index":0,"total":1},"thank":{"index":0,"total":1},"that":{"index":0,"total":1},"the":{"index":0,"total":1},"their":{"index":0,"total":1},"these":{"index":0,"total":1},"they":{"index":0,"total":1},"thief":{"index":0,"total":1},"think":{"index":0,"total":1},"this":{"index":0,"total":1},"three":{"index":0,"total":1},"threw":{"index":0,"total":1},"through":{"index":0,"total":1},"throw":{"index":0,"total":1},"time":{"index":0,"total":1},"to":{"index":0,"total":1},"together":{"index":1,"total":3},"tomorrow":{"index":1,"total":3},"tonight":{"index":1,"total":2},"too":{"index":0,"total":1},"took":{"index":0,"total":1},"tore":{"index":0,"total":1},"tour":{"index":0,"total":1},"toy":{"index":0,"total":1},"toys":{"index":0,"total":1},"traffic":{"index":0,"total":2},"trash":{"index":0,"total":1},"tree":{"index":0,"total":1},"trick":{"index":0,"total":1},"tried":{"index":0,"total":1},"trip":{"index":0,"total":1},"trouble":{"index":0,"total":2},"trust":{"index":0,"total":1},"truth":{"index":0,"total":1},"try":{"index":0,"total":1},"trying":{"index":0,"total":2},"turn":{"index":0,"total":1},"turned":{"index":0,"total":1},"turns":{"index":0,"total":1},"tv":{"index":0,"total":2},"two":{"index":0,"total":1},"up":{"index":0,"total":1},"updates":{"index":1,"total":2},"us":{"index":0,"total":1},"use":{"index":0,"total":1},"used":{"index":0,"total":1},"victory":{"index":0,"total":3},"volume":{"index":0,"total":2},"wake":{"index":0,"total":1},"walk":{"index":0,"total":1},"walked":{"index":0,"total":1},"wall":{"index":0,"total":1},"wallet":{"index":0,"total":2},"wants":{"index":0,"total":1},"was":{"index":0,"total":1},"watch":{"index":0,"total":1},"water":{"index":0,"total":2},"way":{"index":0,"total":1},"we":{"index":0,"total":1},"we'll":{"index":0,"total":1},"wear":{"index":0,"total":1},"weekend":{"index":0,"total":2},"well":{"index":0,"total":1},"went":{"index":0,"total":1},"what":{"index":0,"total":1},"what's":{"index":0,"total":1},"when":{"index":0,"total":1},"will":{"index":0,"total":1},"wind":{"index":0,"total":1},"winter":{"index":0,"total":2},"with":{"index":0,"total":1},"without":{"index":1,"total":2},"word":{"index":0,"total":1},"wore":{"index":0,"total":1},"work":{"index":0,"total":1},"worked":{"index":0,"total":1},"workers":{"index":0,"total":2},"working":{"index":0,"total":2},"worst":{"index":0,"total":1},"wrap":{"index":0,"total":1},"write":{"index":0,"total":1},"year":{"index":0,"total":1},"yesterday":{"index":0,"total":3},"you":{"index":0,"total":1},"your":{"index":0,"total":1},"yourself":{"index":1,"total":2},"zone":{"index":0,"total":1},"zoned":{"index":0,"total":1}};
+    const SEEDED_STRESS_EDITS = {"0-0":[3,4,5,13,14,15,16],"0-1":[14,15,16,17,26,27,28,29],"1-0":[2,3,4,5,6,8,9,10,11,12,29,30,31,32],"1-1":[2,3,4,5,10,11,12,13,14,25,26,27,29,30],"2-0":[2,3,4,5,7,8,9,10,24,25,26],"2-1":[4,5,6,7,23,24,25,26,27,29,30,31,36,37],"3-0":[0,1,5,6,14,15],"3-1":[6,7,11,12,24,25],"4-0":[1,2,3,4,14,15,16,20,21,22,31,32,33],"4-1":[7,8,9,10,18,19,20,21,25,26,27],"5-0":[5,6,7,8,14,15,19,20],"5-1":[1,2,3,7,8,9,10,15,16,20,21,22,23],"6-0":[3,4,5,6,17,18,21,22,23],"6-1":[4,5,6,12,13,14,15,28,29,30],"7-0":[2,3,4,10,11,12],"7-1":[3,4,5,11,12,13],"8-0":[3,4,5,6,17,18,19],"8-1":[2,3,4,5,7,8,9,10,27,28,29,30],"9-0":[0,1,15,16,17],"9-1":[3,4,5,6,24,25,26,32,33],"10-0":[4,5,6,21,22],"10-1":[4,5,6,12,13,14,29,30,32,33],"11-1":[8,9,14,15,16,17],"11-0":[11,12,13,19,20,27,28,29,30],"12-0":[0,1,10,11,12,13],"12-1":[1,2,3,7,8,17,18,19,20],"13-0":[4,5,9,10,24,25,26,27],"13-1":[0,1,7,8,27,28],"14-0":[2,3,19,20],"16-0":[0,1,10,11,12,13],"16-1":[1,2,3,7,8,17,18,19,20],"17-0":[0,1,2,3,10,11],"17-1":[2,3,4,8,9,10,12,13],"18-0":[0,1,2,3,11,12,13,14],"18-1":[1,2,3,7,8,9,10,18,19,20,21],"19-0":[5,6,7,8,26,27],"19-1":[0,1,6,7,8,9,24,25],"20-0":[4,5,6,7,9,10,11],"20-1":[3,4,5,6,8,9,10],"21-0":[4,5,6,7,20,21],"21-1":[3,4,5,23,24,25,26,33,34,35,36],"22-0":[0,1,2,11,12,13,20,21,22],"22-1":[4,5,6,7,24,25,26,40,41,42],"23-0":[8,9,10,17,18,19,30,31,32],"23-1":[4,5,15,16,17,18,33,34,35,36],"24-0":[9,10,11,21,22,23],"25-1":[3,4,17,18,19],"25-0":[2,3,16,17,18],"24-1":[8,9,10,22,23,24],"14-1":[2,3,19,20],"15-0":[0,1],"15-1":[1,2,3,7,8],"26-0":[4,5,6,7,18,19,20,25,26,27,28],"26-1":[0,1,2,18,19,20,21],"27-0":[5,6,7,8,18,19,20],"27-1":[2,3,4,9,10,19,20],"28-0":[4,5,6,14,15,17,18,28,29,30],"28-1":[4,5,6,8,9,10,14,15,21,22],"29-0":[2,3,4,7,8,10,11,12,13,18,19,20],"29-1":[3,4,5,8,9,15,16,17,19,20,23,24],"30-0":[0,1,2,5,11,12,13],"30-1":[0,1,12,13,14,20,21],"31-0":[0,1,2,5,6,15,16,17,18],"31-1":[3,4,5,8,9,14,15,16,17,27,28],"32-0":[4,5,6,18,19],"32-1":[3,4,5,17,18],"33-0":[0,1,8,9,10],"33-1":[1,2,3,7,8,15,16],"34-0":[3,4,5,13,14,16,17],"34-1":[3,4,5,9,10,12,13,18,19,20],"35-0":[0,1,8,9,11,12],"35-1":[1,2,3,7,8,15,16,18,19],"36-0":[4,5,6,8,9,23,24,25,26],"37-0":[],"37-1":[],"36-1":[6,7,15,16,29,30,31,32]};
+    const AUDIO_MAP = [{"id":"0-0","start":0,"end":1.704},{"id":"0-1","start":1.954,"end":3.802},{"id":"1-0","start":4.052,"end":6.596},{"id":"1-1","start":6.846,"end":9.078},{"id":"2-0","start":9.328,"end":11.608},{"id":"2-1","start":11.858,"end":14.402},{"id":"3-0","start":14.652,"end":16.548},{"id":"3-1","start":16.798,"end":19.078},{"id":"4-0","start":19.328,"end":21.656},{"id":"4-1","start":21.906,"end":23.97},{"id":"5-0","start":24.22,"end":25.972},{"id":"5-1","start":26.222,"end":27.95},{"id":"6-0","start":28.2,"end":30.264},{"id":"6-1","start":30.514,"end":32.674},{"id":"7-0","start":32.924,"end":34.556},{"id":"7-1","start":34.806,"end":36.342},{"id":"8-0","start":36.592,"end":38.2},{"id":"8-1","start":38.45,"end":40.49},{"id":"9-0","start":40.74,"end":42.18},{"id":"9-1","start":42.43,"end":44.926},{"id":"10-0","start":45.176,"end":47.024},{"id":"10-1","start":47.274,"end":49.722},{"id":"11-0","start":49.972,"end":52.204},{"id":"11-1","start":52.454,"end":54.326},{"id":"12-0","start":54.576,"end":55.992},{"id":"12-1","start":56.242,"end":57.946},{"id":"13-0","start":58.196,"end":60.404},{"id":"13-1","start":60.654,"end":63.174},{"id":"14-0","start":63.424,"end":65.44},{"id":"14-1","start":65.69,"end":67.706},{"id":"15-0","start":67.956,"end":68.94},{"id":"15-1","start":69.19,"end":70.462},{"id":"16-0","start":70.712,"end":72.128},{"id":"16-1","start":72.378,"end":74.034},{"id":"17-0","start":74.284,"end":75.796},{"id":"17-1","start":76.046,"end":77.822},{"id":"18-0","start":78.072,"end":79.632},{"id":"18-1","start":79.882,"end":81.706},{"id":"19-0","start":81.956,"end":84.02},{"id":"19-1","start":84.27,"end":86.55},{"id":"20-0","start":86.8,"end":88.312},{"id":"20-1","start":88.562,"end":90.026},{"id":"21-0","start":90.276,"end":92.508},{"id":"21-1","start":92.758,"end":94.99},{"id":"22-0","start":95.24,"end":97.232},{"id":"22-1","start":97.482,"end":100.05},{"id":"23-0","start":100.3,"end":102.676},{"id":"23-1","start":102.926,"end":105.254},{"id":"24-0","start":105.504,"end":107.736},{"id":"24-1","start":107.986,"end":110.074},{"id":"25-0","start":110.324,"end":112.268},{"id":"25-1","start":112.518,"end":114.414},{"id":"26-0","start":114.664,"end":116.992},{"id":"26-1","start":117.242,"end":119.162},{"id":"27-0","start":119.412,"end":121.044},{"id":"27-1","start":121.294,"end":123.238},{"id":"28-0","start":123.488,"end":125.768},{"id":"28-1","start":126.018,"end":128.01},{"id":"29-0","start":128.26,"end":130.252},{"id":"29-1","start":130.502,"end":132.59},{"id":"30-0","start":132.84,"end":134.232},{"id":"30-1","start":134.482,"end":135.994},{"id":"31-0","start":136.244,"end":137.78},{"id":"31-1","start":138.03,"end":139.998},{"id":"32-0","start":140.248,"end":141.952},{"id":"32-1","start":142.202,"end":143.882},{"id":"33-0","start":144.132,"end":145.356},{"id":"33-1","start":145.606,"end":147.118},{"id":"34-0","start":147.368,"end":149.192},{"id":"34-1","start":149.442,"end":151.29},{"id":"35-0","start":151.54,"end":152.788},{"id":"35-1","start":153.038,"end":154.694},{"id":"36-0","start":154.944,"end":156.984},{"id":"36-1","start":157.234,"end":159.754},{"id":"37-0","start":160.004,"end":161.948},{"id":"37-1","start":162.198,"end":164.454},{"id":"38-0","start":164.704,"end":166.672},{"id":"38-1","start":166.922,"end":169.178},{"id":"39-0","start":169.428,"end":170.796},{"id":"39-1","start":171.046,"end":172.414},{"id":"40-0","start":172.664,"end":174.536},{"id":"40-1","start":174.786,"end":176.658},{"id":"41-0","start":176.908,"end":179.356},{"id":"41-1","start":179.606,"end":181.886},{"id":"42-0","start":182.136,"end":183.936},{"id":"42-1","start":184.186,"end":186.778},{"id":"43-0","start":187.028,"end":188.444},{"id":"43-1","start":188.694,"end":190.11},{"id":"44-0","start":190.36,"end":192.16},{"id":"44-1","start":192.41,"end":194.618},{"id":"45-0","start":194.868,"end":195.996},{"id":"45-1","start":196.246,"end":197.686},{"id":"46-0","start":197.936,"end":199.976},{"id":"46-1","start":200.226,"end":201.906},{"id":"47-0","start":202.156,"end":204.34},{"id":"47-1","start":204.59,"end":206.822},{"id":"48-0","start":207.072,"end":209.52},{"id":"48-1","start":209.77,"end":212.218},{"id":"49-0","start":212.468,"end":214.004},{"id":"49-1","start":214.254,"end":215.958},{"id":"50-0","start":216.208,"end":217.984},{"id":"50-1","start":218.234,"end":220.01},{"id":"51-0","start":220.26,"end":221.58},{"id":"51-1","start":221.83,"end":223.462},{"id":"52-0","start":223.712,"end":225.512},{"id":"52-1","start":225.762,"end":227.778},{"id":"53-0","start":228.028,"end":229.948},{"id":"53-1","start":230.198,"end":232.574},{"id":"54-0","start":232.824,"end":234.528},{"id":"54-1","start":234.778,"end":236.506},{"id":"55-0","start":236.756,"end":238.124},{"id":"55-1","start":238.374,"end":239.742},{"id":"56-0","start":239.992,"end":241.96},{"id":"56-1","start":242.21,"end":244.25},{"id":"57-0","start":244.5,"end":246.348},{"id":"57-1","start":246.598,"end":248.662},{"id":"58-0","start":248.912,"end":250.76},{"id":"58-1","start":251.01,"end":253.218},{"id":"59-0","start":253.468,"end":255.124},{"id":"59-1","start":255.374,"end":257.126},{"id":"60-0","start":257.376,"end":259.392},{"id":"60-1","start":259.642,"end":261.658},{"id":"61-0","start":261.908,"end":263.66},{"id":"61-1","start":263.91,"end":265.782},{"id":"62-0","start":266.032,"end":268.024},{"id":"62-1","start":268.274,"end":270.866},{"id":"63-0","start":271.116,"end":272.796},{"id":"63-1","start":273.046,"end":274.822},{"id":"64-0","start":275.072,"end":276.68},{"id":"64-1","start":276.93,"end":278.874},{"id":"65-0","start":279.124,"end":280.708},{"id":"65-1","start":280.958,"end":282.806},{"id":"66-0","start":283.056,"end":285.288},{"id":"66-1","start":285.538,"end":287.746},{"id":"67-0","start":287.996,"end":289.748},{"id":"67-1","start":289.998,"end":291.702},{"id":"68-0","start":291.952,"end":294.04},{"id":"68-1","start":294.29,"end":296.258},{"id":"69-0","start":296.508,"end":298.14},{"id":"69-1","start":298.39,"end":300.022},{"id":"70-0","start":300.272,"end":302.264},{"id":"70-1","start":302.514,"end":304.89},{"id":"71-0","start":305.14,"end":306.292},{"id":"71-1","start":306.542,"end":307.934},{"id":"72-0","start":308.184,"end":309.696},{"id":"72-1","start":309.946,"end":311.386},{"id":"73-0","start":311.636,"end":313.46},{"id":"73-1","start":313.71,"end":315.654},{"id":"74-0","start":315.904,"end":317.248},{"id":"74-1","start":317.498,"end":319.178},{"id":"75-0","start":319.428,"end":321.372},{"id":"75-1","start":321.622,"end":323.518},{"id":"76-0","start":323.768,"end":325.64},{"id":"76-1","start":325.89,"end":327.786},{"id":"77-0","start":328.036,"end":330.292},{"id":"77-1","start":330.542,"end":332.798},{"id":"78-0","start":333.048,"end":334.848},{"id":"78-1","start":335.098,"end":336.898},{"id":"79-0","start":337.148,"end":338.852},{"id":"79-1","start":339.102,"end":341.07},{"id":"80-0","start":341.32,"end":342.76},{"id":"80-1","start":343.01,"end":344.786},{"id":"81-0","start":345.036,"end":346.644},{"id":"81-1","start":346.894,"end":348.502},{"id":"82-0","start":348.752,"end":350.48},{"id":"82-1","start":350.73,"end":352.506},{"id":"83-0","start":352.756,"end":354.34},{"id":"83-1","start":354.59,"end":356.222},{"id":"84-0","start":356.472,"end":358.272},{"id":"84-1","start":358.522,"end":361.018},{"id":"85-0","start":361.268,"end":362.852},{"id":"85-1","start":363.102,"end":364.758},{"id":"86-0","start":365.008,"end":366.808},{"id":"86-1","start":367.058,"end":368.858},{"id":"87-0","start":369.108,"end":371.46},{"id":"87-1","start":371.71,"end":374.158},{"id":"88-0","start":374.408,"end":376.232},{"id":"88-1","start":376.482,"end":378.21},{"id":"89-0","start":378.46,"end":379.732},{"id":"89-1","start":379.982,"end":381.566},{"id":"90-0","start":381.816,"end":382.992},{"id":"90-1","start":383.242,"end":384.706},{"id":"91-0","start":384.956,"end":386.348},{"id":"91-1","start":386.598,"end":388.302},{"id":"92-0","start":388.552,"end":390.568},{"id":"92-1","start":390.818,"end":392.858},{"id":"93-0","start":393.108,"end":394.644},{"id":"93-1","start":394.894,"end":396.958},{"id":"94-0","start":397.208,"end":399.944},{"id":"94-1","start":400.194,"end":402.042},{"id":"95-0","start":402.292,"end":403.852},{"id":"95-1","start":404.102,"end":405.71},{"id":"96-0","start":405.96,"end":407.904},{"id":"96-1","start":408.154,"end":410.098},{"id":"97-0","start":410.348,"end":412.268},{"id":"97-1","start":412.518,"end":415.014},{"id":"98-0","start":415.264,"end":417.568},{"id":"98-1","start":417.818,"end":420.506},{"id":"99-0","start":420.756,"end":422.388},{"id":"99-1","start":422.638,"end":424.27},{"id":"100-0","start":424.52,"end":426.224},{"id":"100-1","start":426.474,"end":428.442},{"id":"101-0","start":428.692,"end":430.204},{"id":"101-1","start":430.454,"end":432.038},{"id":"102-0","start":432.288,"end":433.656},{"id":"102-1","start":433.906,"end":435.274},{"id":"103-0","start":435.524,"end":437.828},{"id":"103-1","start":438.078,"end":440.406},{"id":"104-0","start":440.656,"end":442.768},{"id":"104-1","start":443.018,"end":445.058},{"id":"105-0","start":445.308,"end":447.468},{"id":"105-1","start":447.718,"end":449.47},{"id":"106-0","start":449.72,"end":451.16},{"id":"106-1","start":451.41,"end":453.162},{"id":"107-0","start":453.412,"end":454.972},{"id":"107-1","start":455.222,"end":456.854},{"id":"108-0","start":457.104,"end":458.712},{"id":"108-1","start":458.962,"end":460.738},{"id":"109-0","start":460.988,"end":462.668},{"id":"109-1","start":462.918,"end":465.006},{"id":"110-0","start":465.256,"end":466.768},{"id":"110-1","start":467.018,"end":468.506},{"id":"111-0","start":468.756,"end":470.148},{"id":"111-1","start":470.398,"end":472.126},{"id":"112-0","start":472.376,"end":473.984},{"id":"112-1","start":474.234,"end":475.77},{"id":"113-0","start":476.02,"end":477.796},{"id":"113-1","start":478.046,"end":479.822},{"id":"114-0","start":480.072,"end":481.56},{"id":"114-1","start":481.81,"end":483.706},{"id":"115-0","start":483.956,"end":485.42},{"id":"115-1","start":485.67,"end":487.35},{"id":"116-0","start":487.6,"end":488.968},{"id":"116-1","start":489.218,"end":491.018},{"id":"117-0","start":491.268,"end":492.948},{"id":"117-1","start":493.198,"end":494.926},{"id":"118-0","start":495.176,"end":496.976},{"id":"118-1","start":497.226,"end":499.074},{"id":"119-0","start":499.324,"end":500.62},{"id":"119-1","start":500.87,"end":502.478},{"id":"120-0","start":502.728,"end":504.768},{"id":"120-1","start":505.018,"end":506.938},{"id":"121-0","start":507.188,"end":509.036},{"id":"121-1","start":509.286,"end":511.134},{"id":"122-0","start":511.384,"end":512.776},{"id":"122-1","start":513.026,"end":514.754},{"id":"123-0","start":515.004,"end":516.516},{"id":"123-1","start":516.766,"end":518.254},{"id":"124-0","start":518.504,"end":520.064},{"id":"124-1","start":520.314,"end":522.21},{"id":"125-0","start":522.46,"end":524.212},{"id":"125-1","start":524.462,"end":526.19},{"id":"126-0","start":526.44,"end":528.216},{"id":"126-1","start":528.466,"end":530.242},{"id":"127-0","start":530.492,"end":531.956},{"id":"127-1","start":532.206,"end":533.67},{"id":"128-0","start":533.92,"end":535.456},{"id":"128-1","start":535.706,"end":537.074},{"id":"129-0","start":537.324,"end":539.1},{"id":"129-1","start":539.35,"end":541.126},{"id":"130-0","start":541.376,"end":543.104},{"id":"130-1","start":543.354,"end":544.986},{"id":"131-0","start":545.236,"end":546.94},{"id":"131-1","start":547.19,"end":549.206},{"id":"132-0","start":549.456,"end":550.752},{"id":"132-1","start":551.002,"end":552.538},{"id":"133-0","start":552.788,"end":554.18},{"id":"133-1","start":554.43,"end":555.822},{"id":"134-0","start":556.072,"end":557.56},{"id":"134-1","start":557.81,"end":559.514},{"id":"135-0","start":559.764,"end":561.276},{"id":"135-1","start":561.526,"end":563.038},{"id":"136-0","start":563.288,"end":565.088},{"id":"136-1","start":565.338,"end":567.09},{"id":"137-0","start":567.34,"end":568.612},{"id":"137-1","start":568.862,"end":570.422},{"id":"138-0","start":570.672,"end":572.232},{"id":"138-1","start":572.482,"end":574.258},{"id":"139-0","start":574.508,"end":576.116},{"id":"139-1","start":576.366,"end":578.022},{"id":"140-0","start":578.272,"end":579.784},{"id":"140-1","start":580.034,"end":581.594},{"id":"141-0","start":581.844,"end":584.22},{"id":"141-1","start":584.47,"end":586.726},{"id":"142-0","start":586.976,"end":589.208},{"id":"142-1","start":589.458,"end":591.69},{"id":"143-0","start":591.94,"end":593.596},{"id":"143-1","start":593.846,"end":595.406},{"id":"144-0","start":595.656,"end":597.24},{"id":"144-1","start":597.49,"end":599.722},{"id":"145-0","start":599.972,"end":601.796},{"id":"145-1","start":602.046,"end":603.798},{"id":"146-0","start":604.048,"end":605.536},{"id":"146-1","start":605.786,"end":607.274},{"id":"147-0","start":607.524,"end":609.396},{"id":"147-1","start":609.646,"end":611.566},{"id":"148-0","start":611.816,"end":613.52},{"id":"148-1","start":613.77,"end":615.882},{"id":"149-0","start":616.132,"end":617.956},{"id":"149-1","start":618.206,"end":620.222},{"id":"150-0","start":620.472,"end":622.152},{"id":"150-1","start":622.402,"end":624.034},{"id":"151-0","start":624.284,"end":626.756},{"id":"151-1","start":627.006,"end":629.478},{"id":"152-0","start":629.728,"end":631.936},{"id":"152-1","start":632.186,"end":634.826},{"id":"153-0","start":635.076,"end":637.356},{"id":"153-1","start":637.606,"end":640.174},{"id":"154-0","start":640.424,"end":642.512},{"id":"154-1","start":642.762,"end":644.85},{"id":"155-0","start":645.1,"end":646.972},{"id":"155-1","start":647.222,"end":649.022},{"id":"156-0","start":649.272,"end":651},{"id":"156-1","start":651.25,"end":652.978},{"id":"157-0","start":653.228,"end":655.1},{"id":"157-1","start":655.35,"end":657.222},{"id":"158-0","start":657.472,"end":659.704},{"id":"158-1","start":659.954,"end":662.402},{"id":"159-0","start":662.652,"end":664.188},{"id":"159-1","start":664.438,"end":666.046},{"id":"160-0","start":666.296,"end":667.808},{"id":"160-1","start":668.058,"end":669.858},{"id":"161-0","start":670.108,"end":672.076},{"id":"161-1","start":672.326,"end":674.342},{"id":"162-0","start":674.592,"end":676.536},{"id":"162-1","start":676.786,"end":678.73},{"id":"163-0","start":678.98,"end":680.492},{"id":"163-1","start":680.742,"end":682.254},{"id":"164-0","start":682.504,"end":684.688},{"id":"164-1","start":684.938,"end":687.074},{"id":"165-0","start":687.324,"end":688.812},{"id":"165-1","start":689.062,"end":690.526},{"id":"166-0","start":690.776,"end":692.696},{"id":"166-1","start":692.946,"end":694.818},{"id":"167-0","start":695.068,"end":696.82},{"id":"167-1","start":697.07,"end":699.518},{"id":"168-0","start":699.768,"end":701.112},{"id":"168-1","start":701.362,"end":702.97},{"id":"169-0","start":703.22,"end":704.396},{"id":"169-1","start":704.646,"end":706.134},{"id":"170-0","start":706.384,"end":708.616},{"id":"170-1","start":708.866,"end":711.458},{"id":"171-0","start":711.708,"end":712.908},{"id":"171-1","start":713.158,"end":714.67},{"id":"172-0","start":714.92,"end":717.152},{"id":"172-1","start":717.402,"end":719.586},{"id":"173-0","start":719.836,"end":721.804},{"id":"173-1","start":722.054,"end":723.926},{"id":"174-0","start":724.176,"end":725.784},{"id":"174-1","start":726.034,"end":727.69},{"id":"175-0","start":727.94,"end":729.668},{"id":"175-1","start":729.918,"end":731.598},{"id":"176-0","start":731.848,"end":733.528},{"id":"176-1","start":733.778,"end":735.506},{"id":"177-0","start":735.756,"end":737.124},{"id":"177-1","start":737.374,"end":738.742},{"id":"178-0","start":738.992,"end":740.528},{"id":"178-1","start":740.778,"end":742.41},{"id":"179-0","start":742.66,"end":744.604},{"id":"179-1","start":744.854,"end":747.062},{"id":"180-0","start":747.312,"end":748.992},{"id":"180-1","start":749.242,"end":750.922},{"id":"181-0","start":751.172,"end":752.78},{"id":"181-1","start":753.03,"end":755.358},{"id":"182-0","start":755.608,"end":757.432},{"id":"182-1","start":757.682,"end":759.818},{"id":"183-0","start":760.068,"end":761.892},{"id":"183-1","start":762.142,"end":763.99},{"id":"184-0","start":764.24,"end":765.68},{"id":"184-1","start":765.93,"end":767.418},{"id":"185-0","start":767.668,"end":769.444},{"id":"185-1","start":769.694,"end":771.71},{"id":"186-0","start":771.96,"end":773.472},{"id":"186-1","start":773.722,"end":775.066},{"id":"187-0","start":775.316,"end":777.284},{"id":"187-1","start":777.534,"end":780.462},{"id":"188-0","start":780.712,"end":782.56},{"id":"188-1","start":782.81,"end":784.706},{"id":"189-0","start":784.956,"end":786.228},{"id":"189-1","start":786.478,"end":787.75},{"id":"190-0","start":788,"end":789.872},{"id":"190-1","start":790.122,"end":792.138},{"id":"191-0","start":792.388,"end":794.116},{"id":"191-1","start":794.366,"end":796.382},{"id":"192-0","start":796.632,"end":798.12},{"id":"192-1","start":798.37,"end":800.17},{"id":"193-0","start":800.42,"end":801.86},{"id":"193-1","start":802.11,"end":803.862},{"id":"194-0","start":804.112,"end":805.504},{"id":"194-1","start":805.754,"end":807.914},{"id":"195-0","start":808.164,"end":810.036},{"id":"195-1","start":810.286,"end":812.35},{"id":"196-0","start":812.6,"end":813.896},{"id":"196-1","start":814.146,"end":815.754},{"id":"197-0","start":816.004,"end":817.564},{"id":"197-1","start":817.814,"end":819.878},{"id":"198-0","start":820.128,"end":821.856},{"id":"198-1","start":822.106,"end":823.714},{"id":"199-0","start":823.964,"end":826.052},{"id":"199-1","start":826.302,"end":828.462},{"id":"200-0","start":828.712,"end":830.128},{"id":"200-1","start":830.378,"end":831.794},{"id":"201-0","start":832.044,"end":833.628},{"id":"201-1","start":833.878,"end":835.774},{"id":"202-0","start":836.024,"end":838.064},{"id":"202-1","start":838.314,"end":841.002},{"id":"203-0","start":841.252,"end":843.004},{"id":"203-1","start":843.254,"end":845.078},{"id":"204-0","start":845.328,"end":847.728},{"id":"204-1","start":847.978,"end":850.426},{"id":"205-0","start":850.676,"end":853.052},{"id":"205-1","start":853.302,"end":855.51},{"id":"206-0","start":855.76,"end":857.824},{"id":"206-1","start":858.074,"end":860.162},{"id":"207-0","start":860.412,"end":862.284},{"id":"207-1","start":862.534,"end":864.454},{"id":"208-0","start":864.704,"end":866.96},{"id":"208-1","start":867.21,"end":869.466},{"id":"209-0","start":869.716,"end":871.324},{"id":"209-1","start":871.574,"end":873.158},{"id":"210-0","start":873.408,"end":874.896},{"id":"210-1","start":875.146,"end":876.634},{"id":"211-0","start":876.884,"end":878.708},{"id":"211-1","start":878.958,"end":881.286},{"id":"212-0","start":881.536,"end":882.928},{"id":"212-1","start":883.178,"end":884.666},{"id":"213-0","start":884.916,"end":886.764},{"id":"213-1","start":887.014,"end":889.294},{"id":"214-0","start":889.544,"end":891.344},{"id":"214-1","start":891.594,"end":893.466},{"id":"215-0","start":893.716,"end":895.492},{"id":"215-1","start":895.742,"end":897.71},{"id":"216-0","start":897.96,"end":899.832},{"id":"216-1","start":900.082,"end":901.954},{"id":"217-0","start":902.204,"end":903.74},{"id":"217-1","start":903.99,"end":905.814},{"id":"218-0","start":906.064,"end":907.768},{"id":"218-1","start":908.018,"end":909.698},{"id":"219-0","start":909.948,"end":911.46},{"id":"219-1","start":911.71,"end":913.246},{"id":"220-0","start":913.496,"end":915.272},{"id":"220-1","start":915.522,"end":917.298},{"id":"221-0","start":917.548,"end":919.036},{"id":"221-1","start":919.286,"end":920.774},{"id":"222-0","start":921.024,"end":923.352},{"id":"222-1","start":923.602,"end":925.906},{"id":"223-0","start":926.156,"end":927.308},{"id":"223-1","start":927.558,"end":928.974},{"id":"224-0","start":929.224,"end":931},{"id":"224-1","start":931.25,"end":933.338},{"id":"225-0","start":933.588,"end":935.148},{"id":"225-1","start":935.398,"end":936.934},{"id":"226-0","start":937.184,"end":938.768},{"id":"226-1","start":939.018,"end":940.842},{"id":"227-0","start":941.092,"end":942.772},{"id":"227-1","start":943.022,"end":944.702},{"id":"228-0","start":944.952,"end":946.368},{"id":"228-1","start":946.618,"end":948.322},{"id":"229-0","start":948.572,"end":950.396},{"id":"229-1","start":950.646,"end":952.998},{"id":"230-0","start":953.248,"end":954.976},{"id":"230-1","start":955.226,"end":957.266},{"id":"231-0","start":957.516,"end":959.652},{"id":"231-1","start":959.902,"end":962.038},{"id":"232-0","start":962.288,"end":963.992},{"id":"232-1","start":964.242,"end":965.946},{"id":"233-0","start":966.196,"end":967.324},{"id":"233-1","start":967.574,"end":968.942},{"id":"234-0","start":969.192,"end":970.296},{"id":"234-1","start":970.546,"end":971.842},{"id":"235-0","start":972.092,"end":973.796},{"id":"235-1","start":974.046,"end":976.254},{"id":"236-0","start":976.504,"end":978.304},{"id":"236-1","start":978.554,"end":980.354},{"id":"237-0","start":980.604,"end":982.836},{"id":"237-1","start":983.086,"end":985.222},{"id":"238-0","start":985.472,"end":986.888},{"id":"238-1","start":987.138,"end":988.866},{"id":"239-0","start":989.116,"end":991.18},{"id":"239-1","start":991.43,"end":993.446},{"id":"240-0","start":993.696,"end":995.256},{"id":"240-1","start":995.506,"end":997.858},{"id":"241-0","start":998.108,"end":999.452},{"id":"241-1","start":999.702,"end":1001.382},{"id":"242-0","start":1001.632,"end":1003.264},{"id":"242-1","start":1003.514,"end":1005.578},{"id":"243-0","start":1005.828,"end":1007.052},{"id":"243-1","start":1007.302,"end":1008.838},{"id":"244-0","start":1009.088,"end":1010.696},{"id":"244-1","start":1010.946,"end":1012.554},{"id":"245-0","start":1012.804,"end":1014.58},{"id":"245-1","start":1014.83,"end":1017.038},{"id":"246-0","start":1017.288,"end":1018.704},{"id":"246-1","start":1018.954,"end":1020.418},{"id":"247-0","start":1020.668,"end":1022.396},{"id":"247-1","start":1022.646,"end":1024.614},{"id":"248-0","start":1024.864,"end":1026.616},{"id":"248-1","start":1026.866,"end":1029.218},{"id":"249-0","start":1029.468,"end":1031.196},{"id":"249-1","start":1031.446,"end":1033.318},{"id":"250-0","start":1033.568,"end":1034.984},{"id":"250-1","start":1035.234,"end":1036.698},{"id":"251-0","start":1036.948,"end":1038.94},{"id":"251-1","start":1039.19,"end":1041.182},{"id":"252-0","start":1041.432,"end":1043.28},{"id":"252-1","start":1043.53,"end":1045.378},{"id":"253-0","start":1045.628,"end":1047.044},{"id":"253-1","start":1047.294,"end":1048.758},{"id":"254-0","start":1049.008,"end":1050.592},{"id":"254-1","start":1050.842,"end":1052.618},{"id":"255-0","start":1052.868,"end":1054.812},{"id":"255-1","start":1055.062,"end":1056.91},{"id":"256-0","start":1057.16,"end":1058.984},{"id":"256-1","start":1059.234,"end":1061.274},{"id":"257-0","start":1061.524,"end":1063.036},{"id":"257-1","start":1063.286,"end":1064.99},{"id":"258-0","start":1065.24,"end":1066.872},{"id":"258-1","start":1067.122,"end":1068.946},{"id":"259-0","start":1069.196,"end":1070.828},{"id":"259-1","start":1071.078,"end":1072.95},{"id":"260-0","start":1073.2,"end":1074.4},{"id":"260-1","start":1074.65,"end":1076.066},{"id":"261-0","start":1076.316,"end":1078.116},{"id":"261-1","start":1078.366,"end":1080.166}];
+    const AUDIO_BY_ID = new Map(AUDIO_MAP.map(item => [item.id, item]));
+    const STORAGE_KEY = 'phrasal-stress-done-v1';
+    const STRESS_EDIT_KEY = 'phrasal-stress-manual-v1';
+    const GAP_KEY = 'phrasal-stress-gap-seconds-v1';
+    const API_AVAILABLE = location.protocol !== 'file:' && (['localhost', '127.0.0.1'].includes(location.hostname) || location.hostname.startsWith('192.168.'));
+    const FUNCTION_WORDS = new Set('a an the i you he she it we they me him her us them my your his our their its this that these those there here am is are was were be been being do does did have has had can could will would shall should may might must to of in on at by for from with without into onto over under before after during around through across between among about as than and but or nor so if then because while when where why how what who whom whose which not no yes just only even also too very really quite rather almost already still yet now soon later today tomorrow yesterday please kind sort lot lots much many some any each every all both either neither one two three ill youll hell shell well theyll ive youve weve theyve im youre hes shes were theyre id youd hed shed wed theyd'.split(' '));
+    const PHRASAL_PARTICLES = new Set('up down out in on off over back away around along by through across after into apart aside forward ahead behind together without'.split(' '));
+    const PRONOUN_AFTER_ONLY = new Set([
+      'ask for','bear with','break into','bump into','call for','call on','come across','come down with','come up with','count on',
+      'deal with','do without','fall for','get away with','get into','get over','get through','go after','go along with','go for',
+      'go over','go through','head for','live up to','look after','look at','look down on','look for','look forward to','look into',
+      'look up to','make for','make of','pay for','put up with','run across','run after','run into','run through','stand by',
+      'stand for','stick to','take after','talk into','talk out of','work on'
+    ]);
+    const IRREGULAR = {
+      break:['broke','broken','breaking'], bring:['brought','bringing'], come:['came','coming'], get:['got','gotten','getting'], go:['went','gone','going'],
+      give:['gave','given','giving'], take:['took','taken','taking'], run:['ran','running'], fall:['fell','fallen','falling'], blow:['blew','blown','blowing'],
+      grow:['grew','grown','growing'], make:['made','making'], pay:['paid','paying'], put:['put','putting'], set:['set','setting'], cut:['cut','cutting'],
+      shut:['shut','shutting'], let:['let','letting'], hold:['held','holding'], keep:['kept','keeping'], leave:['left','leaving'], find:['found','finding'],
+      think:['thought','thinking'], throw:['threw','thrown','throwing'], tear:['tore','torn','tearing'], stick:['stuck','sticking'], hang:['hung','hanging'],
+      catch:['caught','catching'], lay:['laid','laying'], build:['built','building'], drop:['dropped','dropping'], chip:['chipped','chipping'], beat:['beat','beaten','beating'],
+      buy:['bought','buying'], teach:['taught','teaching'], tell:['told','telling'], say:['said','saying'], see:['saw','seen','seeing'], write:['wrote','written','writing'],
+      wake:['woke','woken','waking'], wear:['wore','worn','wearing'], sit:['sat','sitting'], lie:['lay','lain','lying'], eat:['ate','eaten','eating'], do:['did','done','doing']
+    };
+    const cards = document.getElementById('cards');
+    const search = document.getElementById('search');
+    const category = document.getElementById('category');
+    const mode = document.getElementById('mode');
+    const filter = document.getElementById('filter');
+    const gapSeconds = document.getElementById('gapSeconds');
+    const visibleCount = document.getElementById('visibleCount');
+    const doneCount = document.getElementById('doneCount');
+    const ttsAudio = document.getElementById('ttsAudio');
+    const done = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+    let customStress = Object.keys(JSON.parse(localStorage.getItem(STRESS_EDIT_KEY) || '{}')).length
+      ? JSON.parse(localStorage.getItem(STRESS_EDIT_KEY) || '{}')
+      : { ...SEEDED_STRESS_EDITS };
+    let stressOn = true;
+    let editMode = false;
+    let testMode = false;
+    let dragPaint = null;
+    let activeId = null;
+    let stopAt = 0;
+    let queueTimer = null;
+
+    gapSeconds.value = localStorage.getItem(GAP_KEY) || '1';
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    }
+    function normalizeAnswer(value) {
+      return String(value || '')
+        .toLowerCase()
+        .replace(/[’‘]/g, "'")
+        .replace(/[^a-z0-9']+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+    function grammarTagHtml(verb) {
+      return PRONOUN_AFTER_ONLY.has(String(verb).toLowerCase())
+        ? '<span class="grammar-tag" title="대명사 목적어는 구동사 중간에 넣지 않고 뒤에 둡니다. 예: look after it">대명사 중간 X</span>'
+        : '';
+    }
+    function forms(word) {
+      const base = word.toLowerCase();
+      const set = new Set([base, base + 's', base + 'es', base + 'ed', base + 'ing']);
+      if (base.endsWith('e')) {
+        set.add(base + 'd');
+        set.add(base.slice(0, -1) + 'ing');
+      }
+      if (base.endsWith('y')) set.add(base.slice(0, -1) + 'ied');
+      (IRREGULAR[base] || []).forEach(item => set.add(item));
+      return set;
+    }
+    function verbStressWords(verb) {
+      const set = new Set();
+      String(verb).toLowerCase().split(/\s+/).forEach(part => {
+        forms(part).forEach(item => set.add(item));
+        if (PHRASAL_PARTICLES.has(part)) set.add(part);
+      });
+      return set;
+    }
+    function isStressCandidate(word, verbSet, allowParticle = false) {
+      const normalized = normalizeToken(word);
+      if (!normalized) return false;
+      if (normalized.includes("n't") || normalized === 'not') return true;
+      if (FUNCTION_WORDS.has(normalized)) return false;
+      if (PHRASAL_PARTICLES.has(normalized)) return allowParticle;
+      if (verbSet.has(normalized)) return true;
+      return normalized.length > 2;
+    }
+    function tokenMatchesVerbPart(word, verbParts) {
+      const normalized = normalizeToken(word);
+      return verbParts.some(part => forms(part).has(normalized));
+    }
+    function focusIndexes(tokens, verb) {
+      const verbParts = String(verb).toLowerCase().split(/\s+/).filter(Boolean);
+      const verbSet = verbStressWords(verb);
+      const candidates = tokens
+        .map((item, index) => ({ ...item, index, normalized: normalizeToken(item.token) }))
+        .filter(item => item.normalized && isStressCandidate(item.token, verbSet, false));
+      const chosen = new Set();
+      const lexicalVerbParts = verbParts.filter(part => !PHRASAL_PARTICLES.has(part));
+      for (const item of candidates) {
+        chosen.add(item.index);
+      }
+      if (lexicalVerbParts.length) {
+        const foundVerb = tokens
+          .map((item, index) => ({ ...item, index }))
+          .find(item => tokenMatchesVerbPart(item.token, lexicalVerbParts));
+        if (foundVerb) chosen.add(foundVerb.index);
+      }
+      if (!chosen.size) {
+        const particleCandidate = tokens
+          .map((item, index) => ({ ...item, index, normalized: normalizeToken(item.token) }))
+          .find(item => item.normalized && isStressCandidate(item.token, verbSet, true));
+        if (particleCandidate) chosen.add(particleCandidate.index);
+      }
+      return chosen;
+    }
+    function normalizeToken(token) {
+      return String(token).toLowerCase().replace(/^[^a-z]+|[^a-z]+$/g, '').replace(/'/g, '');
+    }
+    function vowelGroups(token) {
+      const groups = [];
+      const lower = token.toLowerCase();
+      let i = 0;
+      while (i < lower.length) {
+        const isVowel = char => 'aeiou'.includes(char) || (char === 'y' && i > 0);
+        if (!isVowel(lower[i])) {
+          i += 1;
+          continue;
+        }
+        const start = i;
+        while (i < lower.length && isVowel(lower[i])) i += 1;
+        groups.push({ start, end: i });
+      }
+      if (groups.length > 1 && lower.endsWith('e')) {
+        const last = groups[groups.length - 1];
+        if (last.start === lower.length - 1) groups.pop();
+      }
+      return groups;
+    }
+    function stressRange(token, stress) {
+      const groups = vowelGroups(token);
+      if (!stress || stress.total <= 1 || groups.length <= 1) return null;
+      const index = Math.min(stress.index, groups.length - 1);
+      const group = groups[index];
+      let start = index === 0 ? 0 : group.start;
+      if (index > 0) {
+        const previous = groups[index - 1];
+        const onsetLength = group.start - previous.end;
+        start = onsetLength > 1 ? group.start - 1 : group.start;
+      }
+      let end = group.end;
+      if (index < groups.length - 1) {
+        const next = groups[index + 1];
+        const codaLength = next.start - group.end;
+        end = codaLength > 1 ? group.end + 1 : group.end;
+      }
+      if (end <= start) return null;
+      return { start, end };
+    }
+    function addRangePositions(set, start, token, shouldStress) {
+      if (!shouldStress) return;
+      const normalized = normalizeToken(token);
+      const range = stressRange(token, STRESS_MAP[normalized]);
+      if (!range) {
+        for (let i = 0; i < token.length; i += 1) set.add(start + i);
+        return;
+      }
+      for (let i = range.start; i < range.end; i += 1) set.add(start + i);
+    }
+    function autoStressPositions(sentence, verb) {
+      const text = String(sentence);
+      const tokens = [...text.matchAll(/[A-Za-z0-9]+(?:'[A-Za-z]+)?/g)].map(match => ({ token: match[0], index: match.index }));
+      const focused = focusIndexes(tokens, verb);
+      const positions = new Set();
+      let stressed = 0;
+      let fallback = null;
+      tokens.forEach((match, tokenIndex) => {
+        const token = match.token;
+        const normalized = normalizeToken(token);
+        const tokenShouldStress = focused.has(tokenIndex);
+        if (tokenShouldStress) stressed += 1;
+        if (!fallback && normalized && !FUNCTION_WORDS.has(normalized)) fallback = { token, index: match.index };
+        addRangePositions(positions, match.index, token, tokenShouldStress);
+      });
+      if (!stressed && fallback) {
+        for (let i = 0; i < fallback.token.length; i += 1) positions.add(fallback.index + i);
+      }
+      return positions;
+    }
+    function compactStressHtml(text, positions) {
+      let html = '';
+      let open = false;
+      for (let i = 0; i < text.length; i += 1) {
+        const active = positions.has(i);
+        if (active && !open) {
+          html += '<span class="stress">';
+          open = true;
+        }
+        if (!active && open) {
+          html += '</span>';
+          open = false;
+        }
+        html += escapeHtml(text[i]);
+      }
+      if (open) html += '</span>';
+      return html;
+    }
+    function editableStressHtml(text, positions, id) {
+      return [...String(text)].map((char, index) => {
+        if (/\s/.test(char)) return escapeHtml(char);
+        const cls = positions.has(index) ? 'char stress' : 'char';
+        return `<span class="${cls}" data-id="${id}" data-index="${index}">${escapeHtml(char)}</span>`;
+      }).join('');
+    }
+    function positionsForRow(row) {
+      if (Array.isArray(customStress[row.id])) return new Set(customStress[row.id]);
+      return autoStressPositions(row.en, row.verb);
+    }
+    function stressHtml(row) {
+      const positions = positionsForRow(row);
+      return editMode ? editableStressHtml(row.en, positions, row.id) : compactStressHtml(row.en, positions);
+    }
+    function wordMatchesVerbPart(word, part) {
+      const normalized = normalizeToken(word);
+      return normalized && (forms(part).has(normalized) || normalized === part);
+    }
+    function sentenceWords(text) {
+      return [...String(text).matchAll(/[A-Za-z0-9]+(?:'[A-Za-z]+)?/g)].map(match => ({
+        word: match[0],
+        index: match.index,
+        end: match.index + match[0].length,
+        normalized: normalizeToken(match[0])
+      }));
+    }
+    function findVerbSpan(words, verb) {
+      const parts = String(verb).toLowerCase().split(/\s+/).filter(Boolean);
+      if (!parts.length) return null;
+      for (let start = 0; start <= words.length - parts.length; start += 1) {
+        const matched = parts.every((part, offset) => wordMatchesVerbPart(words[start + offset]?.word, part));
+        if (matched) return { start, end: start + parts.length };
+      }
+      const lexicalParts = parts.filter(part => !PHRASAL_PARTICLES.has(part));
+      if (!lexicalParts.length) return null;
+      const fallbackStart = words.findIndex(word => lexicalParts.some(part => wordMatchesVerbPart(word.word, part)));
+      return fallbackStart >= 0 ? { start: fallbackStart, end: fallbackStart + 1 } : null;
+    }
+    const NARRATION_BREAK_WORDS = new Set('after before because while when if with without from into onto through across around during by at in on over under for of as'.split(' '));
+    function chunksFromBoundaries(text, words, boundaries) {
+      const usable = [...boundaries]
+        .filter(index => index > 0 && index < words.length)
+        .sort((a, b) => a - b);
+      const chunks = [];
+      let start = 0;
+      usable.forEach(boundary => {
+        const end = words[boundary].index;
+        const chunk = text.slice(start, end).trim();
+        if (chunk) chunks.push(chunk);
+        start = end;
+      });
+      const last = text.slice(start).trim();
+      if (last) chunks.push(last);
+      return chunks.filter(Boolean);
+    }
+    function narrationChunks(text, verb) {
+      const clean = String(text).trim();
+      const dashPieces = clean.split(/\s+[—–-]\s+/).map(item => item.trim()).filter(Boolean);
+      if (dashPieces.length > 1) return dashPieces;
+      const words = sentenceWords(clean);
+      if (words.length <= 3) return [clean];
+      const boundaries = new Set();
+      const verbSpan = findVerbSpan(words, verb);
+      if (verbSpan) {
+        const prevWord = words[verbSpan.start - 1]?.normalized;
+        const beforeVerb = prevWord === 'to' && verbSpan.start > 1 ? verbSpan.start - 1 : verbSpan.start;
+        if (beforeVerb > 0) boundaries.add(beforeVerb);
+        const prepIndex = words.findIndex((word, index) => (
+          index > verbSpan.end &&
+          index < words.length - 1 &&
+          NARRATION_BREAK_WORDS.has(word.normalized)
+        ));
+        if (prepIndex > 0) boundaries.add(prepIndex);
+        else if (verbSpan.start === 0 && verbSpan.end < words.length - 2) boundaries.add(verbSpan.end);
+      }
+      if (!boundaries.size && words.length >= 6) {
+        const prepIndex = words.findIndex((word, index) => (
+          index >= 3 &&
+          index < words.length - 1 &&
+          NARRATION_BREAK_WORDS.has(word.normalized)
+        ));
+        boundaries.add(prepIndex > 0 ? prepIndex : Math.ceil(words.length / 2));
+      }
+      return chunksFromBoundaries(clean, words, boundaries).slice(0, 4);
+    }
+    function narrationHtml(row) {
+      const chunks = narrationChunks(row.en, row.verb);
+      return `<div class="narration">
+        <div class="narration-title">성우 낭독용 끊어읽기</div>
+        <div class="narration-chunks">${chunks.map((chunk, index) => `${index ? '<span class="narration-sep">/</span>' : ''}<span class="narration-chip">${escapeHtml(chunk)}</span>`).join('')}</div>
+      </div>`;
+    }
+    function rows() {
+      const q = search.value.trim().toLowerCase();
+      const cat = category.value;
+      const f = filter.value;
+      return DATA.flatMap((item, itemIndex) => (item.examples || []).map((example, exampleIndex) => ({
+        id: `${itemIndex}-${exampleIndex}`,
+        itemIndex,
+        exampleIndex,
+        verb: item.verb,
+        meaning: item.meaning,
+        image: item.image,
+        categoryKo: item.categoryKo,
+        en: example.en,
+        ko: example.ko,
+        hidden: !!example.hidden
+      }))).filter(row => {
+        if (row.hidden) return false;
+        const isDone = done.has(row.id);
+        if (cat !== '전체' && row.categoryKo !== cat) return false;
+        if (f === 'done' && !isDone) return false;
+        if (f === 'todo' && isDone) return false;
+        if (!q) return true;
+        return [row.verb, row.meaning, row.image, row.categoryKo, row.en, row.ko].join(' ').toLowerCase().includes(q);
+      });
+    }
+    function render() {
+      const rs = rows();
+      document.body.classList.toggle('en-only', mode.value === 'en-only');
+      document.body.classList.toggle('ko-only', mode.value === 'ko-only');
+      document.body.classList.toggle('no-stress', !stressOn);
+      document.body.classList.toggle('test-mode', testMode);
+      visibleCount.textContent = `표시 ${rs.length}개`;
+      const totalVisible = DATA.reduce((sum, item) => sum + (item.examples || []).filter(example => !example.hidden).length, 0);
+      const visibleDone = rs.filter(row => done.has(row.id)).length;
+      doneCount.textContent = `완료 ${visibleDone} / ${totalVisible}개`;
+      if (!rs.length) {
+        cards.innerHTML = '<div class="empty">조건에 맞는 예문이 없습니다.</div>';
+        return;
+      }
+      let last = '';
+      cards.innerHTML = rs.map((row, index) => {
+        const group = row.categoryKo !== last ? (last = row.categoryKo, `<div class="group">${escapeHtml(row.categoryKo)}</div>`) : '';
+        const doneClass = done.has(row.id) ? ' done' : '';
+        const activeClass = activeId === row.id ? ' reading' : '';
+        const manualTag = Array.isArray(customStress[row.id]) ? '<span class="manual-tag">직접 저장됨</span>' : '';
+        return `${group}<article class="card${doneClass}${activeClass}" data-id="${row.id}" data-en="${escapeHtml(row.en)}">
+          <div class="meta">
+            <div class="number-line"><span class="seq">${index + 1}</span><span class="old-id">${String(row.itemIndex + 1).padStart(3, '0')}-${row.exampleIndex + 1}</span></div>
+            <div class="verb">${escapeHtml(row.verb)}</div>
+            <div class="meaning">${escapeHtml(row.meaning)}</div>
+            ${grammarTagHtml(row.verb)}
+          </div>
+          <div class="example">
+            <div class="english-row"><div class="english${editMode ? ' editable' : ''}" data-answer="${escapeHtml(row.en)}">${stressHtml(row)}</div>${manualTag}</div>
+            ${testMode ? `<input class="test-answer" data-answer="${escapeHtml(row.en)}" placeholder="영어 예문을 입력하세요" autocomplete="off" spellcheck="false"><div class="test-result"></div>` : ''}
+            <div class="korean">${escapeHtml(row.ko)}</div>
+            ${narrationHtml(row)}
+          </div>
+          <div class="actions">
+            <button class="tiny speak" type="button">읽기</button>
+            ${testMode ? '<button class="tiny check-answer" type="button">확인</button><button class="tiny reveal-answer" type="button">정답</button>' : ''}
+            <button class="tiny reset-stress" type="button">자동</button>
+            <button class="tiny clear-stress" type="button">지우기</button>
+            <button class="tiny done-toggle" type="button">${done.has(row.id) ? '완료 해제' : '완료'}</button>
+          </div>
+        </article>`;
+      }).join('');
+    }
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...done]));
+      syncState({ done: [...done] });
+    }
+    function saveStressEdits() {
+      localStorage.setItem(STRESS_EDIT_KEY, JSON.stringify(customStress));
+      syncState({ stressEdits: customStress });
+    }
+    function readingGapMs() {
+      const value = Math.max(0, Math.min(5, Number(gapSeconds.value || 1)));
+      return Math.round(value * 1000);
+    }
+    async function syncState(payload) {
+      if (!API_AVAILABLE) return;
+      try {
+        await fetch('/api/state', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch {}
+    }
+    async function loadSharedState() {
+      if (!API_AVAILABLE) return;
+      try {
+        const response = await fetch('/api/state', { cache: 'no-store' });
+        if (!response.ok) return;
+        const state = await response.json();
+        if (state.stressEdits && typeof state.stressEdits === 'object') {
+          customStress = Object.keys(state.stressEdits).length ? state.stressEdits : { ...SEEDED_STRESS_EDITS };
+          localStorage.setItem(STRESS_EDIT_KEY, JSON.stringify(customStress));
+        }
+        if (Array.isArray(state.done)) {
+          done.clear();
+          state.done.forEach(id => done.add(id));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify([...done]));
+        }
+      } catch {}
+    }
+    function rowById(id) {
+      const [itemIndex, exampleIndex] = String(id).split('-').map(Number);
+      const item = DATA[itemIndex];
+      const example = item?.examples?.[exampleIndex];
+      if (!item || !example) return null;
+      return { id, itemIndex, exampleIndex, verb: item.verb, en: example.en };
+    }
+    function manualSetFor(id) {
+      if (!Array.isArray(customStress[id])) {
+        const row = rowById(id);
+        customStress[id] = row ? [...autoStressPositions(row.en, row.verb)] : [];
+      }
+      return new Set(customStress[id]);
+    }
+    function setManualStress(id, set) {
+      customStress[id] = [...set].sort((a, b) => a - b);
+      saveStressEdits();
+    }
+    function paintChar(target, force = null) {
+      const id = target.dataset.id;
+      const index = Number(target.dataset.index);
+      if (!id || Number.isNaN(index)) return;
+      const set = manualSetFor(id);
+      const next = force ?? !set.has(index);
+      next ? set.add(index) : set.delete(index);
+      setManualStress(id, set);
+      target.classList.toggle('stress', next);
+      target.closest('.card')?.querySelector('.manual-tag')?.remove();
+    }
+    function downloadEdits() {
+      const payload = {
+        version: 1,
+        savedAt: new Date().toISOString(),
+        edits: customStress
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'phrasal-stress-edits.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+    function stopAudio() {
+      clearTimeout(queueTimer);
+      queueTimer = null;
+      stopAt = 0;
+      ttsAudio.pause();
+    }
+    function playAudioSegment(id, onDone) {
+      const segment = AUDIO_BY_ID.get(id);
+      if (!segment || !ttsAudio.src) return false;
+      stopAudio();
+      activeId = id;
+      render();
+      stopAt = segment.end;
+      ttsAudio.currentTime = Math.max(0, segment.start);
+      ttsAudio.play().catch(() => {});
+      const check = () => {
+        if (!stopAt) return;
+        if (ttsAudio.currentTime >= stopAt) {
+          ttsAudio.pause();
+          stopAt = 0;
+          activeId = null;
+          render();
+          if (onDone) queueTimer = setTimeout(onDone, readingGapMs());
+          return;
+        }
+        queueTimer = setTimeout(check, 80);
+      };
+      check();
+      return true;
+    }
+    function speak(text, id) {
+      if (playAudioSegment(id)) return;
+      if (!('speechSynthesis' in window)) return;
+      speechSynthesis.cancel();
+      activeId = id;
+      render();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.92;
+      utterance.pitch = 1;
+      utterance.onend = () => { activeId = null; render(); };
+      speechSynthesis.speak(utterance);
+    }
+    function speakQueue(list) {
+      if (!list.length) return;
+      stopAudio();
+      let i = 0;
+      const next = () => {
+        if (i >= list.length) {
+          activeId = null;
+          render();
+          return;
+        }
+        const row = list[i++];
+        activeId = row.id;
+        render();
+        document.querySelector(`[data-id="${CSS.escape(row.id)}"]`)?.scrollIntoView({block:'center', behavior:'smooth'});
+        if (playAudioSegment(row.id, next)) return;
+        if (!('speechSynthesis' in window)) return;
+        const utterance = new SpeechSynthesisUtterance(row.en);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.92;
+        utterance.pitch = 1;
+        utterance.onend = () => setTimeout(next, readingGapMs());
+        speechSynthesis.speak(utterance);
+      };
+      next();
+    }
+    category.innerHTML = ['전체', ...new Set(DATA.map(item => item.categoryKo))].map(item => `<option>${escapeHtml(item)}</option>`).join('');
+    cards.addEventListener('click', event => {
+      if (event.target.closest('.char')) return;
+      const card = event.target.closest('.card');
+      if (!card) return;
+      if (event.target.closest('.check-answer')) {
+        const input = card.querySelector('.test-answer');
+        const result = card.querySelector('.test-result');
+        if (!input || !result) return;
+        const expected = normalizeAnswer(input.dataset.answer);
+        const actual = normalizeAnswer(input.value);
+        const ok = actual && actual === expected;
+        result.textContent = ok ? '정답' : `다시 확인: ${input.dataset.answer}`;
+        result.className = `test-result ${ok ? 'ok' : 'miss'}`;
+        return;
+      }
+      if (event.target.closest('.reveal-answer')) {
+        card.querySelector('.english')?.classList.toggle('revealed');
+        return;
+      }
+      if (event.target.closest('.speak')) {
+        speak(card.dataset.en, card.dataset.id);
+        return;
+      }
+      if (event.target.closest('.done-toggle')) {
+        done.has(card.dataset.id) ? done.delete(card.dataset.id) : done.add(card.dataset.id);
+        save();
+        render();
+      }
+      if (event.target.closest('.reset-stress')) {
+        delete customStress[card.dataset.id];
+        saveStressEdits();
+        render();
+      }
+      if (event.target.closest('.clear-stress')) {
+        customStress[card.dataset.id] = [];
+        saveStressEdits();
+        render();
+      }
+    });
+    cards.addEventListener('keydown', event => {
+      if (event.key !== 'Enter') return;
+      const input = event.target.closest('.test-answer');
+      if (!input) return;
+      event.preventDefault();
+      input.closest('.card')?.querySelector('.check-answer')?.click();
+    });
+    cards.addEventListener('pointerdown', event => {
+      const char = event.target.closest('.char');
+      if (!char || !editMode) return;
+      event.preventDefault();
+      const id = char.dataset.id;
+      const set = manualSetFor(id);
+      dragPaint = !set.has(Number(char.dataset.index));
+      paintChar(char, dragPaint);
+      char.setPointerCapture?.(event.pointerId);
+    });
+    cards.addEventListener('pointerover', event => {
+      const char = event.target.closest('.char');
+      if (!char || dragPaint === null || !editMode) return;
+      paintChar(char, dragPaint);
+    });
+    window.addEventListener('pointerup', () => {
+      dragPaint = null;
+    });
+    [search, category, mode, filter].forEach(input => input.addEventListener('input', render));
+    gapSeconds.addEventListener('input', () => {
+      localStorage.setItem(GAP_KEY, gapSeconds.value || '1');
+    });
+    document.getElementById('readVisible').addEventListener('click', () => speakQueue(rows().slice(0, 80)));
+    document.getElementById('toggleEdit').addEventListener('click', event => {
+      editMode = !editMode;
+      event.currentTarget.textContent = editMode ? '완료' : '편집';
+      render();
+    });
+    document.getElementById('stopSpeech').addEventListener('click', () => {
+      speechSynthesis?.cancel();
+      stopAudio();
+      activeId = null;
+      render();
+    });
+    ttsAudio.addEventListener('timeupdate', () => {
+      if (stopAt && ttsAudio.currentTime >= stopAt) {
+        ttsAudio.pause();
+      }
+    });
+    document.getElementById('toggleStress').addEventListener('click', event => {
+      stressOn = !stressOn;
+      event.currentTarget.textContent = '강세';
+      render();
+    });
+    document.getElementById('toggleTest').addEventListener('click', event => {
+      testMode = !testMode;
+      event.currentTarget.textContent = testMode ? '시험종료' : '시험모드';
+      render();
+    });
+    loadSharedState().then(render);
+  </script>
+</body>
+</html>
