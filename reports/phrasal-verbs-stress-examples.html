@@ -387,6 +387,20 @@
     const visibleCount = document.getElementById('visibleCount');
     const doneCount = document.getElementById('doneCount');
     const ttsAudio = document.getElementById('ttsAudio');
+    const originalAudioSrc = ttsAudio.getAttribute('src');
+    const audioCacheName = 'phrasal-stress-audio-v1';
+    async function cacheMainAudio() {
+      if (!originalAudioSrc || !('caches' in window)) return;
+      const url = new URL(originalAudioSrc, location.href).href;
+      const cache = await caches.open(audioCacheName);
+      let response = await cache.match(url);
+      if (!response) {
+        response = await fetch(url, { cache: 'force-cache' });
+        if (!response.ok) throw new Error('audio fetch failed');
+        await cache.put(url, response.clone());
+      }
+      ttsAudio.src = URL.createObjectURL(await response.blob());
+    }
     const done = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
     let customStress = Object.keys(JSON.parse(localStorage.getItem(STRESS_EDIT_KEY) || '{}')).length
       ? JSON.parse(localStorage.getItem(STRESS_EDIT_KEY) || '{}')
@@ -974,6 +988,7 @@
       event.currentTarget.textContent = testMode ? '시험종료' : '시험모드';
       render();
     });
+    cacheMainAudio().catch(() => {});
     loadSharedState().then(render);
   </script>
 </body>
