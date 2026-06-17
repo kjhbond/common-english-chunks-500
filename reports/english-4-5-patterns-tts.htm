@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>영어 5형식 예문 TTS 공부 페이지</title>
+  <style>
+    :root{--bg:#f5f7fb;--ink:#172033;--muted:#667085;--line:#d9e0ea;--card:#fff;--blue:#1d4ed8;--green:#0f766e;--amber:#a16207;--red:#b42318;--mark:#fff7cc}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",Segoe UI,sans-serif;line-height:1.62}
+    .wrap{width:min(1220px,calc(100% - 28px));margin:0 auto}
+    header{padding:34px 0 18px}
+    h1{margin:0 0 10px;font-size:clamp(28px,4vw,46px);line-height:1.12}
+    h2{margin:0 0 12px;font-size:24px}
+    h3{margin:0 0 8px;font-size:18px}
+    p{margin:8px 0}.lead{color:var(--muted);font-weight:750}
+    .toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);border-block:1px solid var(--line);backdrop-filter:blur(8px)}
+    .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 0}
+    input,select,button{border:1px solid var(--line);border-radius:8px;background:#fff;padding:9px 11px;font:inherit;font-weight:800}
+    input{flex:1;min-width:220px}button{cursor:pointer}
+    button.primary{background:#111827;color:#fff;border-color:#111827}
+    button.stop{background:#fff1f2;color:#9f1239;border-color:#fecdd3}
+    button.auto{background:#ecfdf3;color:#047857;border-color:#a7f3d0}
+    main{padding:12px 0 38px}section{margin:16px 0}
+    .panel,.card,.stat{background:var(--card);border:1px solid var(--line);border-radius:8px}
+    .panel{padding:17px}.card{padding:15px}
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stat{padding:14px}.stat b{display:block;font-size:28px;color:var(--blue)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .tag{display:inline-flex;width:max-content;max-width:100%;border-radius:999px;background:#eef4ff;color:#1e3a8a;padding:4px 9px;font-size:12px;font-weight:900}
+    .formula{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px;font-weight:850}
+    .example{font-size:20px;font-weight:950;margin:10px 0;color:#0f172a}
+    .chunks{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.chunk{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 9px;font-weight:850}.chunk.active{background:var(--mark);border-color:#facc15}
+    .ko{font-weight:800;color:#344054}.tip{color:var(--muted)}
+    .parse{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:9px}.part{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:8px}.part b{display:block;color:var(--blue);font-size:12px}
+    .controls{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.hidden{display:none!important}
+    .range-control{width:84px;min-width:84px}.status{color:var(--muted);font-weight:800}
+    .listen-index{display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:26px;border-radius:999px;background:#f8fafc;border:1px solid var(--line);font-size:12px;font-weight:950;color:#475467}
+    .example-card.reading{border-color:#facc15;box-shadow:0 0 0 3px rgba(250,204,21,.26),0 12px 28px rgba(15,23,42,.10)}
+    table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}th,td{border-bottom:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:#f8fafc}
+    code{background:#eef2ff;padding:2px 5px;border-radius:5px;font-weight:900}
+    @media(max-width:940px){.grid,.stats,.parse{grid-template-columns:1fr}.toolbar{position:static}.example{font-size:18px}}
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <h1>영어 5형식 예문 TTS 공부</h1>
+    <p class="lead">5형식은 <b>주어 + 동사 + 목적어 + 목적격보어</b>입니다. 핵심은 목적격보어가 목적어를 설명한다는 점입니다.</p>
+    <p class="lead">각 예문은 원어민식 의미 덩어리로 끊어져 있고, Play를 누르면 en-US TTS가 덩어리별로 짧게 멈추며 읽습니다.</p>
+  </header>
+
+  <div class="toolbar">
+    <div class="wrap tools">
+      <input id="q" placeholder="검색: make, keep, call, want, saw, angry, open, leave">
+      <select id="voice"></select>
+      <select id="speed"><option value="0.82">느리게</option><option value="0.95" selected>보통</option><option value="1.08">빠르게</option></select>
+      <select id="interval"><option value="0.4">간격 0.4초</option><option value="0.8" selected>간격 0.8초</option><option value="1.2">간격 1.2초</option><option value="2">간격 2초</option><option value="3">간격 3초</option></select>
+      <input id="rangeStart" class="range-control" type="number" min="1" value="1" aria-label="반복 시작 번호">
+      <input id="rangeEnd" class="range-control" type="number" min="1" aria-label="반복 끝 번호">
+      <button id="autoNext" class="auto">다음부터 자동</button>
+      <button id="repeatRange" class="auto">범위 반복</button>
+      <button data-jump="adj">형용사 OC</button>
+      <button data-jump="noun">명사 OC</button>
+      <button data-jump="prep">전치사구 OC</button>
+      <button data-jump="verb">동사 OC</button>
+      <button data-jump="done">p.p. OC</button>
+      <button id="stop" class="stop">Stop</button>
+      <span id="ttsStatus" class="status">대기 중</span>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="stats">
+      <div class="stat"><b>5</b>문장형식</div>
+      <div class="stat"><b>67</b>5형식 예문</div>
+      <div class="stat"><b>6</b>OC 유형</div>
+      <div class="stat"><b>TTS</b>끊어읽기</div>
+    </section>
+
+    <section class="panel">
+      <h2>5형식 핵심</h2>
+      <div class="formula">S + V + O + OC = 주어가 / 목적어를 / 목적격보어 상태로 만들거나, 보거나, 부르거나, 유지한다.</div>
+      <table>
+        <tr><th>OC 형태</th><th>대표 구조</th><th>뜻</th></tr>
+        <tr><td>형용사</td><td><code>make / keep / leave + O + adjective</code></td><td>O를 어떤 상태로 만들다/유지하다/남겨두다</td></tr>
+        <tr><td>명사</td><td><code>call / name / elect + O + noun</code></td><td>O를 어떤 사람/역할/이름으로 부르다</td></tr>
+        <tr><td>전치사구</td><td><code>leave / keep / put + O + prepositional phrase</code></td><td>O를 어떤 위치/상태에 두다</td></tr>
+        <tr><td>to부정사</td><td><code>want / need / ask / tell + O + to V</code></td><td>O가 어떤 행동을 하기를 원하다/요구하다</td></tr>
+        <tr><td>원형동사</td><td><code>make / let / have / see / hear + O + V</code></td><td>O가 어떤 행동을 하게 하다/하는 것을 보다·듣다</td></tr>
+        <tr><td>현재분사/과거분사</td><td><code>see + O + -ing</code>, <code>get + O + p.p.</code></td><td>O가 하고 있는 중/된 상태를 말하다</td></tr>
+      </table>
+    </section>
+
+    <section id="adj" class="panel"><h2>1. 목적격보어가 형용사인 5형식</h2><p class="tip">형용사는 목적어의 상태를 설명합니다. “O를 OC하게 만들다/유지하다/느끼다”로 풀이합니다.</p><div class="grid" data-list="adj"></div></section>
+    <section id="noun" class="panel"><h2>2. 목적격보어가 명사인 5형식</h2><p class="tip">명사는 목적어의 이름, 역할, 신분, 평가를 다시 설명합니다.</p><div class="grid" data-list="noun"></div></section>
+    <section id="prep" class="panel"><h2>3. 목적격보어가 전치사구인 5형식</h2><p class="tip">전치사구는 목적어의 위치나 상태를 설명합니다.</p><div class="grid" data-list="prep"></div></section>
+    <section id="verb" class="panel"><h2>4. 목적격보어가 to부정사/원형동사/-ing인 5형식</h2><p class="tip">want/need는 to V, let/make/have/지각동사는 원형동사, 진행 중인 장면은 -ing가 자주 옵니다.</p><div class="grid" data-list="verb"></div></section>
+    <section id="done" class="panel"><h2>5. 목적격보어가 p.p.인 5형식</h2><p class="tip">목적어가 완료/처리/수리/준비된 상태가 되게 하는 구조입니다.</p><div class="grid" data-list="done"></div></section>
+  </main>
+
+  <script>
+    const rows=[
+      ['adj','She made me happy.','그녀는 나를 행복하게 만들었다.',['She','made','me','happy'],['S','V','O','OC'],'happy는 me의 상태를 설명합니다.'],
+      ['adj','The news made us sad.','그 뉴스는 우리를 슬프게 했다.',['The news','made','us','sad'],['S','V','O','OC'],'sad는 us가 된 감정 상태입니다.'],
+      ['adj','He made everyone nervous.','그는 모두를 긴장하게 만들었다.',['He','made','everyone','nervous'],['S','V','O','OC'],'nervous는 everyone의 상태입니다.'],
+      ['adj','The smell made me hungry.','그 냄새가 나를 배고프게 했다.',['The smell','made','me','hungry'],['S','V','O','OC'],'hungry는 me의 상태 변화입니다.'],
+      ['adj','The update made the app faster.','업데이트가 앱을 더 빠르게 만들었다.',['The update','made','the app','faster'],['S','V','O','OC'],'faster는 app의 성능 상태입니다.'],
+      ['adj','The shortcut makes work easier.','그 단축키는 일을 더 쉽게 만든다.',['The shortcut','makes','work','easier'],['S','V','O','OC'],'easier는 work의 체감 상태입니다.'],
+      ['adj','The dashboard makes data visible.','대시보드는 데이터를 보이게 만든다.',['The dashboard','makes','data','visible'],['S','V','O','OC'],'visible은 data의 상태입니다.'],
+      ['adj','The bug made the page blank.','버그가 페이지를 빈 화면으로 만들었다.',['The bug','made','the page','blank'],['S','V','O','OC'],'blank는 page의 결과 상태입니다.'],
+      ['adj','We kept the door open.','우리는 문을 열어 두었다.',['We','kept','the door','open'],['S','V','O','OC'],'open은 door의 유지 상태입니다.'],
+      ['adj','She kept the kids quiet.','그녀는 아이들을 조용히 있게 했다.',['She','kept','the kids','quiet'],['S','V','O','OC'],'quiet은 kids의 상태입니다.'],
+      ['adj','The feature keeps users engaged.','그 기능은 사용자를 계속 몰입하게 한다.',['The feature','keeps','users','engaged'],['S','V','O','OC'],'engaged는 users의 유지 상태입니다.'],
+      ['adj','The policy keeps the team aligned.','그 정책은 팀이 같은 방향을 유지하게 한다.',['The policy','keeps','the team','aligned'],['S','V','O','OC'],'aligned는 team의 상태입니다.'],
+      ['adj','He left the window open.','그는 창문을 열어 둔 채로 두었다.',['He','left','the window','open'],['S','V','O','OC'],'open은 window의 남은 상태입니다.'],
+      ['adj','The message left him confused.','그 메시지는 그를 혼란스럽게 만들었다.',['The message','left','him','confused'],['S','V','O','OC'],'confused는 him에게 남은 상태입니다.'],
+      ['adj','I found the movie boring.','나는 그 영화가 지루하다고 느꼈다.',['I','found','the movie','boring'],['S','V','O','OC'],'boring은 movie에 대한 판단입니다.'],
+      ['adj','They found the room empty.','그들은 방이 비어 있는 것을 발견했다.',['They','found','the room','empty'],['S','V','O','OC'],'empty는 room의 발견된 상태입니다.'],
+      ['adj','I consider him honest.','나는 그를 정직하다고 생각한다.',['I','consider','him','honest'],['S','V','O','OC'],'honest는 him에 대한 평가입니다.'],
+      ['adj','The judge declared him guilty.','판사는 그를 유죄라고 선언했다.',['The judge','declared','him','guilty'],['S','V','O','OC'],'guilty는 him의 법적 상태입니다.'],
+      ['noun','They called him a genius.','그들은 그를 천재라고 불렀다.',['They','called','him','a genius'],['S','V','O','OC'],'a genius는 him을 다시 설명합니다.'],
+      ['noun','We named the dog Max.','우리는 그 개 이름을 Max라고 지었다.',['We','named','the dog','Max'],['S','V','O','OC'],'Max는 dog의 이름입니다.'],
+      ['noun','The team elected her captain.','팀은 그녀를 주장으로 뽑았다.',['The team','elected','her','captain'],['S','V','O','OC'],'captain은 her의 새 역할입니다.'],
+      ['noun','They appointed him manager.','그들은 그를 매니저로 임명했다.',['They','appointed','him','manager'],['S','V','O','OC'],'manager는 him의 직책입니다.'],
+      ['noun','We consider this a mistake.','우리는 이것을 실수라고 본다.',['We','consider','this','a mistake'],['S','V','O','OC'],'a mistake는 this에 대한 판단입니다.'],
+      ['noun','They made him president.','그들은 그를 회장으로 만들었다.',['They','made','him','president'],['S','V','O','OC'],'president는 him의 결과 역할입니다.'],
+      ['noun','The board chose her CEO.','이사회는 그녀를 CEO로 선택했다.',['The board','chose','her','CEO'],['S','V','O','OC'],'CEO는 her의 역할입니다.'],
+      ['noun','His friends call him Jay.','친구들은 그를 Jay라고 부른다.',['His friends','call','him','Jay'],['S','V','O','OC'],'Jay는 him의 호칭입니다.'],
+      ['noun','The company made the product a standard.','그 회사는 그 제품을 표준으로 만들었다.',['The company','made','the product','a standard'],['S','V','O','OC'],'a standard는 product의 새 지위입니다.'],
+      ['noun','We found him a reliable partner.','우리는 그를 믿을 만한 파트너라고 판단했다.',['We','found','him','a reliable partner'],['S','V','O','OC'],'a reliable partner는 him의 평가입니다.'],
+      ['prep','I left my phone at home.','나는 휴대폰을 집에 두고 왔다.',['I','left','my phone','at home'],['S','V','O','OC'],'at home은 my phone의 위치입니다.'],
+      ['prep','She kept the files in order.','그녀는 파일들을 정리된 상태로 유지했다.',['She','kept','the files','in order'],['S','V','O','OC'],'in order는 files의 상태입니다.'],
+      ['prep','Put the bag on the table.','가방을 테이블 위에 둬.',['Put','the bag','on the table',''],['V','O','OC',''],'명령문에서는 주어 you가 생략됩니다.'],
+      ['prep','He left the kids in the car.','그는 아이들을 차 안에 둔 채로 두었다.',['He','left','the kids','in the car'],['S','V','O','OC'],'in the car는 kids의 위치입니다.'],
+      ['prep','Keep your hands off the glass.','손을 유리에서 떼어 두세요.',['Keep','your hands','off the glass',''],['V','O','OC',''],'off the glass는 hands의 상태입니다.'],
+      ['prep','I found the key under the sofa.','나는 열쇠가 소파 밑에 있는 것을 발견했다.',['I','found','the key','under the sofa'],['S','V','O','OC'],'under the sofa는 key의 위치입니다.'],
+      ['prep','The teacher kept us after class.','선생님은 우리를 수업 후에 남겨 두었다.',['The teacher','kept','us','after class'],['S','V','O','OC'],'after class는 us가 남아 있던 시간/상태입니다.'],
+      ['prep','They put the project on hold.','그들은 프로젝트를 보류 상태로 두었다.',['They','put','the project','on hold'],['S','V','O','OC'],'on hold는 project의 상태입니다.'],
+      ['verb','I want you to listen carefully.','나는 네가 주의 깊게 듣기를 원한다.',['I','want','you','to listen carefully'],['S','V','O','OC'],'to listen carefully는 you가 하길 원하는 행동입니다.'],
+      ['verb','We need the team to move faster.','우리는 팀이 더 빨리 움직여야 한다.',['We','need','the team','to move faster'],['S','V','O','OC'],'to move faster는 team에게 필요한 행동입니다.'],
+      ['verb','She asked me to wait outside.','그녀는 나에게 밖에서 기다리라고 했다.',['She','asked','me','to wait outside'],['S','V','O','OC'],'to wait outside는 me가 하라는 행동입니다.'],
+      ['verb','He told us to be quiet.','그는 우리에게 조용히 하라고 말했다.',['He','told','us','to be quiet'],['S','V','O','OC'],'to be quiet는 us의 요구 행동/상태입니다.'],
+      ['verb','I expected him to apologize.','나는 그가 사과할 거라고 예상했다.',['I','expected','him','to apologize'],['S','V','O','OC'],'to apologize는 him에게 기대된 행동입니다.'],
+      ['verb','The doctor advised me to rest.','의사는 나에게 쉬라고 조언했다.',['The doctor','advised','me','to rest'],['S','V','O','OC'],'to rest는 me에게 권한 행동입니다.'],
+      ['verb','My parents allowed me to go.','부모님은 내가 가는 것을 허락했다.',['My parents','allowed','me','to go'],['S','V','O','OC'],'to go는 me에게 허락된 행동입니다.'],
+      ['verb','I persuaded him to join us.','나는 그가 우리와 함께하도록 설득했다.',['I','persuaded','him','to join us'],['S','V','O','OC'],'to join us는 him이 하게 된 행동입니다.'],
+      ['verb','She reminded me to call him.','그녀는 나에게 그에게 전화하라고 상기시켰다.',['She','reminded','me','to call him'],['S','V','O','OC'],'to call him은 me가 해야 할 행동입니다.'],
+      ['verb','Let me explain.','내가 설명하게 해줘.',['Let','me','explain',''],['V','O','OC',''],'let은 목적어 뒤에 원형동사가 옵니다.'],
+      ['verb','The teacher made us rewrite it.','선생님은 우리가 그것을 다시 쓰게 했다.',['The teacher','made','us','rewrite it'],['S','V','O','OC'],'make는 강제/유발의 원형동사 구조입니다.'],
+      ['verb','I had him check the file.','나는 그에게 파일을 확인하게 했다.',['I','had','him','check the file'],['S','V','O','OC'],'have는 일을 시키는 구조로 씁니다.'],
+      ['verb','Please help me carry this.','이것 좀 나르는 것 도와주세요.',['Please','help','me','carry this'],['adv','V','O','OC'],'help 뒤에는 원형동사가 자연스럽습니다.'],
+      ['verb','I saw him leave.','나는 그가 떠나는 것을 보았다.',['I','saw','him','leave'],['S','V','O','OC'],'see는 지각동사라 원형동사가 옵니다.'],
+      ['verb','She heard the baby cry.','그녀는 아기가 우는 것을 들었다.',['She','heard','the baby','cry'],['S','V','O','OC'],'cry는 baby의 행동입니다.'],
+      ['verb','We watched them play.','우리는 그들이 경기하는 것을 봤다.',['We','watched','them','play'],['S','V','O','OC'],'play는 them의 행동입니다.'],
+      ['verb','I felt the ground shake.','나는 땅이 흔들리는 것을 느꼈다.',['I','felt','the ground','shake'],['S','V','O','OC'],'shake는 ground의 움직임입니다.'],
+      ['verb','I saw him leaving.','나는 그가 떠나고 있는 것을 보았다.',['I','saw','him','leaving'],['S','V','O','OC'],'leaving은 진행 중인 장면을 강조합니다.'],
+      ['verb','She heard someone knocking.','그녀는 누군가가 노크하고 있는 것을 들었다.',['She','heard','someone','knocking'],['S','V','O','OC'],'knocking은 진행 중인 소리입니다.'],
+      ['verb','We noticed him sleeping.','우리는 그가 자고 있는 것을 알아챘다.',['We','noticed','him','sleeping'],['S','V','O','OC'],'sleeping은 him의 진행 상태입니다.'],
+      ['verb','I caught him lying.','나는 그가 거짓말하는 것을 잡아냈다.',['I','caught','him','lying'],['S','V','O','OC'],'lying은 him이 하고 있던 행동입니다.'],
+      ['done','I got my car fixed.','나는 차를 수리받았다.',['I','got','my car','fixed'],['S','V','O','OC'],'fixed는 car가 수리된 상태입니다.'],
+      ['done','She had her hair cut.','그녀는 머리를 잘랐다/자르게 했다.',['She','had','her hair','cut'],['S','V','O','OC'],'cut은 hair가 잘린 상태입니다.'],
+      ['done','We need the report finished today.','우리는 보고서가 오늘 끝나야 한다.',['We','need','the report','finished today'],['S','V','O','OC'],'finished today는 report의 완료 상태입니다.'],
+      ['done','I want this problem solved.','나는 이 문제가 해결되길 원한다.',['I','want','this problem','solved'],['S','V','O','OC'],'solved는 problem의 해결된 상태입니다.'],
+      ['done','Keep the door locked.','문을 잠근 상태로 두세요.',['Keep','the door','locked',''],['V','O','OC',''],'locked는 door의 유지 상태입니다.'],
+      ['done','Leave the lights turned off.','불을 꺼진 상태로 두세요.',['Leave','the lights','turned off',''],['V','O','OC',''],'turned off는 lights의 상태입니다.'],
+      ['done','I found the file deleted.','나는 파일이 삭제된 것을 발견했다.',['I','found','the file','deleted'],['S','V','O','OC'],'deleted는 file의 발견된 상태입니다.'],
+      ['done','They considered the case closed.','그들은 그 사건이 종결됐다고 봤다.',['They','considered','the case','closed'],['S','V','O','OC'],'closed는 case의 판단된 상태입니다.'],
+      ['done','The update left the settings unchanged.','업데이트 후 설정은 바뀌지 않은 채 남았다.',['The update','left','the settings','unchanged'],['S','V','O','OC'],'unchanged는 settings의 남은 상태입니다.'],
+      ['done','The manager wanted the documents signed.','매니저는 서류가 서명되길 원했다.',['The manager','wanted','the documents','signed'],['S','V','O','OC'],'signed는 documents의 완료 상태입니다.']
+    ];
+
+    const voiceSelect=document.getElementById('voice'), speed=document.getElementById('speed'), q=document.getElementById('q'), stopBtn=document.getElementById('stop');
+    const intervalSelect=document.getElementById('interval'), rangeStart=document.getElementById('rangeStart'), rangeEnd=document.getElementById('rangeEnd'), autoNext=document.getElementById('autoNext'), repeatRange=document.getElementById('repeatRange'), ttsStatus=document.getElementById('ttsStatus');
+    let voices=[];
+    let currentIndex=-1, nextIndex=0, stopRequested=false, autoRunning=false;
+    function loadVoices(){
+      voices=speechSynthesis.getVoices();
+      const preferred=voices.filter(v=>/^en[-_]?US/i.test(v.lang)||/Samantha|Alex|Google US English|English.*United States/i.test(v.name));
+      const list=preferred.length?preferred:voices.filter(v=>/^en/i.test(v.lang));
+      voiceSelect.innerHTML='';
+      list.forEach(v=>{const opt=document.createElement('option');opt.value=voices.indexOf(v);opt.textContent=v.name+' · '+v.lang;voiceSelect.appendChild(opt)});
+    }
+    speechSynthesis.onvoiceschanged=loadVoices;loadVoices();
+
+    function render(){
+      for(const key of ['adj','noun','prep','verb','done']){
+        const target=document.querySelector(`[data-list="${key}"]`);
+        target.innerHTML=rows.filter(r=>r[0]===key).map((r,idx)=>{
+          const global=rows.indexOf(r), chunks=r[3].filter(Boolean), labels=r[4].filter((_,i)=>r[3][i]);
+          const chunkHtml=chunks.map((c,i)=>`<span class="chunk" data-i="${i}">${c}</span>`).join('');
+          const parseHtml=chunks.map((c,i)=>`<div class="part"><b>${labels[i]}</b>${c}</div>`).join('');
+          return `<article class="card example-card" data-index="${global}" tabindex="-1" data-search="${r.join(' ')}">
+            <span class="listen-index">${global+1}</span> <span class="tag">5형식</span>
+            <div class="example">${r[1]}</div>
+            <div class="ko">${r[2]}</div>
+            <div class="chunks">${chunkHtml}</div>
+            <div class="parse">${parseHtml}</div>
+            <p class="tip">${r[5]}</p>
+            <div class="controls"><button class="primary" data-play="${global}">Play chunks</button><button data-full="${global}">Full sentence</button></div>
+          </article>`;
+        }).join('');
+      }
+    }
+    render();
+    const cards=[...document.querySelectorAll('.example-card')];
+    rangeEnd.value=rows.length;
+
+    const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    function clampIndex(value,fallback){
+      const n=Number(value);
+      if(!Number.isFinite(n)) return fallback;
+      return Math.max(0,Math.min(rows.length-1,Math.floor(n)-1));
+    }
+    function setStatus(text){ttsStatus.textContent=text}
+    function markCurrent(i){
+      currentIndex=i;
+      nextIndex=Math.min(rows.length,i+1);
+      cards.forEach(c=>c.classList.toggle('reading',Number(c.dataset.index)===i));
+      const card=cards[i];
+      if(card){
+        card.scrollIntoView({behavior:'smooth',block:'center'});
+        requestAnimationFrame(()=>card.focus({preventScroll:true}));
+      }
+      setStatus(`${i+1}번 읽는 중`);
+    }
+    function clearCurrent(){
+      cards.forEach(c=>c.classList.remove('reading'));
+    }
+    function selectedNextIndex(){
+      return Math.min(rows.length,(currentIndex>=0?currentIndex+1:nextIndex));
+    }
+
+    function speak(text, el, extraPause=180){
+      return new Promise(resolve=>{
+        const u=new SpeechSynthesisUtterance(text), selected=voices[Number(voiceSelect.value)];
+        if(selected) u.voice=selected;
+        u.lang=selected?.lang||'en-US';u.rate=Number(speed.value);u.pitch=1;
+        if(el) el.classList.add('active');
+        u.onend=()=>{if(el) el.classList.remove('active');setTimeout(resolve,extraPause)};
+        u.onerror=()=>{if(el) el.classList.remove('active');resolve()};
+        speechSynthesis.speak(u);
+      });
+    }
+    async function playChunks(i, card, cancelFirst=true){
+      if(cancelFirst) speechSynthesis.cancel();
+      stopRequested=false;
+      markCurrent(i);
+      nextIndex=Math.min(rows.length,i+1);
+      const pause=Number(intervalSelect.value)*1000;
+      const chunks=rows[i][3].filter(Boolean), els=[...card.querySelectorAll('.chunk')];
+      for(let n=0;n<chunks.length;n++){
+        if(stopRequested) break;
+        await speak(chunks[n], els[n], pause);
+      }
+      if(!autoRunning&&!stopRequested){setStatus(`${i+1}번 완료. 자동은 ${Math.min(rows.length,nextIndex+1)}번부터 시작`)}
+      if(!autoRunning) clearCurrent();
+    }
+    async function playFull(i, cancelFirst=true){
+      if(cancelFirst) speechSynthesis.cancel();
+      stopRequested=false;
+      markCurrent(i);
+      nextIndex=Math.min(rows.length,i+1);
+      await speak(rows[i][1], null, Number(intervalSelect.value)*1000);
+      if(!autoRunning&&!stopRequested){setStatus(`${i+1}번 완료. 자동은 ${Math.min(rows.length,nextIndex+1)}번부터 시작`);clearCurrent()}
+    }
+    async function runRange(start,end,repeat){
+      speechSynthesis.cancel();
+      stopRequested=false;
+      autoRunning=true;
+      if(start>end){const tmp=start;start=end;end=tmp}
+      if(start>=rows.length){autoRunning=false;setStatus('마지막까지 읽었습니다');return}
+      do{
+        for(let i=start;i<=end;i++){
+          if(stopRequested) break;
+          await playChunks(i,cards[i],false);
+        }
+      }while(repeat&&!stopRequested);
+      autoRunning=false;
+      clearCurrent();
+      setStatus(stopRequested?`멈춤. 다음 자동은 ${Math.min(rows.length,nextIndex+1)}번부터`:'자동 읽기 완료');
+    }
+    document.addEventListener('click',e=>{
+      const play=e.target.closest('[data-play]'), full=e.target.closest('[data-full]');
+      if(play) playChunks(Number(play.dataset.play), play.closest('.example-card'));
+      if(full) playFull(Number(full.dataset.full));
+    });
+    autoNext.addEventListener('click',()=>runRange(selectedNextIndex(),rows.length-1,false));
+    repeatRange.addEventListener('click',()=>runRange(clampIndex(rangeStart.value,0),clampIndex(rangeEnd.value,rows.length-1),true));
+    stopBtn.addEventListener('click',()=>{stopRequested=true;nextIndex=Math.min(rows.length,currentIndex+1);speechSynthesis.cancel();clearCurrent();setStatus(`멈춤. 다음 자동은 ${Math.min(rows.length,nextIndex+1)}번부터`)});
+    q.addEventListener('input',()=>{const s=q.value.trim().toLowerCase();cards.forEach(c=>c.classList.toggle('hidden',!!s&&!c.dataset.search.toLowerCase().includes(s)))});
+    document.querySelectorAll('[data-jump]').forEach(btn=>btn.addEventListener('click',()=>document.getElementById(btn.dataset.jump)?.scrollIntoView({behavior:'smooth',block:'start'})));
+  </script>
+</body>
+</html>

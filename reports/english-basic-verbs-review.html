@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>기본동사 7개 복습 노트 - get have take do make go be</title>
+  <style>
+    :root{--bg:#f6f7fb;--ink:#172033;--muted:#667085;--line:#d9e0ea;--card:#fff;--blue:#1d4ed8;--green:#0f766e;--amber:#a16207;--red:#b42318}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",Segoe UI,sans-serif;line-height:1.62}
+    .wrap{width:min(1180px,calc(100% - 28px));margin:0 auto}
+    header{padding:34px 0 18px}
+    h1{margin:0 0 10px;font-size:clamp(28px,4vw,46px);line-height:1.12}
+    h2{margin:0 0 12px;font-size:24px}
+    h3{margin:0 0 8px;font-size:19px}
+    p{margin:8px 0}
+    .lead{color:var(--muted);font-weight:750}
+    .toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);border-block:1px solid var(--line);backdrop-filter:blur(8px)}
+    .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 0}
+    input,select,button{border:1px solid var(--line);border-radius:8px;background:#fff;padding:9px 11px;font:inherit;font-weight:800}
+    input{flex:1;min-width:230px}
+    button{cursor:pointer}
+    button.primary{background:#111827;color:#fff;border-color:#111827}
+    button.auto{background:#ecfdf3;color:#047857;border-color:#a7f3d0}
+    button.stop{background:#fff1f2;color:#9f1239;border-color:#fecdd3}
+    main{padding:12px 0 36px}
+    section{margin:16px 0}
+    .panel,.card,.stat{background:var(--card);border:1px solid var(--line);border-radius:8px}
+    .panel{padding:17px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .stat{padding:14px}
+    .stat b{display:block;font-size:28px;color:var(--blue)}
+    .card{padding:15px}
+    .tag{display:inline-flex;width:max-content;max-width:100%;border-radius:999px;background:#eef4ff;color:#1e3a8a;padding:4px 9px;font-size:12px;font-weight:900}
+    .formula{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px;font-weight:850}
+    table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+    th,td{border-bottom:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}
+    th{background:#f8fafc}
+    code{background:#eef2ff;padding:2px 5px;border-radius:5px;font-weight:800}
+    .example{font-weight:900;color:#0f172a}
+    .note{color:var(--muted)}
+    .checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+    .checkitem{display:flex;gap:8px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px}
+    .checkitem input{min-width:auto;margin-top:4px}
+    .hidden{display:none!important}
+    .range-control{width:84px;min-width:84px}.status{color:var(--muted);font-weight:800}
+    .listen-index{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:24px;margin-right:6px;border-radius:999px;background:#f8fafc;border:1px solid var(--line);font-size:12px;font-weight:950;color:#475467}
+    .row-play{margin-left:8px;padding:4px 8px;font-size:12px}
+    tr.example-row.reading td{background:#fff7cc;box-shadow:inset 0 0 0 999px rgba(250,204,21,.14)}
+    @media(max-width:900px){.grid,.stats,.checklist{grid-template-columns:1fr}.toolbar{position:static}table{font-size:13px}}
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <h1>기본동사 7개 복습 노트</h1>
+    <p class="lead">영상: 에스텔잉글리쉬EstellEnglish, “[1시간 몰아보고 입트자] 기본동사 7개 표현 get have take do make go be” (1:08:52)</p>
+    <p class="lead">핵심은 어려운 한국어 동사를 영어 단어 하나로 1:1 번역하지 않고, 영어가 보는 움직임과 상태로 바꿔 기본동사를 쓰는 것입니다.</p>
+  </header>
+
+  <div class="toolbar">
+    <div class="wrap tools">
+      <input id="q" placeholder="검색: get a seat, take a break, 보험, 결혼, 조치">
+      <select id="voice"></select>
+      <select id="speed"><option value="0.82">느리게</option><option value="0.95" selected>보통</option><option value="1.08">빠르게</option></select>
+      <select id="interval"><option value="0.4">간격 0.4초</option><option value="0.8" selected>간격 0.8초</option><option value="1.2">간격 1.2초</option><option value="2">간격 2초</option><option value="3">간격 3초</option></select>
+      <input id="rangeStart" class="range-control" type="number" min="1" value="1" aria-label="반복 시작 번호">
+      <input id="rangeEnd" class="range-control" type="number" min="1" aria-label="반복 끝 번호">
+      <button id="autoNext" class="auto">다음부터 자동</button>
+      <button id="repeatRange" class="auto">범위 반복</button>
+      <button data-jump="get">get</button>
+      <button data-jump="have">have</button>
+      <button data-jump="take">take</button>
+      <button data-jump="do">do</button>
+      <button data-jump="make">make</button>
+      <button data-jump="go">go</button>
+      <button data-jump="be">be</button>
+      <button data-jump="compare">get vs take</button>
+      <button id="stop" class="stop">Stop</button>
+      <span id="ttsStatus" class="status">대기 중</span>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="stats">
+      <div class="stat"><b>7</b>기본동사</div>
+      <div class="stat"><b>70+</b>복습 예문</div>
+      <div class="stat"><b>3</b>get/take 차이</div>
+      <div class="stat"><b>1</b>암기 기준: 영어식 사고</div>
+    </section>
+
+    <section class="panel" data-search="핵심 구조 영어식 사고 주어 동사 관련 단어">
+      <h2>큰 원리</h2>
+      <p>영어의 기본 구조는 <b>주어 + 동사 + 관련 단어</b>입니다. 원어민은 “예매하다, 확보하다, 장만하다” 같은 한국어식 세부 동사를 먼저 떠올리기보다, 주어에게 무엇이 <b>생겼는지</b>, 이미 <b>가지고 있는지</b>, 직접 <b>가져오는지</b>, 반복적으로 <b>하는지</b>, 결과를 <b>만드는지</b>, 어디로 <b>가는지</b>, 어떤 <b>상태인지</b>로 말합니다.</p>
+      <div class="formula">사건/변화: <code>get</code>, <code>make</code> · 소유/몸/생각: <code>have</code> · 직접 취함: <code>take</code> · 반복 업무: <code>do</code> · 이동: <code>go</code> · 상태: <code>be</code></div>
+    </section>
+
+    <section id="get" class="card" data-search="get 받다 생기다 잡다 도착하다 메시지 팩스 차 직업 머리 독감 주사 커피 눈 비 환불 할인 컴퓨터 포인트 테이블 좌석 라식">
+      <span class="tag">1. get</span>
+      <h2>get: 없다가 생기다, 받다, 잡다, 도착하다</h2>
+      <p><b>감각:</b> 주어에게 무언가가 새로 생깁니다. 물건, 사건, 사람, 자리, 장소까지 모두 가능합니다.</p>
+      <table>
+        <tr><th>한국어</th><th>영어식 표현</th><th>생각법</th></tr>
+        <tr><td>메시지를 받다</td><td class="example">get a message</td><td>메시지가 나에게 생김</td></tr>
+        <tr><td>팩스를 받다</td><td class="example">get a fax</td><td>팩스 1통이 생김</td></tr>
+        <tr><td>새 차를 뽑다</td><td class="example">get a new car</td><td>새 차가 내 것이 됨</td></tr>
+        <tr><td>직장을 구하다/취직하다</td><td class="example">get a job</td><td>직업이 생김</td></tr>
+        <tr><td>머리를 자르다</td><td class="example">get a haircut</td><td>머리 자르는 사건이 생김</td></tr>
+        <tr><td>독감 주사를 맞다</td><td class="example">get a flu shot</td><td>주사 한 번을 받음</td></tr>
+        <tr><td>커피를 주문하다</td><td class="example">get a coffee</td><td>커피 한 잔을 받음</td></tr>
+        <tr><td>눈/비가 많이 오다</td><td class="example">get a lot of snow / rain</td><td>눈/비가 우리에게 생김</td></tr>
+        <tr><td>환불을 받다</td><td class="example">get a refund</td><td>환불이라는 사건을 받음</td></tr>
+        <tr><td>할인을 받다</td><td class="example">get a discount</td><td>할인이라는 혜택이 생김</td></tr>
+        <tr><td>새 컴퓨터를 장만하다</td><td class="example">get a new computer</td><td>컴퓨터가 생김</td></tr>
+        <tr><td>포인트를 쌓다</td><td class="example">get points</td><td>포인트가 생김</td></tr>
+        <tr><td>테이블을 맡다</td><td class="example">get a table</td><td>빈 테이블을 확보함</td></tr>
+        <tr><td>좌석을 확보하다</td><td class="example">get a seat</td><td>앉을 자리가 생김</td></tr>
+        <tr><td>라식 수술을 받다</td><td class="example">get LASIK surgery</td><td>수술이라는 사건을 받음</td></tr>
+        <tr><td>도착하다</td><td class="example">get there / get home</td><td>그 장소가 나에게 생긴 것처럼 말함</td></tr>
+      </table>
+    </section>
+
+    <section id="have" class="card" data-search="have 가지다 상태 보험 피부 출산 배탈 꿈 아침 감기 음식 몸 생각 관계">
+      <span class="tag">2. have</span>
+      <h2>have: 이미 내 안에/내 것으로 가지고 있다</h2>
+      <p><b>감각:</b> get은 생기는 순간, have는 가진 상태입니다. 몸, 음식, 질병, 보험, 생각, 꿈, 관계에도 씁니다.</p>
+      <table>
+        <tr><th>한국어</th><th>영어식 표현</th><th>주의</th></tr>
+        <tr><td>직업이 있다</td><td class="example">have a job</td><td>취직한 순간은 <code>get a job</code></td></tr>
+        <tr><td>보험이 있다/들었다</td><td class="example">have insurance</td><td>여행자보험: <code>have travel insurance</code></td></tr>
+        <tr><td>건성 피부다</td><td class="example">have dry skin</td><td>피부를 몸의 일부로 봄</td></tr>
+        <tr><td>지성 피부다</td><td class="example">have oily skin</td><td>몸에 관련된 것은 have가 자연스러움</td></tr>
+        <tr><td>중성 피부다</td><td class="example">have normal skin</td><td>상태 설명</td></tr>
+        <tr><td>출산하다</td><td class="example">have a baby</td><td>아기가 생기고 가족이 됨</td></tr>
+        <tr><td>배탈/복통이 있다</td><td class="example">have a stomachache</td><td>속이 많이 안 좋으면 <code>have an upset stomach</code></td></tr>
+        <tr><td>꿈이 있다</td><td class="example">have a dream</td><td>머릿속/마음속에 가진 것</td></tr>
+        <tr><td>아침을 먹다</td><td class="example">have breakfast</td><td>음식이 몸 안으로 들어옴</td></tr>
+        <tr><td>감기에 걸려 있다</td><td class="example">have a cold</td><td>감기에 막 걸리는 순간은 <code>get a cold</code></td></tr>
+        <tr><td>돈이 많다</td><td class="example">have a lot of money</td><td>이미 가진 상태</td></tr>
+        <tr><td>친구가 많다</td><td class="example">have a lot of friends</td><td>이미 가진 관계</td></tr>
+      </table>
+    </section>
+
+    <section id="take" class="card" data-search="take 가져오다 잡다 취하다 약 비타민 사진 셀카 여권 샤워 목욕 사우나 택시 버스 지하철 전화 조치 휴식">
+      <span class="tag">3. take</span>
+      <h2>take: 손을 뻗어 가져오다, 잡다, 취하다</h2>
+      <p><b>감각:</b> 내가 힘을 쓰거나 행동해서 내 쪽으로 가져옵니다. 이동수단, 약, 사진, 샤워, 조치에 자주 씁니다.</p>
+      <table>
+        <tr><th>한국어</th><th>영어식 표현</th><th>생각법</th></tr>
+        <tr><td>약을 복용하다</td><td class="example">take medicine</td><td>맛있게 먹는 것이 아니라 챙겨 복용함</td></tr>
+        <tr><td>비타민을 복용하다</td><td class="example">take vitamins</td><td>여러 알/여러 종류면 복수</td></tr>
+        <tr><td>종합비타민을 복용하다</td><td class="example">take a multivitamin</td><td>한 알/한 종류를 취함</td></tr>
+        <tr><td>사진을 찍다</td><td class="example">take a picture</td><td>눈앞 장면을 캡처해 가져옴</td></tr>
+        <tr><td>셀카를 찍다</td><td class="example">take a selfie</td><td>내가 직접 가져오는 사진</td></tr>
+        <tr><td>여권 사진을 찍다</td><td class="example">take a passport photo</td><td>사진 촬영 액션</td></tr>
+        <tr><td>샤워하다</td><td class="example">take a shower</td><td>한 번의 샤워 시간을 가짐</td></tr>
+        <tr><td>목욕하다</td><td class="example">take a bath</td><td>내가 직접 목욕함</td></tr>
+        <tr><td>사우나하다</td><td class="example">take a sauna</td><td>사우나 시간을 취함</td></tr>
+        <tr><td>택시를 타다</td><td class="example">take a taxi</td><td>교통수단을 잡아 이용함</td></tr>
+        <tr><td>버스를 타다</td><td class="example">take a bus</td><td>버스 한 대를 이용함</td></tr>
+        <tr><td>지하철을 타다</td><td class="example">take the subway</td><td>노선/시스템을 이용함</td></tr>
+        <tr><td>전화를 받다</td><td class="example">take a call</td><td>걸려온 전화를 받아 듦</td></tr>
+        <tr><td>조치를 취하다</td><td class="example">take action</td><td>액션을 실제로 취함</td></tr>
+        <tr><td>휴식을 취하다</td><td class="example">take a break</td><td><code>take a rest</code>보다 일상적으로 자연스러움</td></tr>
+      </table>
+    </section>
+
+    <section id="do" class="card" data-search="do 하다 반복 집안일 숙제 회사일 요가 필라테스 운동">
+      <span class="tag">4. do</span>
+      <h2>do: 반복적으로 하는 일</h2>
+      <p><b>감각:</b> 자주 하거나 정기적으로 하는 일, 해야 할 일을 처리하는 느낌입니다.</p>
+      <table>
+        <tr><th>한국어</th><th>영어식 표현</th><th>메모</th></tr>
+        <tr><td>집안일을 하다</td><td class="example">do housework</td><td>반복 업무</td></tr>
+        <tr><td>숙제를 하다</td><td class="example">do homework</td><td>해야 할 과제</td></tr>
+        <tr><td>회사 일을 하다</td><td class="example">do work</td><td>일을 처리함</td></tr>
+        <tr><td>요가를 하다</td><td class="example">do yoga</td><td>정기적으로 하는 운동</td></tr>
+        <tr><td>필라테스를 하다</td><td class="example">do Pilates</td><td>축구 같은 경기는 play, 루틴 운동은 do</td></tr>
+      </table>
+    </section>
+
+    <section id="make" class="card" data-search="make 만들다 사건 결과 실수 돈 친구 전화">
+      <span class="tag">5. make</span>
+      <h2>make: 한 번의 사건/결과를 만들어내다</h2>
+      <p><b>감각:</b> do처럼 반복 업무가 아니라, 내가 어떤 결과나 사건을 만들어냅니다.</p>
+      <table>
+        <tr><th>한국어</th><th>영어식 표현</th><th>비교</th></tr>
+        <tr><td>실수하다</td><td class="example">make a mistake</td><td>실수라는 사건을 만듦</td></tr>
+        <tr><td>돈을 벌다</td><td class="example">make money</td><td>돈을 만들어냄</td></tr>
+        <tr><td>돈이 많다</td><td class="example">have a lot of money</td><td>이미 가진 상태는 have</td></tr>
+        <tr><td>친구를 사귀다</td><td class="example">make a friend</td><td>친구가 생기는 사건을 만듦</td></tr>
+        <tr><td>친구가 많다</td><td class="example">have a lot of friends</td><td>이미 가진 관계는 have</td></tr>
+        <tr><td>전화를 걸다</td><td class="example">make a call</td><td>전화라는 액션을 만들어냄</td></tr>
+      </table>
+    </section>
+
+    <section id="go" class="card" data-search="go 가다 이동 학교 약국 집 저녁 목적 장소">
+      <span class="tag">6. go</span>
+      <h2>go: 어디론가 가다, 무엇을 위해 가다</h2>
+      <p><b>감각:</b> 사람이 어떤 방향/장소/목적을 향해 움직입니다. 매일 가는 곳과 어쩌다 들르는 곳을 구분합니다.</p>
+      <table>
+        <tr><th>한국어</th><th>영어식 표현</th><th>메모</th></tr>
+        <tr><td>학교에 가다</td><td class="example">go to school</td><td>일상적으로 다니는 기관</td></tr>
+        <tr><td>약국에 가다/들르다</td><td class="example">go to a drugstore</td><td>어쩌다 가는 장소는 a를 붙이는 느낌</td></tr>
+        <tr><td>집에 가다</td><td class="example">go home</td><td>home은 관용적으로 to 없이 사용</td></tr>
+        <tr><td>저녁 먹으러 가다</td><td class="example">go for dinner</td><td>장소가 아니라 목적을 말할 때 for</td></tr>
+      </table>
+    </section>
+
+    <section id="be" class="card" data-search="be 상태 결혼 춥다 배고프다 대학생 재학 단골 서른 부자 틀렸다 무섭다 걱정 부재중 쉬다 빠지다 시간 유행 1등">
+      <span class="tag">7. be</span>
+      <h2>be: 행동이 아니라 상태를 말하다</h2>
+      <p><b>감각:</b> 주어가 가만히 있어도 설명되는 상태입니다. 명사, 형용사, 전치사와 붙어서 자연스러운 표현이 됩니다.</p>
+      <table>
+        <tr><th>한국어</th><th>영어식 표현</th><th>생각법</th></tr>
+        <tr><td>결혼하다</td><td class="example">get married</td><td>미혼에서 기혼이 되는 사건</td></tr>
+        <tr><td>결혼한 상태다</td><td class="example">be married</td><td>현재 상태</td></tr>
+        <tr><td>갑자기 추워지다</td><td class="example">get cold</td><td>상태 변화</td></tr>
+        <tr><td>춥다</td><td class="example">be cold</td><td>상태 유지</td></tr>
+        <tr><td>배가 고파지다</td><td class="example">get hungry</td><td>배고픔이 생김</td></tr>
+        <tr><td>배고프다</td><td class="example">be hungry</td><td>배고픈 상태</td></tr>
+        <tr><td>대학생이다</td><td class="example">be a college student</td><td>be + 명사</td></tr>
+        <tr><td>재학 중이다</td><td class="example">be in college</td><td>be + 전치사구</td></tr>
+        <tr><td>단골이다</td><td class="example">be a regular customer</td><td>상태/역할</td></tr>
+        <tr><td>서른이다</td><td class="example">be thirty</td><td>숫자도 바로 가능</td></tr>
+        <tr><td>부자다</td><td class="example">be wealthy</td><td>형용사 앞에 be 필요</td></tr>
+        <tr><td>틀렸다</td><td class="example">be wrong</td><td>wrong만 단독으로 끝내지 않음</td></tr>
+        <tr><td>무섭다</td><td class="example">be scared</td><td>무서워진/무서운 상태</td></tr>
+        <tr><td>걱정된다</td><td class="example">be worried</td><td>걱정하는 상태</td></tr>
+        <tr><td>부재중이다</td><td class="example">be away</td><td>자리에서 떨어져 있음</td></tr>
+        <tr><td>오늘 쉰다</td><td class="example">be off today</td><td>일에서 떨어져 있음</td></tr>
+        <tr><td>요즘 여기에 빠져 있다</td><td class="example">be into this these days</td><td>무언가 안에 푹 들어감</td></tr>
+        <tr><td>시간을 잘 지킨다</td><td class="example">be on time</td><td>정해진 시간 위에 딱 맞음</td></tr>
+        <tr><td>유행이다</td><td class="example">be in style</td><td>스타일 안에 있음</td></tr>
+        <tr><td>1등을 하다</td><td class="example">be in first place</td><td>1등 자리 안에 있는 상태</td></tr>
+      </table>
+    </section>
+
+    <section id="compare" class="panel" data-search="get take 비교 메시지 받아 적다 사진 받다 찍다 좌석 자리 샐러드 택시 목욕">
+      <h2>get vs take 헷갈리는 표현</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>뜻이 달라지는 경우</h3>
+          <table>
+            <tr><th>표현</th><th>뜻</th><th>차이</th></tr>
+            <tr><td class="example">get a message</td><td>메시지를 받다</td><td>누가 보낸 메시지가 나에게 옴</td></tr>
+            <tr><td class="example">take a message</td><td>메시지를 받아 적다</td><td>부재중인 사람 대신 내용을 기록함</td></tr>
+            <tr><td class="example">get a picture</td><td>사진을 받다</td><td>사진사가 찍은 결과물을 받음</td></tr>
+            <tr><td class="example">take a picture</td><td>사진을 찍다</td><td>장면을 내가 캡처함</td></tr>
+            <tr><td class="example">get a seat</td><td>자리를 잡다/확보하다</td><td>빈 자리를 얻음</td></tr>
+            <tr><td class="example">take a seat</td><td>자리에 앉다</td><td>좌석을 차지하고 착석함</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h3>둘 다 가능하지만 뉘앙스가 다른 경우</h3>
+          <table>
+            <tr><th>표현</th><th>공통 뜻</th><th>뉘앙스</th></tr>
+            <tr><td class="example">get a salad / take a salad</td><td>샐러드를 주문하다</td><td>get은 받는 느낌, take는 포장해 가져가는 느낌</td></tr>
+            <tr><td class="example">get a taxi / take a taxi</td><td>택시를 잡고 타다</td><td>get은 길에서 잡는 느낌, take는 타고 이동하는 느낌</td></tr>
+            <tr><td class="example">get a bath / take a bath</td><td>목욕하다</td><td>get은 아이/강아지가 목욕을 받는 느낌, take는 내가 직접 목욕하는 느낌</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-search="암기 순서 복습 체크리스트">
+      <h2>실전 암기 순서</h2>
+      <div class="checklist">
+        <label class="checkitem"><input type="checkbox">한국어 동사부터 버리기: “예매하다, 확보하다, 장만하다” 대신 “나에게 생겼나?”를 본다.</label>
+        <label class="checkitem"><input type="checkbox">사건이면 get/make, 상태면 have/be: 취직한 순간은 get a job, 직업이 있는 상태는 have a job.</label>
+        <label class="checkitem"><input type="checkbox">몸 안/내 것/내 생각이면 have: have breakfast, have a cold, have dry skin, have a dream.</label>
+        <label class="checkitem"><input type="checkbox">내가 손을 써서 가져오면 take: take medicine, take a picture, take a shower, take action.</label>
+        <label class="checkitem"><input type="checkbox">반복 업무는 do, 결과 생성은 make: do homework와 make a mistake를 구분한다.</label>
+        <label class="checkitem"><input type="checkbox">장소/목적 이동은 go: go to school, go to a drugstore, go for dinner.</label>
+        <label class="checkitem"><input type="checkbox">움직이지 않아도 설명되는 건 be: be married, be away, be on time, be in first place.</label>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const q=document.getElementById('q');
+    const voiceSelect=document.getElementById('voice'), speed=document.getElementById('speed'), intervalSelect=document.getElementById('interval'), rangeStart=document.getElementById('rangeStart'), rangeEnd=document.getElementById('rangeEnd'), autoNext=document.getElementById('autoNext'), repeatRange=document.getElementById('repeatRange'), stopBtn=document.getElementById('stop'), ttsStatus=document.getElementById('ttsStatus');
+    const blocks=[...document.querySelectorAll('main section')];
+    let voices=[], currentIndex=-1, nextIndex=0, stopRequested=false, autoRunning=false;
+    const examples=[...document.querySelectorAll('td.example')];
+    const rows=examples.map((el,index)=>{
+      const tr=el.closest('tr');
+      tr.classList.add('example-row');
+      tr.dataset.index=index;
+      tr.tabIndex=-1;
+      el.insertAdjacentHTML('afterbegin',`<span class="listen-index">${index+1}</span>`);
+      el.insertAdjacentHTML('beforeend',`<button class="row-play primary" data-play="${index}" type="button">Play</button>`);
+      return {text:el.childNodes[1]?.textContent?.trim()||el.textContent.replace('Play','').replace(String(index+1),'').trim(), row:tr};
+    });
+    rangeEnd.value=rows.length;
+
+    function loadVoices(){
+      voices=speechSynthesis.getVoices();
+      const preferred=voices.filter(v=>/^en[-_]?US/i.test(v.lang)||/Samantha|Alex|Google US English|English.*United States/i.test(v.name));
+      const list=preferred.length?preferred:voices.filter(v=>/^en/i.test(v.lang));
+      voiceSelect.innerHTML='';
+      list.forEach(v=>{const opt=document.createElement('option');opt.value=voices.indexOf(v);opt.textContent=v.name+' · '+v.lang;voiceSelect.appendChild(opt)});
+    }
+    speechSynthesis.onvoiceschanged=loadVoices;loadVoices();
+
+    function setStatus(text){ttsStatus.textContent=text}
+    function clampIndex(value,fallback){
+      const n=Number(value);
+      if(!Number.isFinite(n)) return fallback;
+      return Math.max(0,Math.min(rows.length-1,Math.floor(n)-1));
+    }
+    function clearCurrent(){rows.forEach(r=>r.row.classList.remove('reading'))}
+    function markCurrent(i){
+      currentIndex=i;
+      nextIndex=Math.min(rows.length,i+1);
+      clearCurrent();
+      rows[i].row.classList.add('reading');
+      rows[i].row.scrollIntoView({behavior:'smooth',block:'center'});
+      requestAnimationFrame(()=>rows[i].row.focus({preventScroll:true}));
+      setStatus(`${i+1}번 읽는 중`);
+    }
+    function selectedNextIndex(){
+      return Math.min(rows.length,(currentIndex>=0?currentIndex+1:nextIndex));
+    }
+    function speak(text){
+      return new Promise(resolve=>{
+        const u=new SpeechSynthesisUtterance(text), selected=voices[Number(voiceSelect.value)];
+        if(selected) u.voice=selected;
+        u.lang=selected?.lang||'en-US';u.rate=Number(speed.value);u.pitch=1;
+        u.onend=()=>setTimeout(resolve,Number(intervalSelect.value)*1000);
+        u.onerror=()=>resolve();
+        speechSynthesis.speak(u);
+      });
+    }
+    async function playOne(i,cancelFirst=true){
+      if(cancelFirst) speechSynthesis.cancel();
+      stopRequested=false;
+      markCurrent(i);
+      nextIndex=Math.min(rows.length,i+1);
+      await speak(rows[i].text);
+      if(!autoRunning&&!stopRequested){setStatus(`${i+1}번 완료. 자동은 ${Math.min(rows.length,nextIndex+1)}번부터`);clearCurrent()}
+    }
+    async function runRange(start,end,repeat){
+      speechSynthesis.cancel();
+      stopRequested=false;
+      autoRunning=true;
+      if(start>end){const tmp=start;start=end;end=tmp}
+      if(start>=rows.length){autoRunning=false;setStatus('마지막까지 읽었습니다');return}
+      do{
+        for(let i=start;i<=end;i++){
+          if(stopRequested) break;
+          await playOne(i,false);
+        }
+      }while(repeat&&!stopRequested);
+      autoRunning=false;
+      clearCurrent();
+      setStatus(stopRequested?`멈춤. 다음 자동은 ${Math.min(rows.length,nextIndex+1)}번부터`:'자동 읽기 완료');
+    }
+    document.addEventListener('click',e=>{
+      const play=e.target.closest('[data-play]');
+      if(play) playOne(Number(play.dataset.play));
+    });
+    autoNext.addEventListener('click',()=>runRange(selectedNextIndex(),rows.length-1,false));
+    repeatRange.addEventListener('click',()=>runRange(clampIndex(rangeStart.value,0),clampIndex(rangeEnd.value,rows.length-1),true));
+    stopBtn.addEventListener('click',()=>{stopRequested=true;nextIndex=Math.min(rows.length,currentIndex+1);speechSynthesis.cancel();clearCurrent();setStatus(`멈춤. 다음 자동은 ${Math.min(rows.length,nextIndex+1)}번부터`)});
+    q.addEventListener('input',()=>{
+      const s=q.value.trim().toLowerCase();
+      blocks.forEach(b=>{
+        const hay=(b.textContent+' '+(b.dataset.search||'')).toLowerCase();
+        b.classList.toggle('hidden',!!s&&!hay.includes(s));
+      });
+    });
+    document.querySelectorAll('[data-jump]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const target=document.getElementById(btn.dataset.jump);
+        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+  </script>
+</body>
+</html>
