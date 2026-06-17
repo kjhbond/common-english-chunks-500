@@ -442,6 +442,7 @@
     let queueToken = 0;
     let nextReadIndex = 0;
     let pausedBySpace = false;
+    let lastTouchTapAt = 0;
 
     gapSeconds.value = localStorage.getItem(GAP_KEY) || '1';
 
@@ -882,6 +883,9 @@
     function isTypingTarget(el) {
       return !!el?.closest?.('input,textarea,select,[contenteditable=true]');
     }
+    function isControlTarget(el) {
+      return !!el?.closest?.('button,a,input,textarea,select,label,[contenteditable=true]');
+    }
     function toggleSpacePause() {
       if (!activeId) return;
       if (pausedBySpace) {
@@ -894,6 +898,22 @@
         if (!ttsAudio.paused) ttsAudio.pause();
         if ('speechSynthesis' in window) speechSynthesis.pause();
         setReadStatus('일시정지 - Space로 재생');
+      }
+    }
+    function handlePlaybackToggleEvent(event) {
+      if (isTypingTarget(event.target) || !activeId) return;
+      event.preventDefault();
+      toggleSpacePause();
+    }
+    function handleTouchDoubleTap(event) {
+      if (isControlTarget(event.target) || !activeId) return;
+      const now = Date.now();
+      if (now - lastTouchTapAt < 350) {
+        event.preventDefault();
+        lastTouchTapAt = 0;
+        toggleSpacePause();
+      } else {
+        lastTouchTapAt = now;
       }
     }
     function stopAudio() {
@@ -1105,11 +1125,14 @@
       setReadStatus(`멈춤. 다음은 ${Math.min(rows().length, nextReadIndex + 1)}번`);
     });
     document.addEventListener('keydown', event => {
-      if (event.code !== 'Space' || isTypingTarget(event.target)) return;
-      if (!activeId) return;
-      event.preventDefault();
-      toggleSpacePause();
-    });
+      if (event.code !== 'Space') return;
+      handlePlaybackToggleEvent(event);
+    }, { capture: true });
+    document.addEventListener('dblclick', event => {
+      if (isControlTarget(event.target)) return;
+      handlePlaybackToggleEvent(event);
+    }, { capture: true });
+    document.addEventListener('touchend', handleTouchDoubleTap, { capture: true, passive: false });
     ttsAudio.addEventListener('timeupdate', () => {
       if (stopAt && ttsAudio.currentTime >= stopAt) {
         ttsAudio.pause();
