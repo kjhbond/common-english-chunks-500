@@ -938,14 +938,15 @@
       queueToken += 1;
       const token = queueToken;
       stopAudio();
-      let i = start;
+      const loopStart = Math.max(0, start);
+      let i = loopStart;
       const next = () => {
         const list = rows();
         const last = Math.min(end, list.length - 1);
         if (token !== queueToken) return;
         if (i > last) {
           if (repeat) {
-            i = Math.max(0, Math.min(start, last));
+            i = Math.max(0, Math.min(loopStart, last));
             return next();
           }
           activeId = null;
@@ -967,7 +968,7 @@
         utterance.pitch = 1;
         utterance.onend = () => {
           if (token !== queueToken) return;
-          setReadStatus(`${i}번 완료. 다음은 ${Math.min(list.length, nextReadIndex + 1)}번`);
+          setReadStatus(`${i}번 완료. 다음은 ${repeat && i - 1 === last ? loopStart + 1 : Math.min(list.length, nextReadIndex + 1)}번`);
           setTimeout(next, readingGapMs());
         };
         speechSynthesis.speak(utterance);
