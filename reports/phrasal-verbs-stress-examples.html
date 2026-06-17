@@ -77,6 +77,16 @@
       border: 1px solid var(--line);
       text-align: center;
     }
+    .range-control {
+      width: 62px;
+      min-width: 62px;
+      text-align: center;
+    }
+    .read-status {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
     input, select, button {
       border: 0;
       border-radius: 8px;
@@ -337,13 +347,17 @@
           <option value="done">완료</option>
         </select>
         <audio id="ttsAudio" src="../output/phrasal_stress_tts/stress-examples-ava.mp3" preload="metadata"></audio>
-        <button class="primary" id="readVisible">읽기</button>
+        <button class="primary" id="readVisible">다음부터 읽기</button>
+        <label class="gap-control">시작 <input id="rangeStart" class="range-control" type="number" min="1" value="1"></label>
+        <label class="gap-control">끝 <input id="rangeEnd" class="range-control" type="number" min="1" value="1"></label>
+        <button class="primary" id="repeatRange">범위 반복</button>
         <button id="saveOffline">오프라인 저장</button>
         <label class="gap-control">간격 <input id="gapSeconds" type="number" min="0" max="5" step="0.1" value="1">초</label>
         <button id="toggleEdit">편집</button>
         <button id="toggleStress">강세</button>
         <button id="toggleTest">시험모드</button>
         <button class="stop" id="stopSpeech">멈춤</button>
+        <span class="read-status" id="readStatus">대기 중</span>
       </div>
     </div>
   </div>
@@ -387,6 +401,9 @@
     const mode = document.getElementById('mode');
     const filter = document.getElementById('filter');
     const gapSeconds = document.getElementById('gapSeconds');
+    const rangeStart = document.getElementById('rangeStart');
+    const rangeEnd = document.getElementById('rangeEnd');
+    const readStatus = document.getElementById('readStatus');
     const visibleCount = document.getElementById('visibleCount');
     const doneCount = document.getElementById('doneCount');
     const offlineStatus = document.getElementById('offlineStatus');
@@ -422,6 +439,8 @@
     let activeId = null;
     let stopAt = 0;
     let queueTimer = null;
+    let queueToken = 0;
+    let nextReadIndex = 0;
 
     gapSeconds.value = localStorage.getItem(GAP_KEY) || '1';
 
@@ -717,6 +736,10 @@
       const totalVisible = DATA.reduce((sum, item) => sum + (item.examples || []).filter(example => !example.hidden).length, 0);
       const visibleDone = rs.filter(row => done.has(row.id)).length;
       doneCount.textContent = `완료 ${visibleDone} / ${totalVisible}개`;
+      rangeStart.max = Math.max(1, rs.length);
+      rangeEnd.max = Math.max(1, rs.length);
+      if (Number(rangeEnd.value) < 1 || Number(rangeEnd.value) > rs.length) rangeEnd.value = Math.max(1, rs.length);
+      nextReadIndex = Math.max(0, Math.min(nextReadIndex, rs.length));
       if (!rs.length) {
         cards.innerHTML = '<div class="empty">조건에 맞는 예문이 없습니다.</div>';
         return;
@@ -727,7 +750,7 @@
         const doneClass = done.has(row.id) ? ' done' : '';
         const activeClass = activeId === row.id ? ' reading' : '';
         const manualTag = Array.isArray(customStress[row.id]) ? '<span class="manual-tag">직접 저장됨</span>' : '';
-        return `${group}<article class="card${doneClass}${activeClass}" data-id="${row.id}" data-en="${escapeHtml(row.en)}">
+        return `${group}<article class="card${doneClass}${activeClass}" data-id="${row.id}" data-en="${escapeHtml(row.en)}" tabindex="-1">
           <div class="meta">
             <div class="number-line"><span class="seq">${index + 1}</span><span class="old-id">${String(row.itemIndex + 1).padStart(3, '0')}-${row.exampleIndex + 1}</span></div>
             <div class="verb">${escapeHtml(row.verb)}</div>
@@ -761,6 +784,24 @@
     function readingGapMs() {
       const value = Math.max(0, Math.min(5, Number(gapSeconds.value || 1)));
       return Math.round(value * 1000);
+    }
+    function setReadStatus(text) {
+      readStatus.textContent = text;
+    }
+    function focusActiveCard() {
+      if (!activeId) return;
+      requestAnimationFrame(() => {
+        const card = document.querySelector(`[data-id="${CSS.escape(activeId)}"]`);
+        if (!card) return;
+        card.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        card.focus({ preventScroll: true });
+      });
+    }
+    function clampVisibleIndex(value, fallback) {
+      const total = rows().length;
+      const n = Number(value);
+      if (!Number.isFinite(n)) return fallback;
+      return Math.max(0, Math.min(Math.max(0, total - 1), Math.floor(n) - 1));
     }
     async function syncState(payload) {
       if (!API_AVAILABLE) return;
@@ -846,6 +887,7 @@
       stopAudio();
       activeId = id;
       render();
+      focusActiveCard();
       stopAt = segment.end;
       ttsAudio.currentTime = Math.max(0, segment.start);
       ttsAudio.play().catch(() => {});
@@ -870,37 +912,73 @@
       speechSynthesis.cancel();
       activeId = id;
       render();
+      focusActiveCard();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-US';
       utterance.rate = 0.92;
       utterance.pitch = 1;
-      utterance.onend = () => { activeId = null; render(); };
+      utterance.onend = () => { activeId = null; render(); setReadStatus('읽기 완료'); };
       speechSynthesis.speak(utterance);
     }
-    function speakQueue(list) {
-      if (!list.length) return;
+    function speakQueueRange(start, end, repeat = false) {
+      const all = rows();
+      if (!all.length) {
+        setReadStatus('읽을 항목 없음');
+        return;
+      }
+      if (start > end) {
+        const tmp = start;
+        start = end;
+        end = tmp;
+      }
+      if (start >= all.length) {
+        setReadStatus('마지막까지 읽었습니다');
+        return;
+      }
+      queueToken += 1;
+      const token = queueToken;
       stopAudio();
-      let i = 0;
+      let i = start;
       const next = () => {
-        if (i >= list.length) {
+        const list = rows();
+        const last = Math.min(end, list.length - 1);
+        if (token !== queueToken) return;
+        if (i > last) {
+          if (repeat) {
+            i = Math.max(0, Math.min(start, last));
+            return next();
+          }
           activeId = null;
           render();
+          setReadStatus('자동 읽기 완료');
           return;
         }
         const row = list[i++];
+        nextReadIndex = i;
         activeId = row.id;
         render();
-        document.querySelector(`[data-id="${CSS.escape(row.id)}"]`)?.scrollIntoView({block:'center', behavior:'smooth'});
+        focusActiveCard();
+        setReadStatus(`${i}번 읽는 중`);
         if (playAudioSegment(row.id, next)) return;
         if (!('speechSynthesis' in window)) return;
         const utterance = new SpeechSynthesisUtterance(row.en);
         utterance.lang = 'en-US';
         utterance.rate = 0.92;
         utterance.pitch = 1;
-        utterance.onend = () => setTimeout(next, readingGapMs());
+        utterance.onend = () => {
+          if (token !== queueToken) return;
+          setReadStatus(`${i}번 완료. 다음은 ${Math.min(list.length, nextReadIndex + 1)}번`);
+          setTimeout(next, readingGapMs());
+        };
         speechSynthesis.speak(utterance);
       };
       next();
+    }
+    function speakQueue(list) {
+      const rs = rows();
+      const first = list.length ? rs.findIndex(row => row.id === list[0].id) : nextReadIndex;
+      const last = list.length ? rs.findIndex(row => row.id === list[list.length - 1].id) : rs.length - 1;
+      speakQueueRange(Math.max(0, first), Math.max(0, last), false);
     }
     category.innerHTML = ['전체', ...new Set(DATA.map(item => item.categoryKo))].map(item => `<option>${escapeHtml(item)}</option>`).join('');
     cards.addEventListener('click', event => {
@@ -923,6 +1001,10 @@
         return;
       }
       if (event.target.closest('.speak')) {
+        const rs = rows();
+        const idx = rs.findIndex(row => row.id === card.dataset.id);
+        if (idx >= 0) nextReadIndex = idx + 1;
+        setReadStatus(`${idx + 1}번 읽는 중`);
         speak(card.dataset.en, card.dataset.id);
         return;
       }
@@ -967,11 +1049,16 @@
     window.addEventListener('pointerup', () => {
       dragPaint = null;
     });
-    [search, category, mode, filter].forEach(input => input.addEventListener('input', render));
+    [search, category, filter].forEach(input => input.addEventListener('input', () => {
+      nextReadIndex = 0;
+      render();
+    }));
+    mode.addEventListener('input', render);
     gapSeconds.addEventListener('input', () => {
       localStorage.setItem(GAP_KEY, gapSeconds.value || '1');
     });
-    document.getElementById('readVisible').addEventListener('click', () => speakQueue(rows().slice(0, 80)));
+    document.getElementById('readVisible').addEventListener('click', () => speakQueueRange(nextReadIndex, rows().length - 1, false));
+    document.getElementById('repeatRange').addEventListener('click', () => speakQueueRange(clampVisibleIndex(rangeStart.value, 0), clampVisibleIndex(rangeEnd.value, rows().length - 1), true));
     document.getElementById('saveOffline').addEventListener('click', async event => {
       event.currentTarget.disabled = true;
       await cacheMainAudio().catch(() => {
@@ -985,10 +1072,14 @@
       render();
     });
     document.getElementById('stopSpeech').addEventListener('click', () => {
+      const idx = rows().findIndex(row => row.id === activeId);
+      if (idx >= 0) nextReadIndex = idx + 1;
+      queueToken += 1;
       speechSynthesis?.cancel();
       stopAudio();
       activeId = null;
       render();
+      setReadStatus(`멈춤. 다음은 ${Math.min(rows().length, nextReadIndex + 1)}번`);
     });
     ttsAudio.addEventListener('timeupdate', () => {
       if (stopAt && ttsAudio.currentTime >= stopAt) {
