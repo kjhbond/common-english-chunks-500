@@ -441,6 +441,7 @@
     let queueTimer = null;
     let queueToken = 0;
     let nextReadIndex = 0;
+    let queueActive = false;
     let pausedBySpace = false;
     let lastTouchTapAt = 0;
 
@@ -881,16 +882,16 @@
       pausedBySpace = false;
     }
     function isTypingTarget(el) {
-      return !!el?.closest?.('input,textarea,select,[contenteditable=true]');
+      return !!el?.closest?.('input[type="text"],input[type="search"],textarea,[contenteditable=true]');
     }
     function isControlTarget(el) {
       return !!el?.closest?.('button,a,input,textarea,select,label,[contenteditable=true]');
     }
     function toggleSpacePause() {
-      if (!activeId) return;
+      if (!activeId && !queueActive) return;
       if (pausedBySpace) {
         pausedBySpace = false;
-        if (ttsAudio.paused && stopAt) ttsAudio.play().catch(() => {});
+        if (activeId && ttsAudio.paused && stopAt) ttsAudio.play().catch(() => {});
         if ('speechSynthesis' in window) speechSynthesis.resume();
         setReadStatus('재생 중');
       } else {
@@ -901,12 +902,12 @@
       }
     }
     function handlePlaybackToggleEvent(event) {
-      if (isTypingTarget(event.target) || !activeId) return;
+      if (isTypingTarget(event.target)) return;
       event.preventDefault();
       toggleSpacePause();
     }
     function handleTouchDoubleTap(event) {
-      if (isControlTarget(event.target) || !activeId) return;
+      if (isControlTarget(event.target) || (!activeId && !queueActive)) return;
       const now = Date.now();
       if (now - lastTouchTapAt < 350) {
         event.preventDefault();
@@ -916,17 +917,18 @@
         lastTouchTapAt = now;
       }
     }
-    function stopAudio() {
+    function stopAudio(resetQueue = true) {
       releasePause();
       clearTimeout(queueTimer);
       queueTimer = null;
+      if (resetQueue) queueActive = false;
       stopAt = 0;
       ttsAudio.pause();
     }
     function playAudioSegment(id, onDone) {
       const segment = AUDIO_BY_ID.get(id);
       if (!segment || !ttsAudio.src) return false;
-      stopAudio();
+      stopAudio(false);
       activeId = id;
       render();
       focusActiveCard();
@@ -949,6 +951,8 @@
       return true;
     }
     function speak(text, id) {
+      queueToken += 1;
+      stopAudio();
       if (playAudioSegment(id)) return;
       if (!('speechSynthesis' in window)) return;
       speechSynthesis.cancel();
@@ -962,9 +966,10 @@
       utterance.onend = () => { releasePause(); activeId = null; render(); setReadStatus('읽기 완료'); };
       speechSynthesis.speak(utterance);
     }
-    function speakQueueRange(start, end, repeat = false) {
+    function speakQueueRange(start, end, repeat = false, repeatStart = start) {
       const all = rows();
       if (!all.length) {
+        queueActive = false;
         setReadStatus('읽을 항목 없음');
         return;
       }
@@ -974,15 +979,21 @@
         end = tmp;
       }
       if (start >= all.length) {
+        queueActive = false;
         setReadStatus('마지막까지 읽었습니다');
         return;
       }
       queueToken += 1;
       const token = queueToken;
       stopAudio();
-      const loopStart = Math.max(0, start);
-      let i = loopStart;
+      queueActive = true;
+      const loopStart = Math.max(0, repeatStart);
+      let i = Math.max(0, start);
       const next = () => {
+        if (pausedBySpace) {
+          queueTimer = setTimeout(next, 80);
+          return;
+        }
         const list = rows();
         const last = Math.min(end, list.length - 1);
         if (token !== queueToken) return;
@@ -992,6 +1003,7 @@
             return next();
           }
           activeId = null;
+          queueActive = false;
           render();
           setReadStatus('자동 읽기 완료');
           return;
@@ -1016,6 +1028,22 @@
         speechSynthesis.speak(utterance);
       };
       next();
+    }
+    function requestedRangeStart(start, end) {
+      let first = clampVisibleIndex(start, 0);
+      let last = clampVisibleIndex(end, rows().length - 1);
+      if (first > last) {
+        const tmp = first;
+        first = last;
+        last = tmp;
+      }
+      const activeIndex = rows().findIndex(row => row.id === activeId);
+      const candidate = activeIndex >= 0 ? activeIndex + 1 : nextReadIndex;
+      return {
+        start: candidate >= first && candidate <= last ? candidate : first,
+        end: last,
+        loopStart: first
+      };
     }
     function speakQueue(list) {
       const rs = rows();
@@ -1101,7 +1129,10 @@
       localStorage.setItem(GAP_KEY, gapSeconds.value || '1');
     });
     document.getElementById('readVisible').addEventListener('click', () => speakQueueRange(nextReadIndex, rows().length - 1, false));
-    document.getElementById('repeatRange').addEventListener('click', () => speakQueueRange(clampVisibleIndex(rangeStart.value, 0), clampVisibleIndex(rangeEnd.value, rows().length - 1), true));
+    document.getElementById('repeatRange').addEventListener('click', () => {
+      const range = requestedRangeStart(rangeStart.value, rangeEnd.value);
+      speakQueueRange(range.start, range.end, true, range.loopStart);
+    });
     document.getElementById('saveOffline').addEventListener('click', async event => {
       event.currentTarget.disabled = true;
       await cacheMainAudio().catch(() => {
